@@ -6,12 +6,15 @@ import {
 
 interface Props {
   // Define the props for your component here
+  className: string;
 }
 
-const MyComponent: React.FC<Props> = (props) => {
+const MyComponent: React.FC<Props> = ({className}) => {
   // Implement your component logic here
   return (
-    <GlobeAltIcon className={clsx("h-8 w-8 rotate-[15deg] text-blue-600/100 group-[.collapsed]:hidden", {})} />
+    <GlobeAltIcon className={clsx("rotate-[15deg] text-blue-600/100 ", 
+      className,
+      {})} />
   );
 };
 

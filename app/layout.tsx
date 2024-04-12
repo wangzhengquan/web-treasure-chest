@@ -1,6 +1,5 @@
 import '@/app/ui/global.css';
-import { inter } from '@/app/ui/fonts';
- 
+import { inter,lusitana} from '@/app/ui/fonts';
 import { Metadata } from 'next';
  
 export const metadata: Metadata = {
@@ -16,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-screen overflow-hidden">
-      <body className={`${inter.className} h-screen overflow-hidden antialiased text-primary`}>
+      <body className={`${lusitana.className} h-screen overflow-hidden antialiased text-primary`}>
         {children}
       </body>
     </html>

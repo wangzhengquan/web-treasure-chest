@@ -13,7 +13,7 @@ export function SideNavLink({item, onClick}: {item: TNavLink, onClick?: (event: 
     <Link href={item.href} 
       title={item.name} 
       onClick={onClick}
-      className={clsx("nav-link flex h-[48px] w-full items-center text-sm font-medium rounded-r-full  justify-start py-3 px-5",
+      className={clsx("nav-link flex h-[48px] w-full items-center font-medium rounded-r-full  justify-start py-3 px-5",
       "hover:bg-ufo-gray hover:text-ufo-primary",
       "[&.active]:bg-ufo-primary/10 [&.active]:text-ufo-primary",
       "hover:[&.active]:bg-ufo-primary/25",

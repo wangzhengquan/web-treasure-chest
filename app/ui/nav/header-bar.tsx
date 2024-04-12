@@ -3,7 +3,7 @@ import CollapseButton from './collapse-button';
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import {TOnCollapse} from "@/app/lib/definitions";
 // import Panels from "@/app/components/panels"
-import SideNav from './sidenav';
+import SideNav from './nav';
 import { createRoot } from "react-dom/client";
 // import profilePic from '@/public/customers/john-doe.jpg'
 

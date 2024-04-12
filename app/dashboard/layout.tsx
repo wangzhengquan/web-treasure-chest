@@ -1,5 +1,5 @@
-import SideNav from '@/app/ui/nav/sidenav';
-import HeaderBar from '@/app/ui/nav/header-bar';
+import SideNav from '@/app/ui/nav/nav';
+import LeftPanel from '@/app/ui/nav/left-panel';
 import {SideHeader, MHeader} from '@/app/ui/nav/header';
 // import SideNav from '@/app/ui/nav/sidenav';
 import {FloatLeftPanel, BackdropPanel} from '@/app/components/panels';
@@ -15,25 +15,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <>
     
     <div className="flex h-screen overflow-hidden flex-col md:flex-row ">
-      <section id="left-panel" className={clsx("group flex-none bg-white hidden md:block transition-width duration-200 shadow h-full overflow-y-auto ",
-        "pr-5 pt-5 w-64 [&.collapsed]:w-14",
-        {
-          
-        })}>
-        <SideHeader className=""  />
-        <SideNav className={clsx("pt-5", { })} />
+      <section className="flex-none hidden md:block">
+        <LeftPanel/>
       </section>
       <section className="flex-grow px-5 h-full overflow-y-auto">
         {/* <HeaderBar/> */}
         <MHeader className="md:hidden"  />
-        <div className="md:py-5">{children}</div>
+        <div className="md:pt-5">{children}</div>
       </section>
     </div>
 
     
     {/* <ArrayUtil /> */}
     {/*panel-overlay--> */}
-    <Script id="dom-util-script" src="/js/dom.min.js"/>
+    {/* <Script id="dom-util-script" src="/js/dom.min.js"/> */}
     {/* <EventsAdd /> */}
     {/* <Script id="array-script" src="/app/js/array.js"/> */}
     {/* <Script id="string-script" src="/js/string.js"/>

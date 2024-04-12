@@ -6,22 +6,24 @@ import { createPortal } from 'react-dom';
 import CollapseButton from './collapse-button';
 import { Bars3Icon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import {FloatLeftPanel, BackdropPanel} from '@/app/components/panels';
-import SideNav from './sidenav';
-import {TOnCollapse} from "@/app/lib/definitions";
+import Nav from './nav';
 
-export  function SideHeader({className}: {className: string}) {
-  // const [collapsed, setCollapsed] = useState(false);
+export  function SideHeader({className, onClickCollapseBtn}: {className: string, onClickCollapseBtn: (event: React.MouseEvent<HTMLElement>) => void}) {
   return (
     <header className={clsx("flex items-center justify-between w-full pl-5" , 
-    "group-[.collapsed]:justify-center",
-    // "min-h-headerh h-headerh max-h-headerh",
-    className,
-    {
-      
-    })}> 
-      <LogoIcon  />
-      <span className={clsx("text-xl group-[.collapsed]:hidden", {})}>Storeity2</span> 
-      <CollapseButton/>
+      "group-[.collapsed]:justify-center",
+      "min-h-[40px] h-v max-h-[40px]",
+      className,
+      {
+      })}> 
+      <span className="flex items-center">
+        <LogoIcon className="h-10 w-10 group-[.collapsed]:hidden" />
+        <span className={clsx("text-xl ml-3 group-[.collapsed]:hidden", {})}>Storeity</span>
+      </span>
+       
+      <a onClick={onClickCollapseBtn} className="relative cursor-pointer">
+        <Bars3Icon className="h-6 w-6"/>
+      </a>
     </header>
   );
 }
@@ -45,27 +47,27 @@ export function MHeader({className}: {className: string}) {
   // console.log('opened', opened)
   return (
     <>
-    <header className={clsx("flex items-center  min-h-headerh h-headerh max-h-headerh w-full px-4 " ,
+    <header className={clsx("flex items-center w-full px-5 " ,
     "justify-between group-[.collapsed]:justify-center",
     className,
     {
     })}> 
-      <LogoIcon  />
-      <span className="">Storeity</span> 
+      <LogoIcon className="h-10 w-10"/>
+      <span className="text-xl">Storeity</span> 
       <a className="relative cursor-pointer p-4" onClick={handleBtnClick}>
         <Bars3Icon className="h-6 w-6"/>
       </a>
     </header>
-
+    {/* =========FloatLeftPanel============== */}
     <FloatLeftPanel id="float-left-panel" className="pr-6 md:hidden"  opened={opened}>
-      <header className="flex justify-between items-center min-h-headerh h-headerh max-h-headerh w-full px-4"> 
+      <header className="flex justify-between items-center w-full px-4 py-5"> 
         <a id="close-float-left-panel-btn" className="h-6 w-6" onClick={() => setOpened(false) }> 
           <ArrowLeftIcon /> 
         </a>
-        <span className="">Storeity</span> 
-        <LogoIcon />
+        <span className="text-xl">Storeity</span> 
+        <LogoIcon className="w-10 h-10"/>
       </header>
-      <SideNav className=""  onClickLink={(event) => setOpened(false) }/>
+      <Nav className=""  onClickLink={(event) => setOpened(false) }/>
     </FloatLeftPanel>
     <BackdropPanel opened={opened} ref={backdropRef} className="md:hidden"/>
     </>
