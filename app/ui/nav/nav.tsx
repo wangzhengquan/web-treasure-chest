@@ -23,11 +23,15 @@ const links1 = [
   { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
 ];
 
-const links2 = [
-  { name: 'Store Visibility', href: '', icon: EyeIcon },
-  { name: 'App Downloads', href: '/', icon: ArrowDownTrayIcon},
-  { name: 'Download Trends', href: '/', icon: ArrowTrendingUpIcon },
+const demoLinks = [
+  { name: 'Tooltip', href: '/dashboard/demo/tooltip', icon: EyeIcon },
+  { name: 'Scroll into view', href: '/dashboard/demo/scroll-into-view', icon: ArrowDownTrayIcon},
+  { name: 'Pointer move', href: '/dashboard/demo/pointer-move', icon: ArrowTrendingUpIcon },
+  { name: 'Intersection Observer', href: '/dashboard/demo/intersection-observer', icon: ArrowTrendingUpIcon },
+  { name: 'JS Animation', href: '/dashboard/demo/js-animation', icon: ArrowTrendingUpIcon },
+  { name: 'Form data', href: '/dashboard/demo/form-data', icon: ArrowTrendingUpIcon },
 ];
+ 
 export default function Nav({className, onClickLink} : {className: string, onClickLink?: (event: React.MouseEvent<HTMLElement>) => void}) {
   return (
     <nav className={clsx(
@@ -37,7 +41,7 @@ export default function Nav({className, onClickLink} : {className: string, onCli
       })}>
      
       <SideNavLinks title="OVERVIEW" links={links1} onClickLink={onClickLink}/>
-      <SideNavLinks title="ANALYZE MARKET" links={links2} onClickLink={onClickLink}/>
+      <SideNavLinks title="DEMO" links={demoLinks} onClickLink={onClickLink}/>
     </nav>
   );
 }
