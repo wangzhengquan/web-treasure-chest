@@ -46,7 +46,8 @@ const config: Config = {
       backgroundImage: {
       },
       transitionProperty: {
-        width: 'width'
+        width: 'width',
+        height: 'height',
       }
     },
     keyframes: {

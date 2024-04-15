@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import LogoIcon from '../logo-icon';
 import { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import CollapseButton from './collapse-button';
 import { Bars3Icon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import {FloatLeftPanel, BackdropPanel} from '@/app/components/panels';
 import Nav from './nav';

@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import SideNavLinks, {SideNavLink} from './sidenav-links';
+import NavLinks from './nav-links';
 import clsx from 'clsx';
 import Capacity from './capacity';
 import ExpandButton from './collapse-button';
@@ -35,13 +35,13 @@ const demoLinks = [
 export default function Nav({className, onClickLink} : {className: string, onClickLink?: (event: React.MouseEvent<HTMLElement>) => void}) {
   return (
     <nav className={clsx(
-      'bg-white flex flex-col gap-5 custom-scrollbar  w-full', 
+      'bg-white flex flex-col gap-5 custom-scrollbar w-full', 
       className,
       {
       })}>
      
-      <SideNavLinks title="OVERVIEW" links={links1} onClickLink={onClickLink}/>
-      <SideNavLinks title="DEMO" links={demoLinks} onClickLink={onClickLink}/>
+      <NavLinks title="OVERVIEW" links={links1} onClickLink={onClickLink}/>
+      <NavLinks title="DEMO" defaultCollapsed={true} links={demoLinks} onClickLink={onClickLink}/>
     </nav>
   );
 }

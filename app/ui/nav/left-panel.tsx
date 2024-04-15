@@ -9,7 +9,7 @@ import { PowerIcon } from '@heroicons/react/24/outline';
 export default function LeftPanel() {
   const [collapsed, setCollapsed] = useState(false);
   return (
-    <div id="left-panel" className={clsx("flex flex-col group bg-white shadow",
+    <div className={clsx("flex flex-col group bg-white shadow",
       "h-full overflow-y-auto",
       "transition-width duration-200",
       "pr-5 pt-4 w-64 [&.collapsed]:w-16",
