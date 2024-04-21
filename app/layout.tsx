@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-screen overflow-hidden">
-      <body className={`${lusitana.className} h-screen overflow-hidden antialiased text-primary`}>
+      <body className={`${lusitana.className} h-screen overflow-hidden antialiased`}>
         {children}
       </body>
     </html>
