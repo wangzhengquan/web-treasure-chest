@@ -35,7 +35,7 @@ export default function NavLinks({title, links, onClickLink, defaultCollapsed} :
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
   const handleCollapseList = (event: React.MouseEvent<HTMLElement>) => {
     if (listRef.current && collapsedIconRef.current) {
-      const animation = new Animation(listRef.current);
+      const animation = new Animation();
       const { height } = listRef.current.firstChild.getBoundingClientRect();
       listRef.current.style.display = 'block';
       animation.start(300, (process) => {

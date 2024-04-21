@@ -3,7 +3,7 @@
   "scripts": {
     "build": "next build",
     "uglify": "node uglify.js",
-    "dev": "next dev -p 3000",
+    "dev": "next dev -p 3001",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
     "start": "next start -p 3000",
@@ -23,6 +23,7 @@
     "postcss": "8.4.31",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "reactflow": "^11.11.1",
     "sharp": "^0.33.2",
     "tailwindcss": "3.3.3",
     "typescript": "5.2.2",

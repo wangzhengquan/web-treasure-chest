@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <section className="relative flex-grow px-5 h-full overflow-hidden">
         {/* <HeaderBar/> */}
         <MHeader className="md:hidden"  />
-        <div className="md:pt-5 h-[calc(100%_-_56px)] md:h-full overflow-y-auto">{children}</div>
+        <div className="h-[calc(100%_-_56px)] md:h-full overflow-y-auto">{children}</div>
       </section>
     </div>
 

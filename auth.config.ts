@@ -15,14 +15,23 @@ export const authConfig = {
       }
       const isLoggedIn = !!auth?.user;
       const isOnLogin = nextUrl.pathname.startsWith('/login');
-      if (isOnLogin) {
-        if (isLoggedIn) {
+      // if (isOnLogin) {
+      //   if (isLoggedIn) {
+      //     return Response.redirect(new URL(callbackUrl, nextUrl));
+      //   }
+      //   return true;
+      // }
+      if (isLoggedIn) {
+        if (nextUrl.pathname === '/' || isOnLogin) {
           return Response.redirect(new URL(callbackUrl, nextUrl));
         }
         return true;
+      } else if (isOnLogin){
+        return true;
       }
-      if (isLoggedIn) return true;
+      // return Response.redirect(new URL('/login', nextUrl));
       return false; // Redirect unauthenticated users to login page
+      
     },
     // authorized({ auth, request: { nextUrl } }) {
     //   const isLoggedIn = !!auth?.user;

@@ -23,6 +23,12 @@ const links1 = [
   { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
 ];
 
+
+const workflowLinks = [
+  { name: 'Work Flow', href: '/dashboard/workflow', icon: DocumentDuplicateIcon },
+  { name: 'Audio Flow', href: '/dashboard/workflow/audio-flow', icon: DocumentDuplicateIcon },
+];
+
 const demoLinks = [
   { name: 'Tooltip', href: '/dashboard/demo/tooltip', icon: EyeIcon },
   { name: 'Scroll into view', href: '/dashboard/demo/scroll-into-view', icon: ArrowDownTrayIcon},
@@ -31,6 +37,7 @@ const demoLinks = [
   { name: 'JS Animation', href: '/dashboard/demo/js-animation', icon: ArrowTrendingUpIcon },
   { name: 'Form data', href: '/dashboard/demo/form-data', icon: ArrowTrendingUpIcon },
 ];
+
  
 export default function Nav({className, onClickLink} : {className: string, onClickLink?: (event: React.MouseEvent<HTMLElement>) => void}) {
   return (
@@ -41,7 +48,8 @@ export default function Nav({className, onClickLink} : {className: string, onCli
       })}>
      
       <NavLinks title="OVERVIEW" links={links1} onClickLink={onClickLink}/>
-      <NavLinks title="DEMO" defaultCollapsed={true} links={demoLinks} onClickLink={onClickLink}/>
+      <NavLinks title="Workflow" links={workflowLinks} onClickLink={onClickLink}/>
+      <NavLinks title="DEMO" defaultCollapsed={false} links={demoLinks} onClickLink={onClickLink}/>
     </nav>
   );
 }
