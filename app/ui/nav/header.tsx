@@ -9,7 +9,7 @@ import Nav from './nav';
 
 export  function SideHeader({className, onClickCollapseBtn}: {className: string, onClickCollapseBtn: (event: React.MouseEvent<HTMLElement>) => void}) {
   return (
-    <header className={clsx("flex items-center justify-between w-full pl-5" , 
+    <header className={clsx("flex items-center justify-between w-full" , 
       "group-[.collapsed]:justify-center",
       "min-h-[40px] h-v max-h-[40px]",
       className,

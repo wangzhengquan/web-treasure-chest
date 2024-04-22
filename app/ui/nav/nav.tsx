@@ -42,7 +42,7 @@ const demoLinks = [
 export default function Nav({className, onClickLink} : {className: string, onClickLink?: (event: React.MouseEvent<HTMLElement>) => void}) {
   return (
     <nav className={clsx(
-      'bg-white flex flex-col gap-5 custom-scrollbar w-full', 
+      'flex flex-col gap-[10px] w-full', 
       className,
       {
       })}>

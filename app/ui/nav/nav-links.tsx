@@ -16,15 +16,17 @@ export function NavLink({item, onClick}: {item: TNavLink, onClick?: (event: Reac
     <Link href={item.href} 
       title={item.name} 
       onClick={onClick}
-      className={clsx("nav-link flex h-[48px] w-full items-center font-medium rounded-r-full  justify-start py-3 px-5",
-      "hover:bg-ufo-gray hover:text-ufo-primary",
-      "[&.active]:bg-ufo-primary/10 [&.active]:text-ufo-primary",
-      "hover:[&.active]:bg-ufo-primary/25",
+      className={clsx("nav-link flex w-full justify-start items-center font-medium rounded-[4px] ",
+      "h-[36px]",
+      "hover:text-accent-foreground",
+      "[&.active]:bg-accent [&.active]:text-accent-foreground",
       {
       "active": pathname === item.href
       })}>
-      <item.icon className="w-6 h-6 shrink-0"/>
-      <span className="ml-5 shrink truncate group-[.collapsed]:invisible">{item.name}</span> 
+      <div className="flex justify-center items-center min-w-[40px]">
+        <item.icon className="w-[24px] h-[24px] shrink-0"/>
+      </div>
+      <span className="shrink truncate group-[.collapsed]:invisible">{item.name}</span> 
     </Link>
   );
 }
@@ -51,33 +53,30 @@ export default function NavLinks({title, links, onClickLink, defaultCollapsed} :
       });
     }
   };
-
-  // useLayoutEffect(() => {
-  //   if (listRef.current) {
-  //     const { height } = listRef.current.firstChild.getBoundingClientRect();
-  //     listRef.current.addEventListener("transitionend", () => {
-  //       console.log('transitionend', listRef.current.style.height);
-  //     });
-       
-  //     // listRef.current.style.height = collapsed ? '0px': `${height}px` ;
-  //   }
-  // }, []);
-
   return (
     <section className=""> 
-      <a className={clsx("flex justify-between cursor-pointer pl-5 text-slate-400 truncate ", 
-        "group-[.collapsed]:invisible",
-        )} onClick={handleCollapseList}>
-        <h2 >{title}</h2>
-        <ChevronDownIcon ref={collapsedIconRef} className="w-5 h-5" style={{
+      <a className={clsx("flex justify-between items-center cursor-pointer text-[12px] truncate ", 
+        "h-[36px]",
+        )} 
+        style={{
+          color: "rgba(235, 235, 240, 0.4)"
+        }}
+        onClick={handleCollapseList}>
+        <h2 className="group-[.collapsed]:hidden">{title}</h2>
+        <ChevronDownIcon ref={collapsedIconRef} className="w-[14px] h-[14px] group-[.collapsed]:hidden" style={{
           "transform": defaultCollapsed ? 'rotate(-90deg)': 'rotate(0deg)'
           }} />
+
+        <hr className="hidden group-[.collapsed]:block" style={{
+          borderColor: "rgba(255, 255, 255, 0.12)",
+          width: '36px',
+        }}/>
       </a>
      
       <div ref={listRef} className="overflow-hidden" style={{
          "height": defaultCollapsed ? '0px': 'auto'
         }} id={title}>
-        <ul>
+        <ul className="flex flex-col gap-[4px]">
           {links.map((item)=> {
             return ( 
               <li key={item.name}> 

@@ -23,7 +23,7 @@ const BackdropPanel  = forwardRef(function BackdropPanel(
   ref?: React.ForwardedRef<any>) {
   const mounted = useMounted();
   return mounted && createPortal(
-    <div id="backdrop-panel" ref={ref} className={clsx("backdrop-panel fixed left-0 top-0 w-full h-full bg-black/[0.3] z-10 inset-0 ",
+    <div ref={ref} className={clsx("backdrop-panel fixed left-0 top-0 w-full h-full bg-black/[0.3] z-10 inset-0 ",
       className,
       {
         "hidden": !opened,

@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import ModeToggle from "@/app/components/mode-toggle"
 let count = 0;
 const handleClick = () => {
   count += 1;
@@ -19,6 +20,9 @@ export default function Page() {
   return (
   <div className="w-full px-4">
     <h1 className={`text-xl`}>Customers</h1>
+    <div>
+      <ModeToggle />
+    </div>
     <Button>Click2</Button>
     <div className="w-5 h-5"></div>
     <button className="

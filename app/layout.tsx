@@ -1,4 +1,5 @@
 import '@/app/ui/global.css';
+import { ThemeProvider } from "@/components/theme-provider";
 import { inter,lusitana} from '@/app/ui/fonts';
 import { Metadata } from 'next';
  
@@ -14,9 +15,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-screen overflow-hidden">
-      <body className={`${lusitana.className} h-screen overflow-hidden antialiased`}>
+    <html lang="en" className="h-screen overflow-hidden" suppressHydrationWarning>
+      <body className={`${inter.className} h-screen overflow-hidden antialiased`}>
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
         {children}
+        </ThemeProvider>
       </body>
     </html>
   );
