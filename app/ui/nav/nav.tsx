@@ -29,6 +29,10 @@ const workflowLinks = [
   { name: 'Audio Flow', href: '/dashboard/workflow/audio-flow', icon: DocumentDuplicateIcon },
 ];
 
+const widgetsLinks = [
+  { name: 'Widget', href: '/dashboard/widgets', icon: DocumentDuplicateIcon },
+];
+
 const demoLinks = [
   { name: 'Tooltip', href: '/dashboard/demo/tooltip', icon: EyeIcon },
   { name: 'Scroll into view', href: '/dashboard/demo/scroll-into-view', icon: ArrowDownTrayIcon},
@@ -49,6 +53,8 @@ export default function Nav({className, onClickLink} : {className: string, onCli
      
       <NavLinks title="OVERVIEW" links={links1} onClickLink={onClickLink}/>
       <NavLinks title="Workflow" links={workflowLinks} onClickLink={onClickLink}/>
+      <NavLinks title="Workflow" links={widgetsLinks} onClickLink={onClickLink}/>
+      
       <NavLinks title="DEMO" defaultCollapsed={false} links={demoLinks} onClickLink={onClickLink}/>
     </nav>
   );

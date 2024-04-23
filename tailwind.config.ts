@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss"
-
+const colors = require('tailwindcss/colors');
+console.log('colors', colors)
 const config = {
   darkMode: ["class"],
   content: [
@@ -25,8 +26,8 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "hsl(var(--primary) / <alpha-value>)",
+          foreground: "hsl(var(--primary-foreground) / <alpha-value>)",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -51,12 +52,19 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+          body: "hsl(var(--card-body))",
+          200: "hsl(var(--card-200))",
         },
+        
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      gridTemplateColumns: {
+        'autofill': 'repeat(auto-fill, minmax(0, 1fr))',
+        'autofit': 'repeat(auto-fit, minmax(0, 1fr))',
       },
       keyframes: {
         "accordion-down": {
@@ -67,10 +75,20 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "loading": {
+          "0%, 50%": { transform: "scale(1)", opacity: "1" },
+          "20%": { transform: "scale(1.7)", opacity: "0.5" },
+        },
+        shimmer: {
+          '100%': {
+            transform: 'translateX(100%)',
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "loading": "2s ease-out 0s infinite normal none running loading",
       },
     },
   },

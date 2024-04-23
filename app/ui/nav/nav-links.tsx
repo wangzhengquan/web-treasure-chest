@@ -55,12 +55,10 @@ export default function NavLinks({title, links, onClickLink, defaultCollapsed} :
   };
   return (
     <section className=""> 
-      <a className={clsx("flex justify-between items-center cursor-pointer text-[12px] truncate ", 
-        "h-[36px]",
+      <a className={clsx("flex justify-between items-center cursor-pointer truncate ", 
+        "h-[36px] text-[12px] text-foreground/40",
         )} 
-        style={{
-          color: "rgba(235, 235, 240, 0.4)"
-        }}
+       
         onClick={handleCollapseList}>
         <h2 className="group-[.collapsed]:hidden">{title}</h2>
         <ChevronDownIcon ref={collapsedIconRef} className="w-[14px] h-[14px] group-[.collapsed]:hidden" style={{
