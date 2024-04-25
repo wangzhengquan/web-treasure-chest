@@ -7,122 +7,118 @@ import {
   CurrencyDollarIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
-import { Button } from '@/app/ui/button';
-import { createInvoice } from '@/app/lib/actions';
+import { Button } from '@/app/components/button';
+import { createInvoice } from '@/app/actions';
 import { useFormState,  useFormStatus} from 'react-dom';
 import ErrorAria from '@/app/ui/error-aria';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+
+import { Input } from "@/components/ui/input"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+ 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
   const initialState = { message: null, errors: {} };
-  const [state, dispatch] = useFormState(createInvoice, initialState);
+  const [state, action] = useFormState(createInvoice, initialState);
   return (
-    <form action={dispatch}>
-      <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        {/* Customer Name */}
-        <div className="mb-4">
-          <label htmlFor="customer" className="mb-2 block text-sm font-medium">
-            Choose customer
-          </label>
-          <div className="relative">
-            <select
-              id="customer"
-              name="customerId"
-              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue=""
-              aria-describedby="customer-error"
+      <Card className='p-6'>
+        <form action={action} >
+          <CardContent className="p-4 md:p-6 space-y-4">
+            {/* Customer Name */}
+            <div>
+              <label htmlFor="customerId" className="mb-2 block font-medium">
+                Choose customer
+              </label>
+              <div className="relative">
+                <Select name="customerId">
+                  <SelectTrigger aria-describedby="customer-error" className="relative pl-10">
+                    <SelectValue placeholder="Select a customer" />
+                  </SelectTrigger>
+                  <SelectContent position="popper">
+                    {customers.map((customer) => (
+                      <SelectItem key={customer.id} value={customer.id}>
+                        {customer.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 " />
+              </div>
+              <ErrorAria id="customer-error" errors={state.errors?.customerId}/>
+            </div>
+
+            {/* Invoice Amount */}
+            <div>
+              <label htmlFor="amount" className="mb-2 block  font-medium">
+                Choose an amount
+              </label>
+              <div className="relative mt-2 rounded-md">
+                <div className="relative">
+                  <Input
+                    id="amount"
+                    name="amount"
+                    type="number"
+                    step="0.01"
+                    placeholder="Enter USD amount"
+                    className="pl-10 outline-2 "
+                    aria-describedby="amount-error"
+                  />
+                  <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 " />
+                </div>
+              </div>
+              <ErrorAria id="amount-error" errors={state.errors?.amount}/>
+            </div>
+
+            {/* Invoice Status */}
+            <div>
+              <label htmlFor="status" className="mb-2 block font-medium">
+                Set the invoice status
+              </label>
+              <RadioGroup name="status" aria-describedby="status-error" className="flex gap-4">
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem id="pending" value="pending"  />
+                  <label htmlFor="pending"
+                    className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600"
+                  >
+                    Pending <ClockIcon className="h-4 w-4" />
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem id="paid" value="paid" />
+                  <label htmlFor="paid"
+                    className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
+                  >
+                    Paid <CheckIcon className="h-4 w-4" />
+                  </label>
+                </div>
+              </RadioGroup>
+              <ErrorAria id="status-error" errors={state.errors?.status}/>
+            </div>
+            <ErrorAria id="form-error" errors={state.message ? [state.message] : null}/>
+          </CardContent>
+
+          <CardFooter className="flex items-center pt-4 flex-col md:flex-row md:pt-8 md:justify-end gap-4">
+            <Link
+              href="/dashboard/invoices"
+              className="flex w-full md:w-fit h-10 items-center rounded-lg bg-gray-100 px-4 font-medium text-gray-600 transition-colors hover:bg-gray-200"
             >
-              <option value="" disabled>
-                Select a customer
-              </option>
-              {customers.map((customer) => (
-                <option key={customer.id} value={customer.id}>
-                  {customer.name}
-                </option>
-              ))}
-            </select>
-            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-          </div>
-          <ErrorAria id="customer-error" errors={state.errors?.customerId}/>
-        </div>
-
-        {/* Invoice Amount */}
-        <div className="mb-4">
-          <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-            Choose an amount
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="amount"
-                name="amount"
-                type="number"
-                step="0.01"
-                placeholder="Enter USD amount"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="amount-error"
-              />
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div>
-          <ErrorAria id="amount-error" errors={state.errors?.amount}/>
-        </div>
-
-        {/* Invoice Status */}
-        <fieldset>
-          <legend className="mb-2 block text-sm font-medium">
-            Set the invoice status
-          </legend>
-          <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
-            <div className="flex gap-4">
-              <div className="flex items-center">
-                <input
-                  id="pending"
-                  name="status"
-                  type="radio"
-                  value="pending"
-                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                  aria-describedby="status-error"
-                />
-                <label
-                  htmlFor="pending"
-                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600"
-                >
-                  Pending <ClockIcon className="h-4 w-4" />
-                </label>
-              </div>
-              <div className="flex items-center">
-                <input
-                  id="paid"
-                  name="status"
-                  type="radio"
-                  value="paid"
-                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                  aria-describedby="status-error"
-                />
-                <label
-                  htmlFor="paid"
-                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
-                >
-                  Paid <CheckIcon className="h-4 w-4" />
-                </label>
-              </div>
-            </div>
-          </div>
-          <ErrorAria id="status-error" errors={state.errors?.status}/>
-        </fieldset>
-        <ErrorAria id="form-error" errors={state.message ? [state.message] : null}/>
-      </div>
-      <div className="mt-6 flex justify-end gap-4">
-        <Link
-          href="/dashboard/invoices"
-          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-        >
-          Cancel
-        </Link>
-        {/* <Button  aria-disabled={useFormStatus().pending} >Save</Button> */}
-        <CommitButton />
-      </div>
-    </form>
+              Cancel
+            </Link>
+            <CommitButton />
+          </CardFooter>
+      </form>
+      </Card>
   );
 }
 
@@ -130,6 +126,8 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
 function CommitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button aria-disabled={pending}  disabled={pending}> Create </Button>
+    <Button aria-disabled={pending}  disabled={pending} className="w-full md:w-fit"> 
+      {pending ? "Creating..." : "Create"}
+    </Button>
   );
 }

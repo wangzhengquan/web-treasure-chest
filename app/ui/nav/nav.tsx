@@ -30,7 +30,7 @@ const workflowLinks = [
 ];
 
 const widgetsLinks = [
-  { name: 'Widget', href: '/dashboard/widgets', icon: DocumentDuplicateIcon },
+  { name: 'Widgets', href: '/dashboard/widgets', icon: DocumentDuplicateIcon },
 ];
 
 const demoLinks = [
@@ -53,7 +53,7 @@ export default function Nav({className, onClickLink} : {className: string, onCli
      
       <NavLinks title="OVERVIEW" links={links1} onClickLink={onClickLink}/>
       <NavLinks title="Workflow" links={workflowLinks} onClickLink={onClickLink}/>
-      <NavLinks title="Workflow" links={widgetsLinks} onClickLink={onClickLink}/>
+      <NavLinks title="Widgets" links={widgetsLinks} onClickLink={onClickLink}/>
       
       <NavLinks title="DEMO" defaultCollapsed={false} links={demoLinks} onClickLink={onClickLink}/>
     </nav>

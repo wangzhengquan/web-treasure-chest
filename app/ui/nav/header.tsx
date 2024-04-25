@@ -11,7 +11,7 @@ export  function SideHeader({className, onClickCollapseBtn}: {className: string,
   return (
     <header className={clsx("flex items-center justify-between w-full" , 
       "group-[.collapsed]:justify-center",
-      "min-h-[40px] h-v max-h-[40px]",
+      "flex-none h-[52px]",
       className,
       {
       })}> 
@@ -29,15 +29,15 @@ export  function SideHeader({className, onClickCollapseBtn}: {className: string,
 
  
 
-export function MHeader({className}: {className: string}) {
+export function MobileHeader({className}: {className: string}) {
   const [opened, setOpened] = useState(false);
   const backdropRef = useRef<HTMLElement | null>(null);
   const handleBtnClick = (event: React.MouseEvent<HTMLElement>) => {
-    console.log("handleBtnClick clicked", opened, backdropRef.current);
+    // console.log("handleBtnClick clicked", opened, backdropRef.current);
     setOpened(!opened);
 
     backdropRef.current?.addEventListener('click', (event) => {
-      console.log('backdrop clicked');
+      // console.log('backdrop clicked');
       setOpened(false);
     }, {once: true});
     
@@ -46,7 +46,7 @@ export function MHeader({className}: {className: string}) {
   // console.log('opened', opened)
   return (
     <>
-    <header className={clsx("flex items-center w-full px-5 " ,
+    <header className={clsx("bg-nav flex items-center w-full px-5 " ,
     "justify-between group-[.collapsed]:justify-center",
     className,
     {
@@ -58,7 +58,7 @@ export function MHeader({className}: {className: string}) {
       </a>
     </header>
     {/* =========FloatLeftPanel============== */}
-    <FloatLeftPanel id="float-left-panel" className="pr-6 md:hidden"  opened={opened}>
+    <FloatLeftPanel className="pr-6 md:hidden bg-nav"  opened={opened}>
       <header className="flex justify-between items-center w-full px-4 py-5"> 
         <a id="close-float-left-panel-btn" className="h-6 w-6" onClick={() => setOpened(false) }> 
           <ArrowLeftIcon /> 

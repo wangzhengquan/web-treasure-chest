@@ -19,9 +19,8 @@ export function NavLink({item, onClick}: {item: TNavLink, onClick?: (event: Reac
       className={clsx("nav-link flex w-full justify-start items-center font-medium rounded-[4px] ",
       "h-[36px]",
       "hover:text-accent-foreground",
-      "[&.active]:bg-accent [&.active]:text-accent-foreground",
       {
-      "active": pathname === item.href
+        "bg-accent text-accent-foreground": pathname === item.href
       })}>
       <div className="flex justify-center items-center min-w-[40px]">
         <item.icon className="w-[24px] h-[24px] shrink-0"/>
@@ -40,7 +39,7 @@ export default function NavLinks({title, links, onClickLink, defaultCollapsed} :
       const animation = new Animation();
       const { height } = listRef.current.firstChild.getBoundingClientRect();
       listRef.current.style.display = 'block';
-      animation.start(300, (process) => {
+      animation.start(200, (process) => {
         // console.log('process', process);
         listRef.current.style.height = collapsed ? `${process * height}px` : `${(1 - process) * height}px`;
         collapsedIconRef.current.style.transform = `rotate(${collapsed ? -90 + 90 * process : -90 * process  }deg)`;

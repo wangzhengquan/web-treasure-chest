@@ -19,14 +19,14 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-export default function CardWithForm() {
+export function CardWithForm() {
   return (
-    <Card className="w-[350px]">
+    <Card className="w-[350px] p-4">
       <CardHeader>
         <CardTitle>Create project</CardTitle>
         <CardDescription>Deploy your new project in one-click.</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="py-6">
         <form>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
@@ -50,7 +50,7 @@ export default function CardWithForm() {
           </div>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-between">
+      <CardFooter className="mt-6 flex justify-between">
         <Button variant="outline">Cancel</Button>
         <Button>Deploy</Button>
       </CardFooter>

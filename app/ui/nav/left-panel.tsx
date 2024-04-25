@@ -3,13 +3,13 @@ import Nav from '@/app/ui/nav/nav';
 import {SideHeader} from '@/app/ui/nav/header';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { logout } from '@/app/lib/actions';
+import { logout } from '@/app/actions';
 import { PowerIcon } from '@heroicons/react/24/outline';
 
 export default function LeftPanel() {
   const [collapsed, setCollapsed] = useState(false);
   return (
-    <aside className={clsx("flex flex-col group bg-primary text-primary-foreground shadow",
+    <aside className={clsx("flex flex-col group bg-nav text-nav-foreground shadow",
       "h-full overflow-y-auto",
       "transition-width duration-200",
       "px-[16px] w-[264px] [&.collapsed]:w-[76px]",

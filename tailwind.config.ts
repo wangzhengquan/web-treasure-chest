@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss"
 const colors = require('tailwindcss/colors');
-console.log('colors', colors)
+// console.log('colors', colors)
 const config = {
   darkMode: ["class"],
   content: [
@@ -21,7 +21,6 @@ const config = {
     extend: {
       colors: {
         border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -32,6 +31,10 @@ const config = {
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+        },
+        nav: {
+          DEFAULT: "hsl(var(--nav) / <alpha-value>)",
+          foreground: "hsl(var(--nav-foreground) / <alpha-value>)",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -55,7 +58,11 @@ const config = {
           body: "hsl(var(--card-body))",
           200: "hsl(var(--card-200))",
         },
-        
+        input: {
+          DEFAULT: "hsl(var(--input))",
+          foreground: "hsl(var(--input-foreground))",
+          border: "hsl(var(--input-border))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

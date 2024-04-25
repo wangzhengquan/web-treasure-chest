@@ -2,7 +2,7 @@
 // const merge = (a, b) => ({ ...a, ...b });
 
 
-function Ball({className, style}: {className?: string, style?: any}) {
+function Ball({className="", style}: {className?: string, style?: any}) {
   return <div className={`animate-loading ${className}`} style={{
     ...style,
     width: '8px',
@@ -11,9 +11,9 @@ function Ball({className, style}: {className?: string, style?: any}) {
   }}/>
 }
 
-export default function Loading() {
+export default function Loading({className=""}: {className?: string}) {
   return (
-    <div className="flex flex-row gap-2 w-fit">
+    <div className={`flex flex-row gap-2 w-fit ${className}`}>
       <Ball style={{animationDelay: '0ms',   backgroundColor: 'rgb(97, 102, 197)'}}/>
       <Ball style={{animationDelay: '100ms', backgroundColor: 'rgb(83, 135, 185)'}}/>
       <Ball style={{animationDelay: '200ms', backgroundColor: 'rgb(69, 161, 175)'}}/>

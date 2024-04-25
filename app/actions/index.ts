@@ -9,8 +9,9 @@ import { AuthError } from 'next-auth';
 const FormSchema = z.object({
   id: z.string(),
   customerId: z.string({
+    required_error: "Please select a customer.",
     invalid_type_error: 'Please select a customer.',
-  }),
+  }).min(1, { message: "Please select a customer." }),
   amount: z.coerce
     .number()
     .gt(0, { message: 'Please enter an amount greater than 0.' }),
@@ -34,18 +35,20 @@ export type State = {
   message?: string | null;
 };
 export async function createInvoice(prevState: State, formData: FormData) {
+  // console.log("formData", formData,  formData.get('customerId'), formData.get('amount'), formData.get('status'));
   // Validate form using Zod
   const validatedFields = InvoiceFormSchema.safeParse({
     customerId: formData.get('customerId'),
     amount: formData.get('amount'),
     status: formData.get('status'),
   });
+
  
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
+    // console.log("validatedFields",  validatedFields.error.flatten().fieldErrors)
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Invoice.',
     };
   }
  
@@ -74,6 +77,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
 
  
 export async function updateInvoice(id: string, prevState: State, formData: FormData) {
+  // console.log("formData", formData,  formData.get('customerId'), formData.get('amount'), formData.get('status'));
   // Validate form using Zod
   const validatedFields = InvoiceFormSchema.safeParse({
     customerId: formData.get('customerId'),
@@ -83,6 +87,7 @@ export async function updateInvoice(id: string, prevState: State, formData: Form
  
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
+    // console.log("validatedFields",  validatedFields.error.flatten().fieldErrors)
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Create Invoice.',

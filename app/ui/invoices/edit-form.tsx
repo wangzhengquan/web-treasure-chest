@@ -8,10 +8,26 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { Button } from '@/app/ui/button';
-import { updateInvoice } from '@/app/lib/actions';
+import { Button } from '@/app/components/button';
+import { updateInvoice } from '@/app/actions';
 import { useFormState, useFormStatus } from 'react-dom';
 import ErrorAria from '@/app/ui/error-aria';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+
+import { Input } from "@/components/ui/input"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+ 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 export default function EditInvoiceForm({
   invoice,
@@ -22,63 +38,85 @@ export default function EditInvoiceForm({
 }) {
   const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
   const initialState = { message: null, errors: {} };
-  const [state, dispatch] = useFormState(updateInvoiceWithId, initialState);
+  const [state, action] = useFormState(updateInvoiceWithId, initialState);
   return (
-    <form action={dispatch}>
+  <Card className='p-6'>
+    <form action={action}>
       {/* <input type="hidden" name="id" value={invoice.id} /> */}
-      <div className="rounded-md bg-gray-50 p-4 md:p-6">
+      <CardContent className="p-4 md:p-6 space-y-4">
         {/* Customer Name */}
-        <div className="mb-4">
-          <label htmlFor="customer" className="mb-2 block text-sm font-medium">
+        <div>
+          <label htmlFor="customerId" className="mb-2 block font-medium">
             Choose customer
           </label>
           <div className="relative">
-            <select
-              id="customer"
-              name="customerId"
-              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue={invoice.customer_id}
-              aria-describedby="customer-error"
-            >
-              <option value="" disabled>
-                Select a customer
-              </option>
-              {customers.map((customer) => (
-                <option key={customer.id} value={customer.id}>
-                  {customer.name}
-                </option>
-              ))}
-            </select>
-            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+            <Select name="customerId" defaultValue={invoice.customer_id}>
+              <SelectTrigger aria-describedby="customer-error" className="relative pl-10">
+                <SelectValue placeholder="Select a customer" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                {customers.map((customer) => (
+                  <SelectItem key={customer.id} value={customer.id}>
+                    {customer.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 " />
           </div>
           <ErrorAria id="customer-error" errors={state.errors?.customerId}/>
         </div>
 
         {/* Invoice Amount */}
-        <div className="mb-4">
-          <label htmlFor="amount" className="mb-2 block text-sm font-medium">
+        <div>
+          <label htmlFor="amount" className="mb-2 block  font-medium">
             Choose an amount
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
-              <input
+              <Input
                 id="amount"
                 name="amount"
                 type="number"
                 step="0.01"
-                defaultValue={invoice.amount}
                 placeholder="Enter USD amount"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="pl-10 "
                 aria-describedby="amount-error"
+                defaultValue={invoice.amount}
               />
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 " />
             </div>
           </div>
           <ErrorAria id="amount-error" errors={state.errors?.amount}/>
         </div>
 
         {/* Invoice Status */}
-        <fieldset>
+        <div>
+          <label htmlFor="status" className="mb-2 block font-medium">
+            Set the invoice status
+          </label>
+          <RadioGroup name="status" defaultValue={invoice.status} aria-describedby="status-error" className="flex gap-4">
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem id="pending" value="pending" defaultChecked={invoice.status === 'paid'}/>
+              <label htmlFor="pending"
+                className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600"
+              >
+                Pending <ClockIcon className="h-4 w-4" />
+              </label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem id="paid" value="paid" defaultChecked={invoice.status === 'paid'}/>
+              <label htmlFor="paid"
+                className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
+              >
+                Paid <CheckIcon className="h-4 w-4" />
+              </label>
+            </div>
+          </RadioGroup>
+          <ErrorAria id="status-error" errors={state.errors?.status}/>
+        </div>
+            
+        {/* <fieldset>
           <legend className="mb-2 block text-sm font-medium">
             Set the invoice status
           </legend>
@@ -121,20 +159,21 @@ export default function EditInvoiceForm({
             </div>
           </div>
           <ErrorAria id="status-error" errors={state.errors?.status}/>
-        </fieldset>
+        </fieldset> */}
         <ErrorAria id="form-error" errors={state.message ? [state.message] : null}/>
-      </div>
-      <div className="mt-6 flex justify-end gap-4">
+      </CardContent>
+      <CardFooter className="flex items-center pt-4 flex-col md:flex-row md:pt-8 md:justify-end gap-4">
         <Link
           href="/dashboard/invoices"
-          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
+          className="flex w-full md:w-fit h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel
         </Link>
         {/* <Button type="submit">Save</Button> */}
         <CommitButton />
-      </div>
+      </CardFooter>
     </form>
+  </Card>
   );
 }
 
@@ -142,6 +181,6 @@ export default function EditInvoiceForm({
 function CommitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button aria-disabled={pending}  disabled={pending}> Save </Button>
+    <Button aria-disabled={pending}  disabled={pending} className="w-full md:w-fit"> Save </Button>
   );
 }

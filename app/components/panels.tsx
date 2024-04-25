@@ -8,7 +8,8 @@ export function FloatLeftPanel({id, className, children, opened}: {id?: string, 
   // console.log('FloatLeftPanel opened', opened);
   const mounted = useMounted();
   return mounted && createPortal(
-    <div id={id}  className={clsx("bg-white fixed z-50 overflow-y-auto w-64 top-0 -left-64 h-full duration-300 transition-transform translate-x-0 [&.opened]:translate-x-64 " ,
+    <div id={id}  className={clsx("fixed z-50 overflow-y-auto w-64 top-0 -left-64 h-full " ,
+       "duration-300 transition-transform translate-x-0 [&.opened]:translate-x-64 ",
        className,
       {"translate-x-64": opened} 
       )}>
