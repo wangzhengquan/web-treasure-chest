@@ -2,6 +2,7 @@ import Form from '@/app/ui/invoices/edit-form';
 import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import Indicator, {Breadcrumbs} from '@/app/ui/indicator';
+import Main from '@/app/ui/main';
  
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;
@@ -22,9 +23,9 @@ export default async function Page({ params }: { params: { id: string } }) {
           ]}
         />
     </Indicator>
-    <main>
+    <Main>
       <Form invoice={invoice} customers={customers} />
-    </main>
+    </Main>
   </>
   );
 }

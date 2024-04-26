@@ -3,7 +3,9 @@ import { Input } from "@/components/ui/input"
 import Indicator from '@/app/ui/indicator';
 import { Button } from "@/components/ui/button"
 import Main from "@/app/ui/main";
+import clsx from 'clsx';
 import {RadioGroupForm} from "@/app/widgets/radio-group-form";
+import NotificationItem from "@/app/widgets/notification-item";
 import DashboardSkeleton, {InvoicesTableSkeleton} from '@/app/ui/skeletons';
 
 export default function Page() {
@@ -24,7 +26,9 @@ export default function Page() {
         <Input />
         
       </div>
+      <NotificationItem />
       <RadioGroupForm />
+
       {/* <div><DashboardSkeleton /></div>
       <div> <InvoicesTableSkeleton /> </div> */}
     

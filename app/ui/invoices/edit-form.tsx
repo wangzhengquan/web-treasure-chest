@@ -169,7 +169,6 @@ export default function EditInvoiceForm({
         >
           Cancel
         </Link>
-        {/* <Button type="submit">Save</Button> */}
         <CommitButton />
       </CardFooter>
     </form>
@@ -181,6 +180,6 @@ export default function EditInvoiceForm({
 function CommitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button aria-disabled={pending}  disabled={pending} className="w-full md:w-fit"> Save </Button>
+    <Button aria-disabled={pending} disabled={pending} className="w-full md:w-fit"> Save </Button>
   );
 }
