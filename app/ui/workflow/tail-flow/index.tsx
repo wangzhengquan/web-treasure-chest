@@ -1,6 +1,6 @@
 'use client';
 import React, { useCallback } from 'react';
-import ReactFlow, { useNodesState, useEdgesState, addEdge, MiniMap, Controls, OnConnect } from 'reactflow';
+import ReactFlow, { useNodesState, useEdgesState, addEdge, MiniMap, Controls, OnConnect, Background } from 'reactflow';
 
 import 'reactflow/dist/base.css';
 

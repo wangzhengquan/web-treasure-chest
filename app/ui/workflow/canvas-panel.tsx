@@ -60,7 +60,7 @@ export default function App() {
       onEdgesChange={onEdgesChange}
       onEdgesDelete={onEdgesDelete}
       onConnect={onConnect}
-      // fitView
+      fitView
     >
       <Background variant={BackgroundVariant.Lines}/>
       {/* <MiniMap /> */}

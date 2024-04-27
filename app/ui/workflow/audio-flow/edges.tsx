@@ -58,7 +58,7 @@ export function ButtonCloseEdge({
           <button style={{
             width: '20px',
             height: '20px',
-            background: '#eee',
+            background: 'hsl(var(--background))',
             border: '1px solid #fff',
             cursor: 'pointer',
             borderRadius: '50%',

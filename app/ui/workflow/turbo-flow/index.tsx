@@ -1,6 +1,6 @@
 'use client';
 import React, { useCallback } from 'react';
-import ReactFlow, { Controls, useNodesState, useEdgesState, addEdge, Node, Edge, OnConnect } from 'reactflow';
+import ReactFlow, { Controls, useNodesState, useEdgesState, addEdge, Node, Edge, OnConnect, Background } from 'reactflow';
 
 import 'reactflow/dist/base.css';
 import './index.css';
@@ -112,6 +112,7 @@ const Flow = () => {
       className="turbo-flow"
     >
       <Controls showInteractive={false} />
+      <Background />
       <svg>
         <defs>
           <linearGradient id="edge-gradient">

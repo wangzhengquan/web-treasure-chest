@@ -1,13 +1,16 @@
 "use client";
-import React, {useEffect, useRef, useState, useCallback} from 'react';
+import React, {useEffect, useMemo, useState, useCallback} from 'react';
 import ReactFlow, { ReactFlowProvider, Background, Panel, useReactFlow, BackgroundVariant, 
-  Controls, ReactFlowInstance, OnConnect,Edge, FitViewOptions } from 'reactflow';
-import { nanoid } from 'nanoid';
-import { shallow } from 'zustand/shallow';
-import { useStore, Store } from './store';
+  Controls, ReactFlowInstance, OnConnect, FitViewOptions, Node, Edge, Connection, } from 'reactflow';
+import { edgeTypes  } from './edges';
 import { nodeTypes } from './nodes';
-import {CommonEdgeProps, edgeTypes} from './edges';
+import { useStore, Store } from './store';
+import DevTools from '../dev-tools';
 import 'reactflow/dist/base.css';
+ 
+
+const initional_notes: Node[] = [{"id":"jCy9MW6ACUJ04EP8NxPWH","type":"amp","data":{"gain":0.5},"position":{"x":362,"y":77},"width":143,"height":93,"selected":true,"positionAbsolute":{"x":362,"y":77},"dragging":false},{"id":"Wn0QKOWChoeQFN-d_pBbc","type":"osc","data":{"frequency":440,"type":"sine"},"position":{"x":68,"y":62},"width":143,"height":137,"selected":false,"positionAbsolute":{"x":68,"y":62},"dragging":false},{"id":"cqM0DZMgQ5awiWrWi9Ak6","type":"out","data":{},"position":{"x":692,"y":127},"width":42,"height":35,"selected":false,"dragging":false,"positionAbsolute":{"x":692,"y":127}}];
+const initional_edges: Edge[] =[{"id":"","source":"jCy9MW6ACUJ04EP8NxPWH","sourceHandle":null,"target":"cqM0DZMgQ5awiWrWi9Ak6","targetHandle":null,"type":"buttonCloseEdge","animated":true},{"id":"","source":"Wn0QKOWChoeQFN-d_pBbc","sourceHandle":null,"target":"jCy9MW6ACUJ04EP8NxPWH","targetHandle":null,"type":"buttonCloseEdge","animated":true}];
 
 const selector = (store: Store) => ({
   nodes: store.nodes,
@@ -17,8 +20,11 @@ const selector = (store: Store) => ({
   onEdgesChange: store.onEdgesChange,
   addEdge: store.addEdge,
   createNode: store.createNode,
+  // setNodes: store.setNodes,
+  // setEdges: store.setEdges,
 });
 
+ 
 export default function CanvasPanel() {
   const store = useStore(selector);
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
@@ -27,14 +33,15 @@ export default function CanvasPanel() {
   //   setViewport({ x: 0, y: 0, zoom: 1 }, { duration: 0 });
   // }, [setViewport]);
 
+  
   const onInit = useCallback((reactFlowInstance: ReactFlowInstance) => {
     setReactFlowInstance(reactFlowInstance);
     // instance.setViewport({ x: 0, y: 0, zoom: 1 }, { duration: 0 });
   }, []);
 
   const onConnect:OnConnect = function (connection) {
-    const edge = {id: nanoid(6), ...connection, ...CommonEdgeProps } as Edge;
-    store.addEdge(edge);
+    // const edge = {id: nanoid(6), ...connection, ...CommonEdgeProps } as Edge;
+    store.addEdge(connection);
   }
  
   const onDragOver = useCallback((event: React.DragEvent<HTMLElement>) => {
@@ -63,6 +70,23 @@ export default function CanvasPanel() {
     },
     [reactFlowInstance],
   );
+
+  useEffect(() => { 
+    const element = document.querySelector('[aria-label="React Flow attribution"]');
+    if (element) {
+      element.remove();
+    }
+
+    for (const node of initional_notes) {
+      store.createNode(node.type as string, node.position, node.data, node.id);
+    }
+
+    for (const edge of initional_edges) {
+      const connection: Connection = { source: edge.source, target: edge.target, sourceHandle: null, targetHandle: null};
+      store.addEdge(connection);
+    }
+
+  }, []);
   
   return (
       <div className="w-full h-full relative">
@@ -78,12 +102,14 @@ export default function CanvasPanel() {
           onNodesDelete={store.onNodesDelete}
           onEdgesChange={store.onEdgesChange}
           onConnect={onConnect}
+          // colorMode={theme}
           // fitView
           // fitViewOptions={{ duration: 0, padding: 0.2 }}
         >
-          <Background variant={BackgroundVariant.Lines}/>
+          <Background variant={BackgroundVariant.Dots}/>
           {/* <MiniMap /> */}
           <Controls />
+          <DevTools  />
           <Background />
         </ReactFlow>
       </div>

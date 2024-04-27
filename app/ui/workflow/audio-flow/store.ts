@@ -13,19 +13,21 @@ import {
   connect,
   disconnect,
 } from './audio';
-
+import {CommonEdgeProps} from './edges';
 
 export interface Store {
   nodes: Node[];
   edges: Edge[];
   isRunning: boolean;
   toggleAudio: () => void;
+  // setNodes: (nodes: Node[]) => void;
+  // setEdges: (edges: Edge[]) => void;
   onNodesChange: (changes: NodeChange[]) => void;
-  createNode: (type: string, position: XYPosition) => void;
+  createNode: (type: string, position: XYPosition, data?: any, id?: string) => void;
   updateNode: (id: string, data: any) => void;
   onNodesDelete: (deleted: Node[]) => void;
   onEdgesChange: (changes: any) => void;
-  addEdge: (data: Edge) => void;
+  addEdge: (data: Connection) => void;
   deleteEdge: (id: string) => void;
   onEdgesDelete: (deleted: Edge[]) => void;
 }
@@ -36,36 +38,36 @@ export const useStore = createWithEqualityFn<Store>((set, get) => ({
   isRunning: isRunning(),
 
   toggleAudio() {
-    toggleAudio().then(() => {
+    toggleAudio()?.then(() => {
       set({ isRunning: isRunning() });
     });
   },
-
+   
+  // setEdges: (edges: Edge[]) => set({ edges: edges }),
   onNodesChange(changes: NodeChange[]) {
     set({
       nodes: applyNodeChanges(changes, get().nodes),
     });
   },
 
-  createNode(type: string, position: XYPosition) {
-    const id = nanoid();
+  createNode(type: string, position: XYPosition, data?: any, id?: string) {
+    id = id || nanoid();
 
     switch (type) {
       case 'osc': {
-        const data = { frequency: 440, type: 'sine' };
+        data = data || { frequency: 440, type: 'sine' } as any;
         createAudioNode(id, type, data);
         set({ nodes: [...get().nodes, { id, type, data, position }] });
 
         break;
       }
       case 'amp': {
-        const data = { gain: 0.5 };
+        data = data || { gain: 0.5 };
         createAudioNode(id, type, data);
         set({ nodes: [...get().nodes, { id, type, data, position }] });
         break;
       }
       case 'out': {
-        const data = {};
         createAudioNode(id, type, data);
         set({ nodes: [...get().nodes, { id, type, data, position }] });
         break;
@@ -94,9 +96,9 @@ export const useStore = createWithEqualityFn<Store>((set, get) => ({
     });
   },
 
-  addEdge(edge: Edge ) {
-    // const id = nanoid(6);
-    // const edge: Edge = { id, ...data };
+  addEdge(connection: Connection ) {
+    const id = nanoid(6);
+    const edge: Edge = {id, ...connection, ...CommonEdgeProps } as Edge;
     connect(edge.source , edge.target );
     set({ edges: [edge, ...get().edges] });
   },

@@ -55,7 +55,7 @@ export default function NavLinks({title, links, onClickLink, defaultCollapsed} :
   return (
     <section className=""> 
       <a className={clsx("flex justify-between items-center cursor-pointer truncate ", 
-        "h-[36px] text-[12px] text-foreground/40",
+        "h-[36px] text-[12px] text-foreground/60",
         )} 
        
         onClick={handleCollapseList}>

@@ -55,11 +55,13 @@ export function ButtonCloseEdge({
             width: '20px',
             height: '20px',
             background: '#eee',
+            color: 'rgba(0,0,0,0.5)',
             border: '1px solid #fff',
             cursor: 'pointer',
             borderRadius: '50%',
             fontSize: '12px',
             lineHeight: 1,
+
           }} className="hover:shadow-[0_0_6px_2px_rgba(0,0,0,0.08)]" onClick={onEdgeClick}>
             ×
           </button>

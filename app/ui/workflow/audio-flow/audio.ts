@@ -1,5 +1,10 @@
-const audioContext = new AudioContext();
-audioContext.suspend();
+'use client';
+let audioContext: AudioContext | null = null;
+
+if (typeof window !== 'undefined') {
+  audioContext = new AudioContext();
+  audioContext.suspend();
+}
 
 // let mediaRecorder;
 // let chunks = [];
@@ -8,27 +13,29 @@ const audioNodes = new Map();
 // audioNodes.set('output', audioContext.createMediaStreamDestination());
 
 export function isRunning() {
-  return audioContext.state === 'running';
+  return audioContext?.state === 'running';
 }
 
 export function toggleAudio() {
+  if (!audioContext) return;
   return isRunning() ? audioContext.suspend() : audioContext.resume();
 }
 
 export function createAudioNode(id: string, type: string, data?: any) {
+  if (!audioContext) return;
   switch (type) {
     case 'osc': {
       const node = audioContext.createOscillator();
+      audioNodes.set(id, node);
       node.frequency.value = data.frequency;
       node.type = data.type;
       node.start();
-      audioNodes.set(id, node);
       break;
     }
     case 'amp': {
       const node = audioContext.createGain();
-      node.gain.value = data.gain;
       audioNodes.set(id, node);
+      node.gain.value = data.gain;
       break;
     }
     case 'record': {

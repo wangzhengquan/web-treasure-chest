@@ -14,7 +14,7 @@ export default function Osc({ id, data }: NodeProps) {
   const { setFrequency, setType } = useStore(selector(id));
 
   return (
-    <div className="rounded-md bg-white shadow-xl">
+    <div className="rounded-md bg-card-body shadow-xl" key={id}>
       <p className="rounded-t-md px-2 py-1 bg-pink-500 text-white text-sm">Osc</p>
 
       <label className="flex flex-col px-2 py-1">
@@ -41,8 +41,8 @@ export default function Osc({ id, data }: NodeProps) {
           <option value="square">square</option>
         </select>
       </label>
-      <Handle className="w-2 h-2" type="source" position={Position.Right} />
-      <Handle className="w-2 h-2" type="source" position={Position.Bottom} />
+      <Handle className="w-2 h-2 !bg-foreground rounded-full" type="source" position={Position.Right} />
+      <Handle className="w-2 h-2 !bg-foreground rounded-full" type="source" position={Position.Bottom} />
     </div>
   );
 }
