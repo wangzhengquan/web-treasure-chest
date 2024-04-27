@@ -22,14 +22,14 @@ export default function LoginForm() {
         <div className="w-full">
           <div>
             <label
-              className="mb-3 mt-5 block text-xs font-medium "
+              className="mb-3 mt-5 block  font-medium "
               htmlFor="email"
             >
               Email
             </label>
             <div className="relative">
               <Input
-                className="pl-10 text-sm"
+                className="pl-10 "
                 id="email"
                 type="email"
                 name="email"
@@ -43,14 +43,14 @@ export default function LoginForm() {
           
           <div className="mt-4">
             <label
-              className="mb-3 mt-5 block text-xs font-medium"
+              className="mb-3 mt-5 block  font-medium"
               htmlFor="password"
             >
               Password
             </label>
             <div className="relative">
               <Input
-                className="pl-10 text-sm"
+                className="pl-10 "
                 id="password"
                 type="password"
                 name="password"

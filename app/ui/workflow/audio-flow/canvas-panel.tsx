@@ -7,7 +7,7 @@ import { shallow } from 'zustand/shallow';
 import { useStore, Store } from './store';
 import { nodeTypes } from './nodes';
 import {CommonEdgeProps, edgeTypes} from './edges';
-import 'reactflow/dist/style.css';
+import 'reactflow/dist/base.css';
 
 const selector = (store: Store) => ({
   nodes: store.nodes,

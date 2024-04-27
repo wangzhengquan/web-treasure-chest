@@ -25,8 +25,10 @@ const links1 = [
 
 
 const workflowLinks = [
-  { name: 'Work Flow', href: '/dashboard/workflow', icon: DocumentDuplicateIcon },
   { name: 'Audio Flow', href: '/dashboard/workflow/audio-flow', icon: DocumentDuplicateIcon },
+  { name: 'Turbo Flow', href: '/dashboard/workflow/turbo-flow', icon: DocumentDuplicateIcon },
+  { name: 'Tail Flow', href: '/dashboard/workflow/tail-flow', icon: DocumentDuplicateIcon },
+  { name: 'Work Flow', href: '/dashboard/workflow', icon: DocumentDuplicateIcon },
 ];
 
 const widgetsLinks = [

@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import {RadioGroupForm} from "@/app/widgets/radio-group-form";
 import NotificationItem from "@/app/widgets/notification-item";
 import DashboardSkeleton, {InvoicesTableSkeleton} from '@/app/ui/skeletons';
+import {CardWithForm} from "@/app/widgets/card-with-form"
 
 export default function Page() {
   return (
@@ -28,6 +29,7 @@ export default function Page() {
       </div>
       <NotificationItem />
       <RadioGroupForm />
+      <div><CardWithForm/></div>
 
       {/* <div><DashboardSkeleton /></div>
       <div> <InvoicesTableSkeleton /> </div> */}
