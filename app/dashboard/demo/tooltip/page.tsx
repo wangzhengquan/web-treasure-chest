@@ -105,7 +105,7 @@ export default function Page() {
           <div>
             This tooltip does not fit above the button.
             <br />
-            This is why it's displayed below instead!
+            This is why its displayed below instead!
           </div>
         }
       >

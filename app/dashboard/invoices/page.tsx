@@ -1,9 +1,7 @@
 import Pagination from '@/app/ui/invoices/pagination';
 import Search from '@/app/components/search';
-import Search2 from '@/components/ui/search';
 import Table from '@/app/ui/invoices/table';
 import { CreateInvoice } from '@/app/ui/invoices/buttons';
-import { lusitana } from '@/app/ui/fonts';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import Indicator from '@/app/ui/indicator';
 import Main from '@/app/ui/main';

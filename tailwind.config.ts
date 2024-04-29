@@ -92,6 +92,12 @@ const config = {
             transform: 'translateX(100%)',
           },
         },
+        "curtain-rollout": {
+          "0%": { clipPath: "polygon(0 0, 105% 0, 100% 100%, 0 100%)" },
+          "100%": { clipPath: "polygon(0 0, -5% 0, 0 100%, 0 100%)" },
+        },
+
+
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

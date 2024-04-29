@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import ModeToggle from "@/app/ui/mode-toggle";
 import { logout } from '@/app/actions';
 import { BellIcon } from '@heroicons/react/24/outline';
+import { lusitana } from '@/app/ui/fonts';
 import {
   Popover,
   PopoverContent,
@@ -41,20 +42,20 @@ export  function Breadcrumbs({
 }) {
   return (
   <ol className={clsx('flex')}>
-    {breadcrumbs.map((breadcrumb, index) => (
-      <li
-        key={breadcrumb.href}
-        aria-current={breadcrumb.active}
-        className={clsx(
-          // breadcrumb.active ? 'text-gray-900' : 'text-gray-500',
-        )}
-      >
-        <Link href={breadcrumb.href}>{breadcrumb.label}</Link>
-        {index < breadcrumbs.length - 1 ? (
-          <span className="mx-2 inline-block">/</span>
-        ) : null}
-      </li>
-    ))}
+  {breadcrumbs.map((breadcrumb, index) => (
+    <li
+      key={breadcrumb.href}
+      aria-current={breadcrumb.active}
+      className={clsx(
+        // breadcrumb.active ? 'text-gray-900' : 'text-gray-500',
+        {
+        }
+      )}
+    >
+      {breadcrumb.active ? breadcrumb.label : <Link href={breadcrumb.href} className= "hover:text-accent-foreground">{breadcrumb.label}</Link>  } 
+      {index < breadcrumbs.length - 1 ? ( <span className="mx-2 inline-block">/</span> ) : null}
+    </li>
+  ))}
   </ol>
   );
 }
@@ -116,7 +117,7 @@ function RightContent() {
 
 export default function Indicator({className, children}: {className?: string, children: React.ReactNode}) {
   return (
-  <div className="md:ml-[2px] bg-nav shadow hidden md:flex md:flex-auto items-center justify-between px-2 md:px-6 py-3">
+  <div className={`${lusitana.className} md:ml-[2px] bg-nav shadow hidden md:flex md:flex-auto items-center justify-between px-2 md:px-6 py-3`}>
     <h1 className={`text-xl`}>{children}</h1>
     <RightContent/>
     
