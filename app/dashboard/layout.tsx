@@ -11,7 +11,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <section className="relative flex-grow h-full overflow-hidden">
         {/* <HeaderBar/> */}
         <MobileHeader className="md:hidden"  />
-        <div className="h-[calc(100%_-_56px)] md:h-full overflow-y-auto">{children}</div>
+        {/* h-[calc(100%_-_56px)] md:h-full overflow-y-auto*/}
+        <div className="h-full overflow-hidden">{children}</div>
       </section>
     </div>
   );

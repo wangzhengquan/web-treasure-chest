@@ -3,8 +3,6 @@ import Nav from '@/app/ui/nav/nav';
 import {SideHeader} from '@/app/ui/nav/header';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { logout } from '@/app/actions';
-
 
 export default function LeftPanel() {
   const [collapsed, setCollapsed] = useState(false);
