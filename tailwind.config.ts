@@ -92,6 +92,9 @@ const config = {
             transform: 'translateX(100%)',
           },
         },
+        followpath: {
+          to: { offsetDistance: "100%" }
+        },
         "curtain-rollout": {
           "0%": { clipPath: "polygon(0 0, 105% 0, 100% 100%, 0 100%)" },
           "100%": { clipPath: "polygon(0 0, -5% 0, 0 100%, 0 100%)" },
@@ -103,6 +106,7 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "loading": "2s ease-out 0s infinite normal none running loading",
+        "followpath": "followpath 1s linear",
       },
     },
   },
