@@ -1,6 +1,10 @@
-export  function CannonIcon({className=""}: {className?: string}) {
+
+interface IconProps {
+  className?: string;
+}
+export function CannonIcon({className=""}: IconProps) {
   return (
-  <svg className={className} fill="#000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"  
+  <svg className={className} fill="none" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"  
       viewBox="0 0 511.999 511.999" >
     <g>
       <g>
@@ -37,7 +41,7 @@ export  function CannonIcon({className=""}: {className?: string}) {
 }
 
 
-export function BearIcon({className=""}: {className?: string}) {
+export function BearIcon({className=""}: IconProps) {
   return (
     <svg className={className}  fill="#000000" height="800px" width="800px" 
       viewBox="0 0 285.535 285.535" >

@@ -1,5 +1,4 @@
 import { Bars3Icon } from '@heroicons/react/24/outline';
-import {TOnCollapse} from "@/app/lib/definitions";
 
 export default function CollapseButton({} ) {
   return (

@@ -1,22 +1,4 @@
-export type SDragableElement = HTMLElement | SVGElement ;
 
-// The callback types for the drag and stop actions
-export type DragCallback = (
-    el: HTMLElement | SVGElement,
-    pageX: number,
-    startX: number,
-    pageY: number,
-    startY: number,
-    fix: Record<string, any>
-  ) => void;
-  
-export type StopCallback = (
-    el: HTMLElement | SVGElement,
-    pageX: number,
-    startX: number,
-    pageY: number,
-    startY: number
-  ) => void;
 
 /**
  * THIS OBJECT WILL ONLY WORK IF your target is positioned relative or absolute,
@@ -84,64 +66,84 @@ export type StopCallback = (
  *
  */
 
+export type SDragableElement = HTMLElement | SVGElement ;
+
+// The callback types for the drag and stop actions
+export type DragCallback = (
+  el: HTMLElement | SVGElement,
+  pageX: number,
+  startX: number,
+  pageY: number,
+  startY: number,
+  fix: Record<string, any>
+) => void;
+  
+export type StopCallback = (
+  el: HTMLElement | SVGElement,
+  pageX: number,
+  startX: number,
+  pageY: number,
+  startY: number
+) => void;
+
 export function makeDragalbe(
-    self: HTMLElement | SVGElement,
-    onDrag?: DragCallback,
-    onStop?: StopCallback,
-    direction?: 'vertical' | 'horizontal'
+  self: HTMLElement | SVGElement,
+  onDrag?: DragCallback,
+  onStop?: StopCallback,
+  direction?: 'vertical' | 'horizontal'
 ): void {
-    var startX: number = 0;
-    var startY: number = 0;
-    var dragging: boolean = false;
-  
-    const move = (e: MouseEvent): void => {
-      const fix: Record<string, any> = {};
-      onDrag?.(self, e.pageX, startX, e.pageY, startY, fix);
-  
-      if (direction !== 'vertical') {
-        const pageX: number = 'pageX' in fix ? fix.pageX : e.pageX;
-        if ('startX' in fix) {
-          startX = fix.startX;
-        }
-        if (!('skipX' in fix)) {
-            self.style.left = `${pageX - startX}px`;
-        }
+  let startX: number = 0;
+  let startY: number = 0;
+  let dragging: boolean = false;
+
+  const move = (e: MouseEvent): void => {
+    const fix: Record<string, any> = {};
+    onDrag?.(self, e.pageX, startX, e.pageY, startY, fix);
+
+    if (direction !== 'vertical') {
+      const pageX: number = 'pageX' in fix ? fix.pageX : e.pageX;
+      if ('startX' in fix) {
+        startX = fix.startX;
       }
-      if (direction !== 'horizontal') {
-        const pageY: number = 'pageY' in fix ? fix.pageY : e.pageY;
-        if ('startY' in fix) {
-          startY = fix.startY;
-        }
-        if (!('skipY' in fix)) {
-            self.style.top = `${pageY - startY}px`;
-        }
+      if (!('skipX' in fix)) {
+          self.style.left = `${pageX - startX}px`;
       }
-    };
-  
-    const startDragging = (e: MouseEvent): void => {
-      if (e.currentTarget instanceof HTMLElement || e.currentTarget instanceof SVGElement) {
-        dragging = true;
-        const left = self.style.left ? parseInt(self.style.left) : 0;
-        const top = self.style.top ? parseInt(self.style.top) : 0;
-        // const rect = self.getBoundingClientRect();
-        // const left  = rect.left;
-        // const top = rect.top;
-        startX = e.pageX - left;
-        startY = e.pageY - top;
-        window.addEventListener('mousemove', move);
-      } else {
-        throw new Error("Your target must be an HTML or SVG element");
+    }
+    if (direction !== 'horizontal') {
+      const pageY: number = 'pageY' in fix ? fix.pageY : e.pageY;
+      if ('startY' in fix) {
+        startY = fix.startY;
       }
-    };
-  
-    self.addEventListener('mousedown', startDragging as EventListenerOrEventListenerObject);
-    window.addEventListener('mouseup', (e: MouseEvent): void => {
-        if (dragging) {
-            dragging = false;
-            window.removeEventListener('mousemove', move);
-            onStop?.(self, e.pageX, startX, e.pageY, startY);
-        }
-    });
+      if (!('skipY' in fix)) {
+          self.style.top = `${pageY - startY}px`;
+      }
+    }
+  };
+
+  const startDragging = (e: MouseEvent): void => {
+    if (e.currentTarget instanceof HTMLElement || e.currentTarget instanceof SVGElement) {
+      dragging = true;
+      const left = self.style.left ? parseInt(self.style.left) : 0;
+      const top = self.style.top ? parseInt(self.style.top) : 0;
+      // const rect = self.getBoundingClientRect();
+      // const left  = rect.left;
+      // const top = rect.top;
+      startX = e.pageX - left;
+      startY = e.pageY - top;
+      window.addEventListener('mousemove', move);
+    } else {
+      throw new Error("Your target must be an HTML or SVG element");
+    }
+  };
+
+  self.addEventListener('mousedown', startDragging as EventListenerOrEventListenerObject);
+  window.addEventListener('mouseup', (e: MouseEvent): void => {
+    if (dragging) {
+      dragging = false;
+      window.removeEventListener('mousemove', move);
+      onStop?.(self, e.pageX, startX, e.pageY, startY);
+    }
+  });
 }
   
 // (typeof window != 'undefined') && (function () {

@@ -30,7 +30,7 @@ export function NavLink({item, onClick}: {item: TNavLink, onClick?: (event: Reac
   );
 }
 
-export default function NavLinks({title, links, onClickLink, defaultCollapsed} : {title: string, links: TNavLink[], onClickLink?: (event: React.MouseEvent<HTMLElement>) => void, defaultCollapsed?: boolean}) {
+export default function NavLinksGroup({title, links, onClickLink, defaultCollapsed} : {title: string, links: TNavLink[], onClickLink?: (event: React.MouseEvent<HTMLElement>) => void, defaultCollapsed?: boolean}) {
   const listRef = useRef<any>(null);
   const collapsedIconRef = useRef<any>(null);
   const [collapsed, setCollapsed] = useState(defaultCollapsed);

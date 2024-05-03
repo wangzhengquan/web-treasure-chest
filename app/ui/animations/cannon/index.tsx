@@ -1,16 +1,17 @@
 'use client';
 import {makeDragalbe} from '@/app/components/simple_drag';
 import {Button} from "@/components/ui/button";
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import {CannonIcon, BearIcon} from './cannon-icons';
+import CubicCircleButton from '@/app/components/cubic-circle-button';
 type Point = {
   x: number;
   y: number;
 }
 
-const startPoint = { x: 208, y: 158 };
-const endPoint = { x: 839, y: 193 };
-const controlPoint = { x: 480, y: 12 };
+const startPoint = { x: 172, y: 253 };
+const endPoint = { x: 842, y: 236 };
+const controlPoint = { x: 476, y: 109 };
 
 // get number part of the style left
 function getNumberOfPx(str: string) {
@@ -19,8 +20,8 @@ function getNumberOfPx(str: string) {
 
 function getCurvePath(start: HTMLElement, end: HTMLElement, control: HTMLElement) {
   console.log(` start:${start.style.left}, ${start.style.top}
-  end:${end.style.left}, ${end.style.top}
-  control:${control.style.left}, ${control.style.top}`);
+    end:${end.style.left}, ${end.style.top}
+    control:${control.style.left}, ${control.style.top}`);
 
   const path = "M" + getNumberOfPx(start.style.left) + " " + getNumberOfPx(start.style.top)
           + " Q " + getNumberOfPx(control.style.left) + " " + getNumberOfPx(control.style.top)
@@ -34,15 +35,27 @@ export default function SimpleDrag() {
   const ballRef = useRef<HTMLDivElement>(null);
   const quadraticCurve = useRef<SVGPathElement>(null);
   const dragRef = useRef<HTMLDivElement>(null);
+  const parentRef = useRef<HTMLDivElement>(null);
   const svgcontext = useRef<SVGSVGElement>(null);
+
   const updatePaths = useCallback(() => {
     if (!start.current || !end.current || !control.current || !quadraticCurve.current) return;
+    const tan = (control.current.offsetTop - start.current.offsetTop) / (control.current.offsetLeft - start.current.offsetLeft);
+    // console.log('tan', control.current.offsetTop , start.current.offsetTop, control.current.offsetLeft , start.current.offsetLeft, tan);
+    let radian =  Math.atan(tan);
+    if ((radian > 0 && control.current.offsetLeft < start.current.offsetLeft) 
+      || (radian < 0 && control.current.offsetLeft < start.current.offsetLeft)
+    ) {
+      radian += Math.PI;
+    }  
+    start.current.style.transform = `translate(-50%, -50%) rotate(${Math.PI/4 + radian}rad)`;
+    // start.current.style.transform = `translate(-50%, -50%) rotate(${Math.atan(tan) * 180 / Math.PI}deg)`;
     quadraticCurve.current.setAttribute('d', getCurvePath(start.current, end.current, control.current));
   }, []);
 
   const fire = useCallback(() => {
     if (!ballRef.current || !start.current || !end.current || !control.current || !quadraticCurve.current) return;
-    console.log("fire");
+    // console.log("fire");
     const ball = ballRef.current;
     ball.style.display = 'block';
     ball.style.offset= `path("${getCurvePath(start.current, end.current, control.current)}") auto`;
@@ -52,75 +65,85 @@ export default function SimpleDrag() {
       ball.style.display = 'none';
       ball.classList.remove('animate-followpath');
     }, {once: true});
-    // ball.style.animation = 'followpath 2s linear';
   },[]);
+
+  useLayoutEffect(() => {
+    if (!parentRef.current || !ballRef.current || !start.current || !end.current || !control.current || !quadraticCurve.current) return;
+    const rect = parentRef.current.getBoundingClientRect();
+    console.log('rect', rect);
+    start.current.style.left = start.current.getBoundingClientRect().width/2  + 'px';
+    start.current.style.top = '236px';
+    end.current.style.left = rect.width - end.current.getBoundingClientRect().width  + 'px';
+    end.current.style.top = '236px';
+    control.current.style.left = (rect.width - control.current.getBoundingClientRect().width) / 2 + 'px';
+    control.current.style.top = '109px';
+    updatePaths();
+  }, []);
 
   useEffect(() => {
     if (!svgcontext.current) return;
     let rect = svgcontext.current.getBoundingClientRect();
-    updatePaths();
+    
     if (dragRef.current) {
       makeDragalbe(dragRef.current);
     }
     if (start.current) {
       makeDragalbe(start.current, function (el, pageX, startX, pageY, startY) {
-        pageX -= rect.left;
-        pageY -= rect.top;
-        el.style.left = String(pageX);
-        el.style.top = String(pageY);
         updatePaths();
-        // updatePaths(pageX, pageY);
       });
     }
 
     if (end.current) {
       makeDragalbe(end.current, function (el, pageX, startX, pageY, startY) {
-        pageX -= rect.left;
-        pageY -= rect.top;
-        el.style.left = String(pageX);
-        el.style.top = String(pageY);
         updatePaths();
-        // updatePaths(pageX, pageY);
       });
     }
 
     if (control.current) {
       makeDragalbe(control.current, function (el, pageX, startX, pageY, startY) {
-        pageX -= rect.left;
-        pageY -= rect.top;
-        el.style.left = String(pageX);
-        el.style.top = String(pageY);
         updatePaths();
-        // updatePaths(pageX, pageY);
       });
     }
      
   }, []);
   return (
-    <div className='h-full w-full relative'>
-      
-      <svg className='h-full w-full' width="100%" height="100%" ref={svgcontext}>
-        <path ref={quadraticCurve} d="" fill="none" stroke="green" strokeWidth="2"></path>
-        {/* <circle ref={control} cx="150" cy="50" r="5" fill="red" stroke="red" strokeWidth="2" > </circle> */}
-        {/* <circle ref={start} cx="100" cy="100" r="5" fill="red" stroke="red" strokeWidth="2" ></circle> */}
-        {/* <circle ref={end} cx="200" cy="100" r="5" fill="red" stroke="red" strokeWidth="2" ></circle> */}
-      </svg>
-      <Button className="absolute left-0 top-0" onClick={fire}>fire</Button>
-      <div ref={ballRef} className="absolute hidden left-0 top-0 w-10 h-10 rounded-full bg-red-500 animate-followpath" ></div>
-      <a ref={start} style={{left: startPoint.x, top: startPoint.y}} className="absolute block">
-        <CannonIcon className="w-[120px] h-[120px] stroke-orange-600 fill-foreground -ml-[120px]"/>
-      </a> 
-      <a ref={end} style={{left: endPoint.x, top: endPoint.y}} className="absolute block">
-        <BearIcon className="w-[120px] h-[120px] stroke-orange-600 fill-foreground "/>
-      </a> 
-      <div ref={control} className="absolute w-4 h-4 rounded-full bg-red-500 " 
-        style={{left: controlPoint.x, top: controlPoint.y}}></div>
-      
-      {/* <div style={{ left: 0, top: 0, width: "100px", height: "100px", border: "1px solid red" }}></div> */}
-    </div>
+    <>
+      <div ref={parentRef} className={`cannon-game hidden h-full w-full relative`}>
+        <svg className='h-full w-full' width="100%" height="100%" ref={svgcontext}>
+          <path ref={quadraticCurve} d="" fill="none" stroke="green" strokeWidth="2"></path>
+        </svg>
+        <CubicCircleButton className="absolute left-8 top-8 w-[80px] h-[80px] block" onPointerDown={fire}>Fire</CubicCircleButton>
+        {/* <Button className="absolute left-8 top-8" onClick={fire}>fire</Button> */}
+        <div ref={ballRef} className="absolute hidden left-0 top-0 w-10 h-10 rounded-full bg-red-500 animate-followpath" ></div>
+        <a ref={start} style={{
+            transform: 'translate(-50%, -50%) rotate(0deg)'
+          }} 
+          className="absolute block origin-center">
+          <CannonIcon className="w-[120px] h-[120px] stroke-orange-600 fill-foreground "/>
+        </a> 
+        <a ref={end}  className="absolute block">
+          <BearIcon className="w-[120px] h-[120px] stroke-orange-600 fill-foreground "/>
+        </a> 
+        <div ref={control} className="absolute w-4 h-4 rounded-full bg-red-500 " 
+          ></div>
+      </div> 
+      <div className='not-support-tip p-10 hidden'>
+        Your browser does not support the path offset feature, please use a modern browser.
+      </div>
+      <style jsx>{`
+        @supports not (offset: path('M 20 60 L 120 60')) {
+          .not-support-tip {
+            display: block;
+          }
+        }
+
+        @supports (offset: path('M 20 60 L 120 60')) {
+          .cannon-game {
+            display: block;
+          }
+        }
+      `}</style>
+    </>
   );
 
-  // start:204, 158.5
-  // end:839, 193.5
-  // control:480, 12.5
 }

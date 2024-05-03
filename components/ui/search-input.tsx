@@ -1,13 +1,16 @@
 import React from 'react';
 // import {Input} from './input';
 import { cn } from "@/lib/utils"
-interface SearchProps extends React.InputHTMLAttributes<HTMLInputElement>  {
+
+// export interface Mprops extends React.HTMLProps< HTMLElement > {
+// }
+export interface SearchInptAttributes extends React.InputHTMLAttributes<HTMLInputElement>  {
   // Define the props for your component here
   height?: string;
   // onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Search: React.FC<SearchProps> = ({ height="37px", ...rest}) => {
+const SearchInput: React.FC<SearchInptAttributes> = ({ height="37px", ...rest}) => {
   // Implement your component logic here
   return (    
     <label className="relative flex flex-1" style={{height: height}}>
@@ -24,4 +27,4 @@ const Search: React.FC<SearchProps> = ({ height="37px", ...rest}) => {
   );
 };
 
-export default Search;
+export default SearchInput;

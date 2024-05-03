@@ -24,7 +24,7 @@ export default async function Page({
 
   return (
     <>
-      <Indicator> Invoices </Indicator>
+      <Indicator> Customers </Indicator>
       <Main>
         <div className="mt-4 md:mt-6 flex items-center justify-between gap-2 ">
           <Search placeholder="Search Customers..." />
@@ -39,16 +39,4 @@ export default async function Page({
     </>
   );
 }
-
-
  
-// export default function Page() {
-//   return (
-//   <>
-//     <Indicator> Invoices </Indicator>
-//     <Main>
-      
-//     </Main>
-//   </>
-//   );
-// }
