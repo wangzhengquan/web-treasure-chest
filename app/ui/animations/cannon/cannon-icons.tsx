@@ -43,7 +43,7 @@ export function CannonIcon({className=""}: IconProps) {
 
 export function BearIcon({className=""}: IconProps) {
   return (
-    <svg className={className}  fill="#000000" height="800px" width="800px" 
+    <svg className={className}  fill="none" height="800px" width="800px" 
       viewBox="0 0 285.535 285.535" >
     <path d="M32.976,228.062c-0.103-10.158-7.216-13.995-7.216-13.995s27.769,2.339,28.455-34.381c0,0,2.792-13.169,65.402-7.736
       c5.281,0.461,17.8,29.692,18.681,39.111c0.888,9.427,1.591,17.001,1.591,17.001h48.191c-0.419-11.36-9.103-15.056-13.98-19.2
@@ -53,6 +53,23 @@ export function BearIcon({className=""}: IconProps) {
       s-30.195,0.042-39.827-2.989c-13.129-4.141-16.342-11.849-34.915-12.027c-14.44-0.125-16.809,9.729-29.784,10.308
       c-13.074,0.616-37.478-8.541-71.454-3.042c-34.022,5.501-47.186,41.948-49.787,54.36c-2.634,12.377,7.498,41.416,8.644,54.139
       c1.141,12.686-8.285,22.235-10.353,28.75c-2.032,6.467,5.149,27.248,5.149,27.248S33.01,230.704,32.976,228.062z"/>
+    </svg>
+  );
+}
+
+export function CalibrationIcon({className=""}: IconProps) {
+  return (
+    <svg className={className}  fill="none" height="450" width="450" 
+      viewBox="0 0 400 400" >
+        <g stroke="#D90000" strokeWidth="6">
+          <circle cx="200" cy="200" r="130" />
+          <circle cx="200" cy="200" r="80" />
+          <circle cx="200" cy="200" r="30" fill="#D90000" />
+          <line x1="200" y1="0" x2="200" y2="400" />
+          <line x1="0" y1="200" x2="400" y2="200" />
+          {/* <line x1="calc(200 - 200 * cos(pi / 4))" y1="calc(200 - 200 * sin(pi / 4))" x2="calc(200 * cos(pi / 4) + 200)" y2="calc(200 * sin(pi / 4) + 200)" />
+          <line x1="calc(200 - 200 * cos(3 * pi / 4))" y1="calc(200 - 200 * sin(3 * pi / 4))" x2="calc(200 * cos(3 * pi / 4) + 200)" y2="calc(200 * sin(3 * pi / 4) + 200)" /> */}
+        </g>
     </svg>
   );
 }

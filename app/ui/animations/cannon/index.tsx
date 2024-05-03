@@ -2,7 +2,7 @@
 import {makeDragalbe} from '@/app/components/simple_drag';
 import {Button} from "@/components/ui/button";
 import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import {CannonIcon, BearIcon} from './cannon-icons';
+import {CannonIcon, BearIcon, CalibrationIcon} from './cannon-icons';
 import CubicCircleButton from '@/app/components/cubic-circle-button';
 type Point = {
   x: number;
@@ -31,7 +31,7 @@ function getCurvePath(start: HTMLElement, end: HTMLElement, control: HTMLElement
 export default function SimpleDrag() {
   const start = useRef<HTMLAnchorElement>(null);
   const end = useRef<HTMLAnchorElement>(null);
-  const control = useRef<HTMLDivElement>(null);
+  const control = useRef<HTMLAnchorElement>(null);
   const ballRef = useRef<HTMLDivElement>(null);
   const quadraticCurve = useRef<SVGPathElement>(null);
   const dragRef = useRef<HTMLDivElement>(null);
@@ -76,7 +76,7 @@ export default function SimpleDrag() {
     end.current.style.left = rect.width - end.current.getBoundingClientRect().width  + 'px';
     end.current.style.top = '236px';
     control.current.style.left = (rect.width - control.current.getBoundingClientRect().width) / 2 + 'px';
-    control.current.style.top = '109px';
+    control.current.style.top = '80px';
     updatePaths();
   }, []);
 
@@ -118,14 +118,16 @@ export default function SimpleDrag() {
         <a ref={start} style={{
             transform: 'translate(-50%, -50%) rotate(0deg)'
           }} 
-          className="absolute block origin-center">
+          className="absolute block origin-center cursor-move">
           <CannonIcon className="w-[120px] h-[120px] stroke-orange-600 fill-foreground "/>
         </a> 
-        <a ref={end}  className="absolute block">
+        <a ref={end}  className="absolute block cursor-move">
           <BearIcon className="w-[120px] h-[120px] stroke-orange-600 fill-foreground "/>
         </a> 
-        <div ref={control} className="absolute w-4 h-4 rounded-full bg-red-500 " 
-          ></div>
+        <a ref={control} className="absolute block cursor-move">
+          <CalibrationIcon className="w-[60px] h-[60px] "/>
+        </a>
+         
       </div> 
       <div className='not-support-tip p-10 hidden'>
         Your browser does not support the path offset feature, please use a modern browser.

@@ -21,7 +21,8 @@ export default function CubicCircleButton({className, onPointerDown, onPointerUp
     onPointerUp={handlePointerUp}
     {...rest}>
     <svg
-      width="200"
+      width="230"
+      height="230"
       viewBox="0 0 200 200"
       className="w-full h-full" >
       <defs>
