@@ -1,6 +1,5 @@
 'use client';
-import Link from 'next/link';
-import NavLinks from './nav-links';
+import {NavLinksGroup} from './nav-links';
 import clsx from 'clsx';
 import Capacity from './capacity';
 import ExpandButton from './collapse-button';
@@ -39,6 +38,10 @@ const widgetsLinks = [
   { name: 'Widgets', href: '/dashboard/widgets', icon: DocumentDuplicateIcon },
 ];
 
+const svgLinks = [
+  { name: 'SVG', href: '/dashboard/svg', icon: DocumentDuplicateIcon },
+];
+
 const demoLinks = [
   { name: 'Tooltip', href: '/dashboard/demo/tooltip', icon: EyeIcon },
   { name: 'Scroll into view', href: '/dashboard/demo/scroll-into-view', icon: ArrowDownTrayIcon},
@@ -57,12 +60,12 @@ export default function Nav({className, onClickLink} : {className: string, onCli
       {
       })}>
      
-      <NavLinks title="OVERVIEW" links={links1} onClickLink={onClickLink}/>
-      <NavLinks title="Animations" links={animationsLinks} onClickLink={onClickLink}/>
-      <NavLinks title="Workflow" links={workflowLinks} onClickLink={onClickLink}/>
-      <NavLinks title="Widgets" links={widgetsLinks} onClickLink={onClickLink}/>
-      
-      <NavLinks title="DEMO" defaultCollapsed={false} links={demoLinks} onClickLink={onClickLink}/>
+      <NavLinksGroup title="OVERVIEW" links={links1} onClickLink={onClickLink}/>
+      <NavLinksGroup title="Animations" links={animationsLinks} onClickLink={onClickLink}/>
+      <NavLinksGroup title="Workflow" links={workflowLinks} onClickLink={onClickLink}/>
+      <NavLinksGroup title="Widgets" links={widgetsLinks} onClickLink={onClickLink}/>
+      <NavLinksGroup title="SVG" links={svgLinks} onClickLink={onClickLink}/>
+      <NavLinksGroup title="DEMO" defaultCollapsed={false} links={demoLinks} onClickLink={onClickLink}/>
     </nav>
   );
 }

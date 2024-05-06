@@ -1,4 +1,5 @@
-import FilterDemo from "@/app/ui/svg/filter-demo";
+import SVGFilterDemo from "@/app/ui/svg/svg-filter-demo";
+import SvgWithCssDemo from "@/app/ui/svg/svg-with-css-demo";
 import Main from "@/app/ui/main";
 import Indicator from "@/app/ui/indicator";
 export default function Page() {
@@ -7,7 +8,8 @@ export default function Page() {
     <>
       <Indicator> SVG </Indicator>
       <Main>
-        <FilterDemo />
+        <SVGFilterDemo />
+        <SvgWithCssDemo />
       </Main>
     </>
   );

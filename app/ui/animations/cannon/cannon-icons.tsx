@@ -61,7 +61,7 @@ export function CalibrationIcon({className=""}: IconProps) {
   return (
     <svg className={className}  fill="none" height="450" width="450" 
       viewBox="0 0 400 400" >
-        <g stroke="#D90000" strokeWidth="6">
+        <g stroke="#D90000" fill="none" strokeWidth="6">
           <circle cx="200" cy="200" r="130" />
           <circle cx="200" cy="200" r="80" />
           <circle cx="200" cy="200" r="30" fill="#D90000" />

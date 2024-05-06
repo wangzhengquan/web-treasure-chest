@@ -1,0 +1,103 @@
+/*** SVG demonstration ***/
+
+/* page */
+.flower_container {
+  background-color: beige;  
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.caption {
+  font-size: 12px;
+}
+
+/* flower */
+.flower:hover {
+  cursor: crosshair;
+}
+
+/* gradient */
+.fade_stop_1 {
+  stop-color: blue;
+}
+
+.fade_stop_2 {
+  stop-color: white;
+}
+
+/* petals */
+.segment_fill {
+  fill: var(--segment_fill-fill);
+  stroke: var(--segment_fill-stroke);
+  stroke-width: var(--segment_fill-stroke-width);
+}
+
+.segment_fill:hover {
+  fill: var(--segment_fill-fill-hover);
+  stroke: var(--segment_fill-stroke-hover);
+}
+
+.segment_edge {
+  fill: var(--segment_edge-fill);
+  stroke: var(--segment_edge-stroke);
+  stroke-width: var(--segment_edge-stroke-width);
+}
+
+.segment_edge:hover {
+  stroke: var(--segment_edge-stroke-hover);
+}
+
+/* outer petals */
+
+.outer_petals {
+  opacity: 0.75;
+  --segment_fill-fill: azure;
+  --segment_fill-stroke: lightsteelblue;
+  --segment_fill-stroke-width: 1;
+  --segment_edge-fill: none;
+  --segment_edge-stroke: deepskyblue;
+  --segment_edge-stroke-width: 3;
+  
+  .segment:hover {
+    --segment_fill-fill-hover: plum;
+    --segment_fill-stroke-hover: none;
+    --segment_edge-stroke-hover: slateblue;
+  }
+  .segment:hover > .segment_fill {
+    fill: plum;
+    stroke: none;
+  }
+  .segment:hover > .segment_edge {
+    stroke: slateblue;
+  }
+}
+
+/* inner petals */
+.inner_petals {
+  --segment_fill-fill: yellow;
+  --segment_fill-stroke: yellow;
+  --segment_fill-stroke-width: 1;
+  --segment_edge-fill: none;
+  --segment_edge-stroke: yellowgreen;
+  --segment_edge-stroke-width: 9;
+  
+  .segment:hover {
+    --segment_fill-fill-hover: darkseagreen;
+    --segment_fill-stroke-hover: none;
+    --segment_edge-stroke-hover: green;
+  }
+  
+  .segment:hover > .segment_fill {
+    fill: darkseagreen;
+    stroke: none;
+  }
+  .segment:hover > .segment_edge {
+    stroke: green;
+  }
+}
+  
+  
+

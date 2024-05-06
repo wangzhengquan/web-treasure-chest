@@ -1,14 +1,14 @@
-export default function FilterDemo () {
+export default function SvgFilter() {
   return (
     <svg
-      width="250"
-      viewBox="0 0 200 85"
+      width="0"
+      height="0"
       xmlns="http://www.w3.org/2000/svg"
       version="1.1">
       <defs>
         {/* <!-- Filter declaration --> */}
         <filter
-          id="cubic-button-filter"
+          id="cubic-filter"
           filterUnits="userSpaceOnUse"
           x="0"
           y="0"
@@ -50,22 +50,6 @@ export default function FilterDemo () {
           </feMerge>
         </filter>
       </defs>
-
-      {/* <!-- Graphic elements --> */}
-      <g filter="url(#cubic-button-filter)">
-        <path
-          fill="none"
-          stroke="#D90000"
-          strokeWidth="10"
-          d="M50,66 c-50,0 -50,-60 0,-60 h100 c50,0 50,60 0,60z" />
-        <path
-          fill="#D90000"
-          d="M60,56 c-30,0 -30,-40 0,-40 h80 c30,0 30,40 0,40z" />
-       
-        <g fill="#FFFFFF" stroke="black" fontSize="45" fontFamily="Verdana">
-          <text x="52" y="52">SVG</text>
-        </g>
-      </g>
     </svg>
   );
 }
