@@ -1,7 +1,7 @@
 import {useState} from 'react';
 interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    children: string;
+    
 }
 export default function CubicCircleButton({className, onPointerDown, onPointerUp, children, ...rest}: ButtonProps) {
   const [scale, setScale] = useState(1);

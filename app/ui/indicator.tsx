@@ -7,6 +7,7 @@ import ModeToggle from "@/app/ui/mode-toggle";
 import { logout } from '@/app/actions';
 import { BellIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
+import FullScreenToggle from '@/app/components/full-screen-toggle';
 import {
   Popover,
   PopoverContent,
@@ -107,9 +108,10 @@ function Avatar() {
 function RightContent() {
   return (
     <div className="flex items-center gap-1 justify-end">
-       <ModeToggle />
-       <Tip />
-       <Avatar />
+      <FullScreenToggle />
+      <ModeToggle />
+      <Tip />
+      <Avatar />
     </div>
   
   );
