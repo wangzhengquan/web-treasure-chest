@@ -21,7 +21,8 @@ const config = {
     extend: {
       colors: {
         border: "hsl(var(--border))",
-        ring: "hsl(var(--ring))",
+        // ring: "hsl(var(--ring))",
+        ring: colors.sky['500'],
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {

@@ -28,7 +28,7 @@ function getCurvePath(start: HTMLElement, end: HTMLElement, control: HTMLElement
           + " " + getNumberOfPx(end.style.left) + " " + getNumberOfPx(end.style.top);
   return path;
 }
-export default function SimpleDrag() {
+export default function Cannon() {
   const start = useRef<HTMLAnchorElement>(null);
   const end = useRef<HTMLAnchorElement>(null);
   const control = useRef<HTMLAnchorElement>(null);
@@ -112,7 +112,7 @@ export default function SimpleDrag() {
         <svg className='h-full w-full' width="100%" height="100%" ref={svgcontext}>
           <path ref={quadraticCurve} d="" fill="none" stroke="green" strokeWidth="2"></path>
         </svg>
-        <CubicCircleButton className="absolute left-8 top-8 w-[80px] h-[80px] block" onPointerDown={fire}>Fire</CubicCircleButton>
+        <CubicCircleButton className="absolute left-8 top-8 w-[80px] h-[80px] block text-white" onPointerDown={fire}>Fire</CubicCircleButton>
         {/* <Button className="absolute left-8 top-8" onClick={fire}>fire</Button> */}
         <div ref={ballRef} className="absolute hidden left-0 top-0 w-10 h-10 rounded-full bg-red-500 animate-followpath" ></div>
         <a ref={start} style={{

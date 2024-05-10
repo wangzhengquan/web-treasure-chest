@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 246 25.0% 92.2%;
     --foreground: 240 10% 3.9%;
 
     --nav: 0 0% 100%;
@@ -34,13 +34,14 @@
 
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
+    --accent-200: 240 4.8% 95.9%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 240 5.9% 90%;
     
-    --ring: 240 5.9% 90%;
+    --ring: 211 65.1% 44.9%;
 
     --radius: 0.5rem;
   }
@@ -85,7 +86,7 @@
 
     --border: 240 14.3% 93.1%;
     
-    --ring: 240 4.9% 83.9%;
+    --ring: 211 65.1% 44.9%;
   }
 }
 
@@ -147,7 +148,8 @@ input[type='number']::-webkit-outer-spin-button {
 
   /* Track */
   .ufo-scrollbar::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    /* background: #f1f1f1; */
+    @apply bg-background;
     border-radius: 16px;
   }
 

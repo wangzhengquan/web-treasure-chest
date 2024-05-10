@@ -17,18 +17,23 @@ function ExitFullScreenIcon(props: React.SVGAttributes<SVGElement>) {
 }
 
 export default function FullScreenToggle() {
-  const [isFullScreen, setFullScreen] = useState(false)
+  const [isFullScreen, setFullScreen] = useState(false);
   function toggleFullScreen() {
-    if (!isFullScreen) {
+    if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
-    } else {
+      setFullScreen(true);
+    } else if (document.exitFullscreen) {
       document.exitFullscreen();
+      setFullScreen(false);
     }
-    setFullScreen(!isFullScreen);
+    
   }
 
   return (
-    <Button variant="ghost" size="icon" className="relative"  onClick={() => toggleFullScreen()}>
+    <Button variant="ghost" size="icon" className="relative"  
+      onClick={() => toggleFullScreen()}
+      // onKeyDown={(e) => {console.log(e.key)}}
+      >
       <FullScreenIcon className={`h-[1.6rem] w-[1.6rem] transition-all ${isFullScreen ? "scale-0" : "scale-100"}`} />
       <ExitFullScreenIcon className={`absolute h-[1.6rem] w-[1.6rem] transition-all ${isFullScreen ? "scale-100" : "scale-0"}`}  />
       <span className="sr-only">Toggle FullScreen</span>

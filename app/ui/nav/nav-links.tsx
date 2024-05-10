@@ -18,6 +18,7 @@ export function NavLink({item, onClick}: {item: TNavLink, onClick?: (event: Reac
       onClick={onClick}
       className={clsx("nav-link flex w-full justify-start items-center font-medium rounded-[4px] ",
       "h-[36px]",
+      "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-ring",
       "hover:text-accent-foreground",
       {
         "bg-accent text-accent-foreground": pathname === item.href

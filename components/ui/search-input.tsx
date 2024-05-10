@@ -21,7 +21,9 @@ const SearchInput: React.FC<SearchInptAttributes> = ({ height="37px", ...rest}) 
       </span>
       <span className="sr-only">Search</span>
       <input type="text" name="search" 
-        className="block bg-input w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm placeholder:italic placeholder:text-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" 
+        className={cn("block bg-input w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm placeholder:italic placeholder:text-slate-400  sm:text-sm",
+          "focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1"
+        )} 
         {...rest}/>
     </label>
   );
