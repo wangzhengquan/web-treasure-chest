@@ -8,11 +8,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <section className="flex-none hidden md:block">
         <LeftPanel/>
       </section>
-      <section className="relative flex-grow h-full overflow-hidden">
+      <section className="relative flex-grow h-full overflow-hidden ">
+        <div className="h-full overflow-scroll ">
+          {children}
+        </div>
+        
         {/* <HeaderBar/> */}
-        <MobileHeader className="md:hidden"  />
+        {/* <MobileHeader className="md:hidden"  /> */}
         {/* h-[calc(100%_-_56px)] md:h-full overflow-y-auto*/}
-        <div className="h-full overflow-hidden">{children}</div>
+        {/* <div className="h-full overflow-auto">{children}</div> */}
       </section>
     </div>
   );

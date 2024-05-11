@@ -7,7 +7,8 @@ import { useState } from 'react';
 export default function LeftPanel() {
   const [collapsed, setCollapsed] = useState(false);
   return (
-    <aside className={clsx("flex flex-col group bg-nav text-nav-foreground shadow",
+    <aside className={clsx("flex flex-col group bg-nav text-nav-foreground",
+      "border-r border-background",
       "h-full overflow-y-auto ",
       "transition-width duration-200",
       "px-[16px] w-[264px] [&.collapsed]:w-[76px]",
