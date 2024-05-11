@@ -74,7 +74,7 @@ export function NavLinksGroup({title, links, onClickLink, defaultCollapsed} : {t
       <div ref={listRef} className="overflow-hidden" style={{
          "height": defaultCollapsed ? '0px': 'auto'
         }} id={title}>
-        <ul className="flex flex-col gap-[4px]">
+        <ul className="flex flex-col">
           {links.map((item)=> {
             return ( 
               <li key={item.name}> 
