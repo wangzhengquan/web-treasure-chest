@@ -49,12 +49,7 @@ export default function Indicator({className, children}: {className?: string, ch
   <nav className={`${lusitana.className} indicator absolute top-0 left-0 right-0 z-10 bg-nav/[.85] hidden md:flex md:flex-auto items-center justify-between px-2 md:px-6 py-3 border-b border-background`}>
     <div className={`text-xl`}>
       <Breadcrumbs/>
-      {/* <Breadcrumbs
-        breadcrumbs={[
-          { label: 'Invoices', href: '/dashboard/invoices' },
-          { label: 'Create Invoice', href: '/dashboard/invoices/create', active: true },
-        ]}
-      /> */}
+      
     </div>
     <RightContent/>
     

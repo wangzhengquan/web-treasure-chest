@@ -3,7 +3,7 @@ import Main from '@/app/ui/main';
 import {UpdateBreadcrumbs} from '@/app/ui/indicator/breadcrumbs';
 export default function Page() {
   return (
-    <Main className="relative w-full h-full p-0">
+    <Main className="relative w-full h-full">
       <UpdateBreadcrumbs breadcrumbs={'Turbo flow'}/>
       <Flow />
     </Main>

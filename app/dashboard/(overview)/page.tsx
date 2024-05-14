@@ -13,9 +13,8 @@ import {UpdateBreadcrumbs} from '@/app/ui/indicator/breadcrumbs';
 export default async function Page() {
   
   return (
-  <>
-    <UpdateBreadcrumbs breadcrumbs={[{label: 'Dashboard', href: ''}]}/>
     <Main>
+      <UpdateBreadcrumbs breadcrumbs={'Dashboard'}/>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Suspense fallback={<CardsSkeleton />}>
           <CardWrapper />
@@ -31,6 +30,5 @@ export default async function Page() {
         </Suspense>
       </div>
     </Main>
-  </>
   );
 }
