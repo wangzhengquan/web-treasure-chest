@@ -3,7 +3,8 @@ import Search from '@/app/components/search';
 import Table from '@/app/ui/invoices/table';
 import { CreateInvoice } from '@/app/ui/invoices/buttons';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
-import Indicator from '@/app/ui/indicator';
+// import Indicator from '@/app/ui/indicator';
+import {UpdateBreadcrumbs} from '@/app/ui/indicator/breadcrumbs';
 import Main from '@/app/ui/main';
 import { Suspense } from 'react';
 import { fetchInvoicesPages } from '@/app/lib/data';
@@ -27,7 +28,7 @@ export default async function Page({
   // const totalPages = 10;
   return (
     <>
-      <Indicator> Invoices </Indicator>
+      <UpdateBreadcrumbs breadcrumbs={[{label: 'Invoices', href: ''}]} />   
       <Main>
         <div className="mt-4 md:mt-6 flex items-center justify-between gap-2 ">
           <Search placeholder="Search invoices..." />

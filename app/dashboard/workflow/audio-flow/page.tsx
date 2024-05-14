@@ -1,8 +1,9 @@
 import AudioFlow from '@/app/ui/workflow/audio-flow'
+import Main from '@/app/ui/main';
 export default function Page() {
   return (
-    <div className="relative w-full h-full">
+    <Main className="relative w-full h-full p-0">
       <AudioFlow />
-    </div>
+    </Main>
   );
 }

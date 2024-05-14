@@ -2,6 +2,7 @@
 import SelectionBar from "./selection-bar";
 import CanvasPanel from "./canvas-panel";
 import {ReactFlowProvider} from "reactflow";
+import {UpdateBreadcrumbs} from '@/app/ui/indicator/breadcrumbs';
 export default function AudioFlow() {
   return (
   <ReactFlowProvider>
@@ -13,6 +14,7 @@ export default function AudioFlow() {
         <CanvasPanel />
       </div>
     </div>
+  <UpdateBreadcrumbs breadcrumbs={'Audio flow'}/>
   </ReactFlowProvider>
   );
 }

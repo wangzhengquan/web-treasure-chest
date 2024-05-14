@@ -1,10 +1,6 @@
 import CustomersTable from '@/app/ui/customers/table';
-import Loading from "@/app/components/loading";
-import Pagination from '@/app/ui/invoices/pagination';
 import Search from '@/app/components/search';
-import { CreateInvoice } from '@/app/ui/invoices/buttons';
-import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
-import Indicator from '@/app/ui/indicator';
+import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 import Main from '@/app/ui/main';
 import { Suspense } from 'react';
 
@@ -24,7 +20,7 @@ export default async function Page({
 
   return (
     <>
-      <Indicator> Customers </Indicator>
+      <UpdateBreadcrumbs breadcrumbs={'Customers'}/>
       <Main>
         <div className="mt-4 md:mt-6 flex items-center justify-between gap-2 ">
           <Search placeholder="Search Customers..." />

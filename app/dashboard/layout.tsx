@@ -2,6 +2,7 @@ import LeftPanel from '@/app/ui/nav/left-panel';
 import {SideHeader, MobileHeader} from '@/app/ui/nav/header';
 import clsx from 'clsx';
 import Script from 'next/script';
+import Indicator from '@/app/ui/indicator';
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen overflow-hidden flex-col md:flex-row ">
@@ -9,7 +10,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <LeftPanel/>
       </section>
       <section className="relative flex-grow h-full overflow-hidden ">
-        <div className="h-full overflow-scroll ">
+        <Indicator/>
+        <div className="h-full w-full overflow-scroll ">
           {children}
         </div>
         

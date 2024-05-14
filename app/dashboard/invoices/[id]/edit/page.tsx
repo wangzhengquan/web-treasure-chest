@@ -1,7 +1,7 @@
 import Form from '@/app/ui/invoices/edit-form';
 import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
-import Indicator, {Breadcrumbs} from '@/app/ui/indicator';
+import {UpdateBreadcrumbs} from '@/app/ui/indicator/breadcrumbs';
 import Main from '@/app/ui/main';
  
 export default async function Page({ params }: { params: { id: string } }) {
@@ -15,14 +15,12 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
   return (
   <>
-    <Indicator>
-      <Breadcrumbs
-          breadcrumbs={[
-            { label: 'Invoices', href: '/dashboard/invoices' },
-            { label: 'Edit Invoice', href: `/dashboard/invoices/${id}/edit`, active: true },
-          ]}
-        />
-    </Indicator>
+    <UpdateBreadcrumbs
+        breadcrumbs={[
+          { label: 'Invoices', href: '/dashboard/invoices' },
+          { label: 'Edit Invoice', href: `/dashboard/invoices/${id}/edit`, active: true },
+        ]}
+      />
     <Main>
       <Form invoice={invoice} customers={customers} />
     </Main>

@@ -1,9 +1,10 @@
 'use client';
 import {makeDragalbe} from '@/app/components/simple_drag';
-import {Button} from "@/components/ui/button";
+import {UpdateBreadcrumbs} from '@/app/ui/indicator/breadcrumbs';
 import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import {CannonIcon, BearIcon, CalibrationIcon} from './cannon-icons';
 import CubicCircleButton from '@/app/components/cubic-circle-button';
+import Main from '@/app/ui/main';
 type Point = {
   x: number;
   y: number;
@@ -107,7 +108,8 @@ export default function Cannon() {
      
   }, []);
   return (
-    <>
+    <Main className='h-full w-full'>
+      <UpdateBreadcrumbs breadcrumbs={[{label: 'Cannon', href: ''}]}/>
       <div ref={parentRef} className={`cannon-game hidden h-full w-full relative`}>
         <svg className='h-full w-full' width="100%" height="100%" ref={svgcontext}>
           <path ref={quadraticCurve} d="" fill="none" stroke="green" strokeWidth="2"></path>
@@ -145,7 +147,7 @@ export default function Cannon() {
           }
         }
       `}</style>
-    </>
+    </Main>
   );
 
 }
