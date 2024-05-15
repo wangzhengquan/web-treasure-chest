@@ -1,16 +1,14 @@
 import SVGFilterDemo from "@/app/ui/svg/svg-filter-demo";
 import SvgWithCssDemo from "@/app/ui/svg/svg-with-css-demo";
 import Main from "@/app/ui/main";
-import Indicator from "@/app/ui/indicator";
+import {UpdateBreadcrumbs} from '@/app/ui/indicator/breadcrumbs';
 export default function Page() {
 
   return (
-    <>
-      <Indicator> SVG </Indicator>
-      <Main>
-        <SVGFilterDemo />
-        <SvgWithCssDemo />
-      </Main>
-    </>
+    <Main>
+      <UpdateBreadcrumbs breadcrumbs={'SVG'}/>
+      <SVGFilterDemo />
+      <SvgWithCssDemo />
+    </Main>
   );
 }

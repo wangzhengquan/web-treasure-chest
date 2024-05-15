@@ -17,17 +17,12 @@ export function breadcrumbsReducer(preState: Breadcrumb[], action: BreadcrumbAct
   return action.payload;
 }
 
-function createInitialState(initState: Breadcrumb[]) {
-  return [...initState];
-}
-
 let mdispatch: (action: BreadcrumbAction) => void;
 
 export default function Breadcrumbs( ) {
-  const [breadcrumbs, dispatch] = useReducer<typeof breadcrumbsReducer, Breadcrumb[]>(
+  const [breadcrumbs, dispatch] = useReducer(
     breadcrumbsReducer,
-    [], 
-    createInitialState
+    []
   );
   mdispatch = dispatch;
   return (

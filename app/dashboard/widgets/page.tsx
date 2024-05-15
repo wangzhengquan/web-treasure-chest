@@ -6,13 +6,13 @@ import Main from "@/app/ui/main";
 import clsx from 'clsx';
 import {RadioGroupForm} from "@/app/widgets/radio-group-form";
 import NotificationItem from "@/app/widgets/notification-item";
-import DashboardSkeleton, {InvoicesTableSkeleton} from '@/app/ui/skeletons';
-import {CardWithForm} from "@/app/widgets/card-with-form"
+import {CardWithForm} from "@/app/widgets/card-with-form";
+import {UpdateBreadcrumbs} from '@/app/ui/indicator/breadcrumbs';
 
 export default function Page() {
   return (
   <>
-    <Indicator>Widgets</Indicator>
+    <UpdateBreadcrumbs breadcrumbs={'Widgets'}/>
   
     <Main>
       <div className="w-full grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-2 py-4 ">

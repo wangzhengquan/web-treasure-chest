@@ -26,7 +26,7 @@ export default function FilterDemo () {
         </g>
       </g>
     </svg>
-    <button className="cubic-filter bg-[#D90000] w-20 h-20 rounded-full">SVG</button>
+    <button className="cubic-filter bg-[#D90000] w-20 h-20 rounded-full text-white">SVG</button>
     </>
   );
 }
