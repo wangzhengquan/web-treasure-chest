@@ -9,11 +9,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <section className="flex-none hidden md:block">
         <LeftPanel/>
       </section>
-      <section className="relative flex-grow h-full overflow-hidden ">
-        <Indicator/>
-        <div className="h-full w-full overflow-scroll ">
-          {children}
-        </div>
+      <section className="relative flex-grow h-full overflow-scroll ">
+      {/* absolute top-0 left-0 right-0 z-10 */}
+        <Indicator className=' sticky top-0 z-10'/>
+        {children}
         
         {/* <HeaderBar/> */}
         {/* <MobileHeader className="md:hidden"  /> */}
