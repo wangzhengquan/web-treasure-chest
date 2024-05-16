@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation';
 import { useRef, useState, useLayoutEffect } from 'react';
 import {ChevronDownIcon} from '@heroicons/react/24/outline';
 import Animation from '@/app/components/animation';
+import {Separator} from "@/components/ui/separator";
 
 export function NavLink({item, onClick}: {item: TNavLink, onClick?: (event: React.MouseEvent<HTMLElement>) => void}) {
   const pathname = usePathname();
@@ -65,10 +66,7 @@ export function NavLinksGroup({title, links, onClickLink, defaultCollapsed} : {t
           "transform": defaultCollapsed ? 'rotate(-90deg)': 'rotate(0deg)'
           }} />
 
-        <hr className="hidden group-[.collapsed]:block" style={{
-          borderColor: "rgba(255, 255, 255, 0.12)",
-          width: '36px',
-        }}/>
+        <Separator orientation="horizontal" className="hidden group-[.collapsed]:block w-[36px] bg-border dark:bg-border/[.12]"/>
       </a>
      
       <div ref={listRef} className="overflow-hidden" style={{
