@@ -9,14 +9,21 @@ import { useRef, useState, useLayoutEffect } from 'react';
 import {ChevronDownIcon} from '@heroicons/react/24/outline';
 import Animation from '@/app/components/animation';
 import {Separator} from "@/components/ui/separator";
+import {dispatchBreadcrumbs} from '@/app/ui/indicator/breadcrumbs';
 
 export function NavLink({item, onClick}: {item: TNavLink, onClick?: (event: React.MouseEvent<HTMLElement>) => void}) {
   const pathname = usePathname();
+  const handleLinkClick = (event: React.MouseEvent<HTMLElement>) => {
+    if (onClick) {
+      onClick(event);
+    }
+    // dispatchBreadcrumbs({payload: [{label: item.name, href: item.href}]});
+  }
   
   return (
     <Link href={item.href} 
       title={item.name} 
-      onClick={onClick}
+      onClick={handleLinkClick}
       className={clsx("nav-link flex w-full justify-start items-center font-medium rounded-[4px] ",
       "h-[36px]",
       "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-ring",

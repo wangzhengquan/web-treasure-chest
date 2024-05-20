@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-screen overflow-hidden" suppressHydrationWarning>
-      <body className={`${inter.className} h-screen overflow-hidden antialiased`}>
+      <body className={`${inter.className} ufo-bg h-screen overflow-hidden antialiased`}>
         <SvgFilter />
         <ThemeProvider
             attribute="class"

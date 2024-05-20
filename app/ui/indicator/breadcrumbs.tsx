@@ -17,14 +17,15 @@ export function breadcrumbsReducer(preState: Breadcrumb[], action: BreadcrumbAct
   return action.payload;
 }
 
-let mdispatch: (action: BreadcrumbAction) => void;
+let dispatchBreadcrumbs: (action: BreadcrumbAction) => void;
+export {dispatchBreadcrumbs};
 
 export default function Breadcrumbs( ) {
   const [breadcrumbs, dispatch] = useReducer(
     breadcrumbsReducer,
     []
   );
-  mdispatch = dispatch;
+  dispatchBreadcrumbs = dispatch;
   return (
   <ol className='flex'>
   {breadcrumbs.map((breadcrumb, index) => (
@@ -51,7 +52,8 @@ export function UpdateBreadcrumbs({breadcrumbs}: {breadcrumbs: string | Breadcru
     } else if (!Array.isArray(breadcrumbs)) {
       breadcrumbs = [breadcrumbs];
     }
-    mdispatch({payload: breadcrumbs});
+    dispatchBreadcrumbs({payload: breadcrumbs});
   }, []);
   return <></>
 }
+

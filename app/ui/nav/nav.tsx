@@ -31,6 +31,7 @@ const workflowLinks = [
 ];
 const animationsLinks = [
   { name: 'Cannon', href: '/dashboard/animations/cannon', icon: DocumentDuplicateIcon },
+  { name: 'Magic Curtain', href: '/dashboard/animations/magic-curtain', icon: DocumentDuplicateIcon },
 ];
 
 

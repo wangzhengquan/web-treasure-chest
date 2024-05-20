@@ -89,6 +89,9 @@
     --border: 240 14.3% 93.1%;
     
     --ring: 211 65.1% 44.9%;
+
+    --surface: #1D2125;
+    --surface-sunken: #161A1D;
   }
 }
 
@@ -178,6 +181,13 @@ input[type='number']::-webkit-outer-spin-button {
     scrollbar-gutter: stable both-edges;
   } 
   /* scrollbar end */
+
+  .ufo-bg {
+    background-color: var(--surface, white);
+    background-image: linear-gradient( 45deg, var(--surface-sunken, #F7F8F9) 25%, transparent 25% ),linear-gradient( 135deg, var(--surface-sunken, #F7F8F9) 25%, transparent 25% ),linear-gradient( 45deg, transparent 75%, var(--surface-sunken, #F7F8F9) 75% ),linear-gradient( 135deg, transparent 75%, var(--surface-sunken, #F7F8F9) 75% );
+    background-position: 0 0,10px 0,10px -10px,0px 10px;
+    background-size: 20px 20px;
+  }
   
   .cubic-filter {
     filter: url(#cubic-filter);

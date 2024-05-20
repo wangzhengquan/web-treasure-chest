@@ -5,7 +5,7 @@ import Cannon from '@/app/ui/animations/cannon';
 export default function Page() {
   return (
     <Main className='h-full w-full'>
-      <UpdateBreadcrumbs breadcrumbs={[{label: 'Cannon', href: ''}]}/>
+      <UpdateBreadcrumbs breadcrumbs={'Cannon'}/>
       <Cannon />
     </Main>
   );
