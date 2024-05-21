@@ -1,8 +1,12 @@
 'use client';
 import { useRef, useState, useLayoutEffect, useEffect, use } from 'react';
+import { createRoot, Root } from 'react-dom/client';
 import { createContext } from '@radix-ui/react-context';
+import * as Tooltip from '@radix-ui/react-tooltip';
+import { DismissableLayer } from '@radix-ui/react-dismissable-layer';
 import * as ReactDOM from 'react-dom';
 import  './magic-curtain.css';
+
 interface DataItemType  {
   bg: string;
   img: string;
@@ -14,7 +18,7 @@ interface DataItemType  {
 
 interface NavItemProps extends  DataItemType{
   index: number;
-  currentIndex: number;
+  // previewViewportWrapperRef: React.RefObject<HTMLDivElement>;
   onMouseOver: (index: number) => void;
   onMouseOut: (index: number) => void;
 }
@@ -47,69 +51,73 @@ const DataItems = [{
   bg: "bg-blue-400",
   img: "https://workos.imgix.net/images/f6c9aea7-8bcc-458a-8531-3b36458dc031.png?auto=format&fit=clip&q=80&w=496"
 }];
+ 
 
 function NavItem(props: NavItemProps) {
   const context = useMagicCurtainContext("NavItem");
   function handleMouseOver(event: React.MouseEvent<HTMLButtonElement>) {
-    console.log("Mouse Enter");
+    // console.log("Mouse Enter NavItem");
     props.onMouseOver(props.index);
   }
 
   function handleMouseOut(event: React.MouseEvent<HTMLButtonElement>) {
-    console.log("Mouse Enter");
+    // console.log("Mouse Enter NavItem");
     props.onMouseOut(props.index);
   }
 
   return (
   <li className="MagicCurtain_MagicCurtainControlsItem" key={props.index}>
     <button
-      id="radix-:rm:-trigger-0"
-      data-state="closed"
-      aria-expanded="false"
-      aria-controls="radix-:rm:-content-0"
-      data-visually-hidden="false"
-      aria-label="Example 1"
       data-visibility="visible"
       className="MagicCurtain_MagicCurtainControlsTrigger"
-      data-radix-collection-item=""
-      data-highlighted={props.index === props.currentIndex}
+      data-highlighted={props.index === context.currentIndex}
       onClick={()=>context.onChangIndex(props.index)}
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
+      onMouseEnter={handleMouseOver}
+      onMouseLeave={handleMouseOut}
     />
-    <div style={{ display: "none" }}>
-      <div
-        id="radix-:rm:-content-0"
-        aria-labelledby="radix-:rm:-trigger-0"
-        data-orientation="horizontal"
-        data-state="closed"
-        data-active="false"
-        className="MagicCurtain_MagicCurtainControlsPreviewContent"
-        dir="ltr"
-        style={{ pointerEvents: "none" }}
-      >
-        <img
-          className="MagicCurtain_MagicCurtainControlsPreviewContentImage"
-          src={props.img}
-        />
-      </div>
-    </div>
+     
   </li>
   );
 }
 
-function Navbar({children}: React.PropsWithChildren<{}>) {
+function PreviewViewport({curtainControlsOffsetIndex }: {curtainControlsOffsetIndex: number}) {
+  const previewViewportRef = useRef<HTMLDivElement>(null);
   return (
-  <div
-    data-is-root-theme="false"
-    data-accent-color="indigo"
-    data-gray-color="slate"
-    data-has-background="false"
-    data-panel-background="translucent"
-    data-radius="medium"
-    data-scaling="100%"
-    className="radix-themes light"
-  >
+ 
+    <div ref={previewViewportRef}
+      className="MagicCurtain_MagicCurtainControlsPreviewViewport" 
+      data-state="delayed-open"
+      >
+    {DataItems.map((item, index) =>  
+      <div
+        key={index}
+        data-orientation="horizontal"
+        className="MagicCurtain_MagicCurtainControlsPreviewContent"
+      >
+        {/* <img
+          className={`MagicCurtain_MagicCurtainControlsPreviewContentImage bg-${item.bg}`}
+          src={item.img}
+        /> */}
+        <div
+          className={`MagicCurtain_MagicCurtainControlsPreviewContentImage ${item.bg}`}
+        />
+      </div>
+    )}
+    </div>
+  );
+}
+
+function Navbar({children}: React.PropsWithChildren<{}>) {
+  
+  const previewViewportWrapperRef = useRef<HTMLDivElement>(null);
+  const [curtainControlsOffsetIndex, setCurtainControlsOffsetIndex] = useState<number>(0);
+  
+  const handleOnMouseOverItem = (index: number) => {
+    setCurtainControlsOffsetIndex(index);
+  };
+ 
+  return (
+  <div>
     <nav
       aria-label="Main"
       data-orientation="horizontal"
@@ -122,6 +130,9 @@ function Navbar({children}: React.PropsWithChildren<{}>) {
         bottom: "5px"
       }}
     >
+    <Tooltip.Provider>
+    <Tooltip.Root>
+    <Tooltip.Trigger asChild>
       <div style={{ position: "relative" }}>
         <ul
           data-orientation="horizontal"
@@ -137,23 +148,33 @@ function Navbar({children}: React.PropsWithChildren<{}>) {
           }}
         >
            
-          {DataItems.map((item, index) =>  <NavItem {...item} index={index} />)}
+          {DataItems.map((item, index) => <NavItem {...item}  key={index} index={index}  onMouseOver={handleOnMouseOverItem} onMouseOut={()=>{}}/> )}
         </ul>
       </div>
-      <div
+    </Tooltip.Trigger>
+      <Tooltip.Content
+        side="left"
+        // sideOffset={5}
+        ref={previewViewportWrapperRef}
         className="MagicCurtain_MagicCurtainControlsPreviewViewportWrapper"
-        // style={{ display: "none" }}
-      />
+        style={{
+          position: "absolute",
+          "--magic-curtain-controls-offset-index": curtainControlsOffsetIndex,
+        } as React.CSSProperties & {"--magic-curtain-controls-offset-index": number} } 
+      >
+        <PreviewViewport curtainControlsOffsetIndex={curtainControlsOffsetIndex}/>
+      </Tooltip.Content>
+      </Tooltip.Root>
+      </Tooltip.Provider>
     </nav>
-  </div>);
+  </div>
+  );
 }
 
 function CurtainItem({index, ...props}: CurtainItemProps) {
   const preIndex = useRef<number>(0);
   const curtainItemRef = useRef<HTMLDivElement>(null);
   const context = useMagicCurtainContext("CurtainItem");
-  // const [visibility, setVisibility] = useState<"hidden" | "visible" | "animating-out">(currentIndex===index ? "visible" : "hidden");
-  // const visibility = currentIndex===index ? "visible" : "hidden"
   const setVisibility = (visibility: "hidden" | "visible" | "animating-out") => {
     if (!curtainItemRef.current) return;
     curtainItemRef.current.setAttribute("data-visibility", visibility);
@@ -161,7 +182,7 @@ function CurtainItem({index, ...props}: CurtainItemProps) {
   useLayoutEffect(()=>{
     if (!curtainItemRef.current) return;
     const originalVisibility = curtainItemRef.current.getAttribute("data-visibility");
-    console.log(index, context.currentIndex, originalVisibility);
+    // console.log(index, context.currentIndex, originalVisibility);
     if (context.currentIndex===index) {
       setVisibility("visible");
     } else if(originalVisibility==='visible' && context.currentIndex !== index) {
@@ -209,7 +230,7 @@ export default function MagicCurtain() {
   return (
     <MagicCurtainProvider currentIndex={currentIndex} onChangIndex={handleChangIndex}>
       <div ref={magicCurtainRootRef} className="MagicCurtain_MagicCurtainRoot min-h-full h-full">
-        {DataItems.map((item, index) => <CurtainItem {...item} key={index} index={index} currentIndex={currentIndex} />)}
+        {DataItems.map((item, index) => <CurtainItem {...item} key={index} index={index}  />)}
         <Navbar/>
       </div>
     </MagicCurtainProvider>
