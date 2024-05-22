@@ -137,13 +137,10 @@ function MagicCurtainControls({children}: React.PropsWithChildren<{}>) {
   const [magicCurtainControlsOffsetIndex, setMagicCurtainControlsOffsetIndex] = useState<number>(0);
  
   const handleOpen = useCallback(() => {
-    // window.clearTimeout(openTimerRef.current);
-    // wasOpenDelayedRef.current = false;
     setOpen(true);
   }, [setOpen]);
 
   const handleClose = useCallback(() => {
-    // window.clearTimeout(openTimerRef.current);
     setOpen(false);
   }, [setOpen]);
   
@@ -152,9 +149,7 @@ function MagicCurtainControls({children}: React.PropsWithChildren<{}>) {
       const magicCurtainControlsRoot = magicCurtainControlsRootRef.current;
       const previewViewportWrapper = previewViewportWrapperRef.current;
       const target = event.target as HTMLElement;
-      // const pointerPosition = { x: event.clientX, y: event.clientY };
       const hasEnteredTarget = magicCurtainControlsRoot?.contains(target) || previewViewportWrapper?.contains(target);
-      // const isPointerOutsideGraceArea = !isPointInPolygon(pointerPosition, pointerGraceArea);
 
       if (!hasEnteredTarget) {
         setOpen(false);
@@ -232,7 +227,7 @@ function MagicCurtainItem({index, ...props}: CurtainItemProps) {
     if (!curtainItemRef.current) return;
     curtainItemRef.current.setAttribute("data-visibility", visibility);
   };  
-  useLayoutEffect(()=>{
+  useEffect(()=>{
     if (!curtainItemRef.current) return;
     const originalVisibility = curtainItemRef.current.getAttribute("data-visibility");
     // console.log(index, context.magicCurtainIndex, originalVisibility);
