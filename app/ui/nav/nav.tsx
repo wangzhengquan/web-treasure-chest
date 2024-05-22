@@ -50,6 +50,7 @@ const demoLinks = [
   { name: 'Intersection Observer', href: '/dashboard/demo/intersection-observer', icon: ArrowTrendingUpIcon },
   { name: 'JS Animation', href: '/dashboard/demo/js-animation', icon: ArrowTrendingUpIcon },
   { name: 'Form data', href: '/dashboard/demo/form-data', icon: ArrowTrendingUpIcon },
+  { name: 'Life cycle', href: '/dashboard/demo/life-cycle', icon: ArrowTrendingUpIcon },
 ];
 
  
