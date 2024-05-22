@@ -230,7 +230,7 @@
 .MagicCurtain_MagicCurtainControlsPreviewViewportWrapper {
   transform: translateX(calc(var(--magic-curtain-controls-offset-index) * var(--magic-curtain-controls-trigger-width)));
   position: absolute;
-  top: calc(-1 * var(--magic-curtain-controls-preview-height) + (-1 * var(--magic-curtain-controls-trigger-height) / 4));
+  top: calc(-1 * var(--magic-curtain-controls-preview-height) );
   left: 0;
   transition: transform .25s ease-out;
 }
@@ -254,11 +254,7 @@
   overflow: hidden
 }
 
-.MagicCurtain_MagicCurtainControlsPreviewViewport[data-state=instant-open] {
-  animation: MagicCurtain_scale-in .25s ease
-}
-
-.MagicCurtain_MagicCurtainControlsPreviewViewport[data-state=delayed-open] {
+.MagicCurtain_MagicCurtainControlsPreviewViewport[data-state=open] {
   animation: MagicCurtain_scale-in .25s ease
 }
 
@@ -318,6 +314,8 @@
 
 .MagicCurtain_MagicCurtainControlsPreviewContentImage {
   display: flex;
+  align-items: center;
+  justify-content: center;
   width: var(--magic-curtain-controls-preview-width);
   height: var(--magic-curtain-controls-preview-height);
   object-fit: cover;
