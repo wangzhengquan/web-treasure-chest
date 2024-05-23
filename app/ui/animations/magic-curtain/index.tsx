@@ -4,6 +4,8 @@ import { createRoot, Root } from 'react-dom/client';
 import { createContext } from '@radix-ui/react-context';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { Presence } from '@radix-ui/react-presence';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import * as ReactDOM from 'react-dom';
 import  './magic-curtain.css';
 
@@ -27,6 +29,7 @@ interface NavItemProps extends  DataItemType{
 
 interface CurtainItemProps extends React.HTMLProps<HTMLElement>, DataItemType {
   index: number;
+  defaultVisibility: "hidden" | "visible" | "animating-out";
   // onChangeCurrentIndex: (index: number) => void;
   // visibility: "hidden" | "visible" | "animating-out";
 }
@@ -47,6 +50,8 @@ type PreviewContextValue = {
   onMagicCurtainControlsOffsetIndexChange(index: number): void;
   onOpen(): void;
   onClose(): void;
+  onAnimationEnd?(): void;
+  onAnimationStart?(): void;
 };
 
 const [PreviewProvider, usePreviewContext] =
@@ -74,6 +79,10 @@ const DataItems = [{
   img: "https://workos.imgix.net/images/f6c9aea7-8bcc-458a-8531-3b36458dc031.png?auto=format&fit=clip&q=80&w=496"
 }];
  
+
+function getAnimationName(styles?: CSSStyleDeclaration) {
+  return styles?.animationName || 'none';
+}
 
 function MagicCurtainControlsTrigger(props: NavItemProps) {
   const context = useMagicCurtainContext("NavItem");
@@ -106,10 +115,42 @@ function MagicCurtainControlsTrigger(props: NavItemProps) {
 
 const MagicCurtainControlsPreviewViewport = forwardRef(({}, ref: any) => {
   const previewContext = usePreviewContext("NavItem");
+  const previewViewportRef = useRef<HTMLDivElement>(null);
+  const refs = useComposedRefs(ref, previewViewportRef);
+  useLayoutEffect(() => {
+    if (!previewViewportRef.current) return;
+    const previewViewport = previewViewportRef.current;
+    
+    const onAnimationEnd = (event: AnimationEvent) => {
+      // console.log('MagicCurtainControlsPreviewViewport AnimationEnd 1', event);
+      const currentAnimationName = getAnimationName(getComputedStyle(previewViewport));
+      const isCurrentAnimation = currentAnimationName.includes(event.animationName);
+      if (event.target === previewViewport && isCurrentAnimation) {
+        // console.log('MagicCurtainControlsPreviewViewport AnimationEnd 2', event);
+        previewContext.onAnimationEnd?.();
+      }
+    };
+
+    const onAnimationStart = (event: AnimationEvent) => {
+      // console.log('MagicCurtainControlsPreviewViewport handleAnimationStart', event);
+      if (event.target === previewViewport) {
+        // console.log('MagicCurtainControlsPreviewViewport handleAnimationStart 2', event);
+        // if animation occurred, store its name as the previous animation.
+        previewContext.onAnimationStart?.();
+      }
+    };
+     
+    previewViewport.addEventListener('animationstart', onAnimationStart);
+    previewViewport.addEventListener('animationend', onAnimationEnd);
+    return () => {
+      previewViewport.removeEventListener('animationstart', onAnimationStart);
+      previewViewport.removeEventListener('animationend', onAnimationEnd);
+    };
+  }, [previewViewportRef.current]);
   return (
-    <div ref={ref}
+    <div ref={refs}
       className="MagicCurtain_MagicCurtainControlsPreviewViewport" 
-      data-state={previewContext.open ? "open": "closed"}
+      data-state={previewContext.open ? "open" : "closed"}
       >
     {DataItems.map((item, index) =>  
       <div
@@ -120,7 +161,7 @@ const MagicCurtainControlsPreviewViewport = forwardRef(({}, ref: any) => {
           className={`MagicCurtain_MagicCurtainControlsPreviewContentImage bg-${item.bg}`}
           src={item.img}
         /> */}
-        <div className={`MagicCurtain_MagicCurtainControlsPreviewContentImage font-bold text-9xl text-white ${item.bg}`}>
+        <div className={`MagicCurtain_MagicCurtainControlsPreviewContentImage font-bold text-2xl text-white ${item.bg}`}>
           {previewContext.magicCurtainControlsOffsetIndex}
         </div>
       </div>
@@ -132,17 +173,37 @@ const MagicCurtainControlsPreviewViewport = forwardRef(({}, ref: any) => {
 
 function MagicCurtainControls({children}: React.PropsWithChildren<{}>) {
   const [open, setOpen] = useState(false);
+  const [animating, setAnimating] = useState(false);
+  // const [state, setState] = useState({open: false, animating: false});
   const previewViewportWrapperRef = useRef<HTMLDivElement>(null);
   const magicCurtainControlsRootRef = useRef<HTMLDivElement>(null);
   const [magicCurtainControlsOffsetIndex, setMagicCurtainControlsOffsetIndex] = useState<number>(0);
  
-  const handleOpen = useCallback(() => {
+  const handleOpen = () => {
+    // setAnimating(true);
     setOpen(true);
-  }, [setOpen]);
+    console.log('handleOpen', open, animating);
+    // setState({animating: true, open: true});
+  }
 
-  const handleClose = useCallback(() => {
+  const handleClose = () => {
+    // ReactDOM.flushSync(() => {
+    //   setAnimating(true);
+    //   setOpen(false);
+    // });
+    setAnimating(true);
     setOpen(false);
-  }, [setOpen]);
+    console.log('handleClose',open, animating);
+  }
+
+  const handleAnimationEnd = useCallback(() => {
+    console.log('handleAnimationEnd',open, animating);
+    setAnimating(false);
+  }, [setAnimating, open, animating]); 
+
+  // const handleAnimationStart = () => {
+  //   setAnimating(true);
+  // }
   
   useEffect(() => {
     const handleTrackPointerGrace = (event: PointerEvent) => {
@@ -151,22 +212,25 @@ function MagicCurtainControls({children}: React.PropsWithChildren<{}>) {
       const target = event.target as HTMLElement;
       const hasEnteredTarget = magicCurtainControlsRoot?.contains(target) || previewViewportWrapper?.contains(target);
 
-      if (!hasEnteredTarget) {
-        setOpen(false);
+      if (!hasEnteredTarget && open) {
+        handleClose();
       }  
     };
 
     document.addEventListener('pointermove', handleTrackPointerGrace);
     return () => document.removeEventListener('pointermove', handleTrackPointerGrace);
-  }, []);
+  }, [open]);
   return (
     <PreviewProvider 
       open={open} 
       onOpen={handleOpen}
       onClose={handleClose}
+      onAnimationEnd={handleAnimationEnd}
+      // onAnimationStart={handleAnimationStart}
       magicCurtainControlsOffsetIndex={magicCurtainControlsOffsetIndex}
       onMagicCurtainControlsOffsetIndexChange={setMagicCurtainControlsOffsetIndex}
       >
+    <div>
       <nav
         ref={magicCurtainControlsRootRef}
         className="MagicCurtain_MagicCurtainControlsRoot"
@@ -179,9 +243,6 @@ function MagicCurtainControls({children}: React.PropsWithChildren<{}>) {
       >
         <div style={{ position: "relative" }}>
           <ul
-            data-orientation="horizontal"
-            aria-label="Magic Curtain Examples"
-            dir="ltr"
             style={{
               display: "flex",
               listStyle: "none",
@@ -200,12 +261,12 @@ function MagicCurtainControls({children}: React.PropsWithChildren<{}>) {
           }
           </ul>
         </div>
-        
+       
         <div
           ref={previewViewportWrapperRef}
           className="MagicCurtain_MagicCurtainControlsPreviewViewportWrapper"
           style={{
-            display: open ? "block" : "none",
+            display: (open || animating) ? "block" : "none",
             "--magic-curtain-controls-offset-index": magicCurtainControlsOffsetIndex,
           } as React.CSSProperties & {"--magic-curtain-controls-offset-index": number} } 
         >
@@ -215,11 +276,12 @@ function MagicCurtainControls({children}: React.PropsWithChildren<{}>) {
         </div>
         
       </nav>
+    </div>
     </PreviewProvider>
   );
 }
-
-function MagicCurtainItem({index, ...props}: CurtainItemProps) {
+ 
+function MagicCurtainItem({index, defaultVisibility, ...props}: CurtainItemProps) {
   const preIndex = useRef<number>(0);
   const curtainItemRef = useRef<HTMLDivElement>(null);
   const context = useMagicCurtainContext("CurtainItem");
@@ -254,7 +316,7 @@ function MagicCurtainItem({index, ...props}: CurtainItemProps) {
    
   return (
     <div ref={curtainItemRef}
-      data-visibility={"hidden"} 
+      data-visibility={defaultVisibility} 
       className={`MagicCurtain_MagicCurtainItem grid place-content-center h-full font-extrabold text-9xl text-white ${props.bg}`}>
       {index}
     </div>
@@ -271,7 +333,7 @@ export default function MagicCurtainRoot() {
   return (
     <MagicCurtainProvider magicCurtainIndex={magicCurtainIndex} onMagicCurtainIndexChang={handleChangIndex}>
       <div ref={magicCurtainRootRef} className="MagicCurtain_MagicCurtainRoot min-h-full h-full">
-        {DataItems.map((item, index) => <MagicCurtainItem {...item} key={index} index={index}  />)}
+        {DataItems.map((item, index) => <MagicCurtainItem {...item} key={index} index={index} defaultVisibility={index===0? 'visible':'hidden'}  />)}
         <MagicCurtainControls/>
       </div>
     </MagicCurtainProvider>

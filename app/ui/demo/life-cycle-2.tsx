@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useRef, useEffect, useLayoutEffect, useState } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import {Button} from '@/components/ui/button';
 interface IProps {
@@ -52,7 +52,7 @@ export function LifeCycleCmp(props: IProps) {
 
 export function ChildCmp(props: IProps) {
   // const [counter, setCounter] = useState(props.counter);
-  let counter3 = 0;
+  const propsRef = useRef<HTMLElement>(null);
   const [counter2, setCounter2] = useState(0);
   const [counter, setCounter] = useControllableState({
     prop: props.counter, 
@@ -62,18 +62,29 @@ export function ChildCmp(props: IProps) {
       // props.counter = c;
     }
   });
+  let counter3 = 0;
 
   const handleCountChange = () => {
     setCounter(counter as number + 1);
-    
     setCounter2(counter2 + 1);
     counter3 = counter3+1;
+    if (propsRef.current) {
+      propsRef.current.textContent='Props: ' + 0 ;
+      // console.log('propsRef', propsRef.current);
+    }
   }
 
   useLayoutEffect(() => {
-    console.log(`${props.name} componentDidMount`);
+    console.log(`${props.name} useLayoutEffect componentDidMount`);
     return () => {
-      console.log(`${props.name} componentWillUnmount`);
+      console.log(`${props.name} useLayoutEffect componentWillUnmount`);
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(`${props.name} useEffect componentDidMount`);
+    return () => {
+      console.log(`${props.name}useEffect componentWillUnmount`);
     }
   }, []);
 
@@ -91,7 +102,7 @@ export function ChildCmp(props: IProps) {
         <span>; counter2: {counter2}</span> 
         <span>; counter3: {counter3}</span> 
       </p>
-      <p>Props: {props.counter}.</p>
+      <p ref={propsRef}>Props: {props.counter}.</p>
     </div>
   );
 }
