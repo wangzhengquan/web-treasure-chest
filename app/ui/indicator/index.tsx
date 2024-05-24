@@ -13,10 +13,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
+import {NavButton} from "../nav"
 
 
 
-function Tip() {
+
+function Notices() {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -31,13 +33,21 @@ function Tip() {
   );
 }
 
+function LeftContent() {
+  return (
+    <div className="flex items-center gap-1 justify-start">
+      <NavButton className="md:hidden"/>
+      <Breadcrumbs/>
+    </div>
+  );
+}
 
 function RightContent() {
   return (
     <div className="flex items-center gap-1 justify-end">
       <FullScreenToggle />
       <ModeToggle />
-      <Tip />
+      <Notices />
       <Avatar />
     </div>
   
@@ -46,12 +56,9 @@ function RightContent() {
 
 export default function Indicator({className}: {className?: string}) {
   return (
-  <nav className={`${lusitana.className} indicator  bg-nav/[.85] hidden md:flex md:flex-auto items-center justify-between px-2 md:px-6 py-3 border-b border-background ${className}`}>
-    <div >
-      <Breadcrumbs/>
-    </div>
+  <nav className={`${lusitana.className} indicator h-[48px]  bg-nav/[.85] flex flex-auto items-center justify-between px-2 md:px-4 border-b border-background ${className}`}>
+    <LeftContent/>
     <RightContent/>
-    
   </nav>
   );
 }
