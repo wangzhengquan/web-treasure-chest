@@ -1,31 +1,12 @@
 'use client';
 import clsx from 'clsx';
-import LogoIcon from '../logo-icon';
 import { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import LogoIcon from '../logo-icon';
 import { Bars3Icon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import {FloatLeftPanel, BackdropPanel} from '@/app/components/panels';
 import Nav from './nav';
 
-export  function SideHeader({className, onClickCollapseBtn}: {className: string, onClickCollapseBtn: (event: React.MouseEvent<HTMLElement>) => void}) {
-  return (
-    <header className={clsx("flex items-center justify-between w-full" , 
-      "group-[.collapsed]:justify-center",
-      "flex-none h-[52px]",
-      className,
-      {
-      })}> 
-      <span className="flex items-center">
-        <LogoIcon className="h-10 w-10 group-[.collapsed]:hidden" />
-        <span className={clsx("text-xl ml-3 group-[.collapsed]:hidden", {})}>Storeity</span>
-      </span>
-       
-      <a onClick={onClickCollapseBtn} className="relative cursor-pointer">
-        <Bars3Icon className="h-6 w-6"/>
-      </a>
-    </header>
-  );
-}
 
  
 

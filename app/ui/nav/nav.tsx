@@ -22,17 +22,22 @@ const links1 = [
   { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
 ];
 
-
 const workflowLinks = [
   { name: 'Audio Flow', href: '/dashboard/workflow/audio-flow', icon: DocumentDuplicateIcon },
   { name: 'Turbo Flow', href: '/dashboard/workflow/turbo-flow', icon: DocumentDuplicateIcon },
   { name: 'Tail Flow', href: '/dashboard/workflow/tail-flow', icon: DocumentDuplicateIcon },
-  { name: 'Work Flow', href: '/dashboard/workflow', icon: DocumentDuplicateIcon },
 ];
+
 const animationsLinks = [
   { name: 'Cannon', href: '/dashboard/animations/cannon', icon: DocumentDuplicateIcon },
   { name: 'Magic Curtain', href: '/dashboard/animations/magic-curtain', icon: DocumentDuplicateIcon },
 ];
+
+const treed = [
+  { name: 'Transform Function', href: '/dashboard/3d/transform-function', icon: DocumentDuplicateIcon },
+];
+
+
 
 
 const widgetsLinks = [
@@ -65,6 +70,7 @@ export default function Nav({className, onClickLink} : {className: string, onCli
       <NavLinksGroup title="OVERVIEW" links={links1} onClickLink={onClickLink}/>
       <NavLinksGroup title="Animations" links={animationsLinks} onClickLink={onClickLink}/>
       <NavLinksGroup title="Workflow" links={workflowLinks} onClickLink={onClickLink}/>
+      <NavLinksGroup title="3D" links={treed} onClickLink={onClickLink}/>
       <NavLinksGroup title="Widgets" links={widgetsLinks} onClickLink={onClickLink}/>
       <NavLinksGroup title="SVG" links={svgLinks} onClickLink={onClickLink}/>
       <NavLinksGroup title="DEMO" defaultCollapsed={false} links={demoLinks} onClickLink={onClickLink}/>

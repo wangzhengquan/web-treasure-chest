@@ -52,7 +52,7 @@ export function LifeCycleCmp(props: IProps) {
 
 export function ChildCmp(props: IProps) {
   // const [counter, setCounter] = useState(props.counter);
-  const propsRef = useRef<HTMLElement>(null);
+  const propsRef = useRef<HTMLParagraphElement>(null);
   const [counter2, setCounter2] = useState(0);
   const [counter, setCounter] = useControllableState({
     prop: props.counter, 
@@ -62,6 +62,8 @@ export function ChildCmp(props: IProps) {
       // props.counter = c;
     }
   });
+
+  const ref = (node: HTMLDivElement) => {console.log('ref', node)};
   let counter3 = 0;
 
   const handleCountChange = () => {
@@ -92,7 +94,7 @@ export function ChildCmp(props: IProps) {
     console.log(`${props.name} componentDidUpdate`);
   });
   return (
-    <div className='rounded-md bg-card p-5'>
+    <div className='rounded-md bg-card p-5' ref={ref}>
       <h2 className='text-xl font-bold'>{props.name}</h2>
       <Button onClick={handleCountChange}>
         Increment 
