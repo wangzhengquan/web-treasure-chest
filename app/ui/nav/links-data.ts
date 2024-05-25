@@ -23,6 +23,15 @@ export const workflowLinks = [
   { name: 'Tail Flow', href: '/dashboard/workflow/tail-flow', icon: DocumentDuplicateIcon },
 ];
 
+export const swiperLinks = [
+  { name: 'Effect Coverflow', href: '/dashboard/swiper/effect-coverflow', icon: DocumentDuplicateIcon },
+  { name: 'Effect Cube', href: '/dashboard/swiper/effect-cube', icon: DocumentDuplicateIcon },
+  { name: 'Effect Flip', href: '/dashboard/swiper/effect-flip', icon: DocumentDuplicateIcon },
+  { name: 'Thumbs Gallery', href: '/dashboard/swiper/thumbs-gallery', icon: DocumentDuplicateIcon },
+];
+
+
+
 export const animationsLinks = [
   { name: 'Cannon', href: '/dashboard/animations/cannon', icon: DocumentDuplicateIcon },
   { name: 'Magic Curtain', href: '/dashboard/animations/magic-curtain', icon: DocumentDuplicateIcon },

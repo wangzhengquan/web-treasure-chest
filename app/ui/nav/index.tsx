@@ -7,7 +7,7 @@ import { useRef, useState, useLayoutEffect } from 'react';
 import {ChevronDownIcon} from '@heroicons/react/24/outline';
 import Animation from '@/app/components/animation';
 import {Separator} from "@/components/ui/separator";
-import {adminLinks, workflowLinks, animationsLinks, treedLinks, widgetsLinks, svgLinks, demoLinks} from './links-data';
+import {adminLinks, workflowLinks, animationsLinks, treedLinks, widgetsLinks, svgLinks, demoLinks, swiperLinks} from './links-data';
 import LogoIcon from '../logo-icon';
 import { Bars3Icon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { createContext } from '@radix-ui/react-context';
@@ -125,8 +125,9 @@ export function Nav({className=""} : {className?: string}) {
       })}>
      
       <NavLinksGroup title="OVERVIEW" links={adminLinks} />
-      <NavLinksGroup title="Animations" links={animationsLinks} />
       <NavLinksGroup title="Workflow" links={workflowLinks} />
+      <NavLinksGroup title="Swiper" links={swiperLinks} />
+      <NavLinksGroup title="Animations" links={animationsLinks} />
       <NavLinksGroup title="3D" links={treedLinks} />
       <NavLinksGroup title="Widgets" links={widgetsLinks} />
       <NavLinksGroup title="SVG" links={svgLinks} />
@@ -136,26 +137,7 @@ export function Nav({className=""} : {className?: string}) {
 }
 
 
-function Header({className}: {className: string}) {
-  const context = useLeftPanelContext('Header');
-  return (
-    <header className={clsx("flex items-center justify-between w-full" , 
-      "group-[.collapsed]:justify-center",
-      "flex-none h-[52px]",
-      className,
-      {
-      })}> 
-      <span className="flex items-center">
-        <LogoIcon className="h-10 w-10 group-[.collapsed]:hidden" />
-        <span className={clsx("text-xl ml-3 group-[.collapsed]:hidden", {})}>Storeity</span>
-      </span>
-       
-      <a onClick={context.toggleOpen} className="relative cursor-pointer">
-        <Bars3Icon className="h-6 w-6"/>
-      </a>
-    </header>
-  );
-}
+ 
 
 export function LeftPanel() {
   const [open, setOpen] = useState(true);
@@ -175,7 +157,20 @@ export function LeftPanel() {
           // "ufo-scrollbar": !collapsed,
           "collapsed" : !open,
         })}>
-        <Header className="" />
+        <header className={clsx("flex items-center justify-between w-full" , 
+          "group-[.collapsed]:justify-center",
+          "flex-none h-[52px]",
+          {
+          })}> 
+          <span className="flex items-center">
+            <LogoIcon className="h-10 w-10 group-[.collapsed]:hidden" />
+            <span className={clsx("text-xl ml-3 group-[.collapsed]:hidden", {})}>Storeity</span>
+          </span>
+          
+          <a onClick={() => setOpen(!open)} className="relative cursor-pointer">
+            <Bars3Icon className="h-6 w-6"/>
+          </a>
+        </header>
         <Nav className={clsx("pt-5", {})} />
         {/* <div className="grow"/>  */}
         
@@ -198,7 +193,8 @@ export function NavButton({className=""}: {className?: string}) {
   
   return (
     <LeftPanelProvider
-      open={open}
+      open={true}
+      onLinkClick={(link) => setOpen(false)}
       >
       <Button variant="ghost" size="icon" className={`${className}`} onClick={handleBtnClick}>
         <Bars3Icon className="h-6 w-6"/>
