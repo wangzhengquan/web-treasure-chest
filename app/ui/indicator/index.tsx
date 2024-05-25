@@ -12,13 +12,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-
+import {List} from "@/app/components/list";
 import {NavButton} from "../nav"
 
 
 
 
-function Notices() {
+function Notifications() {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -26,8 +26,8 @@ function Notices() {
           <BellIcon className="h-6 w-6" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80">
-         hello world
+      <PopoverContent className="w-screen md:w-[680px]">
+         <List />
       </PopoverContent>
     </Popover>
   );
@@ -47,7 +47,7 @@ function RightContent() {
     <div className="flex items-center gap-1 justify-end">
       <FullScreenToggle />
       <ModeToggle />
-      <Notices />
+      <Notifications />
       <Avatar />
     </div>
   

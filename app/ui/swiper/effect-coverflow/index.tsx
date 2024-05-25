@@ -25,7 +25,7 @@ const imgUrls = [
 ];
 export default function App() {
   return (
-    <>
+    <div className='h-screen'>
       <Swiper
         effect={'coverflow'}
         grabCursor={true}
@@ -61,6 +61,6 @@ export default function App() {
         
       </Swiper>
        
-    </>
+    </div>
   );
 }

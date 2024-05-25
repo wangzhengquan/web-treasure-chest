@@ -9,31 +9,19 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import * as ReactDOM from 'react-dom';
 import  './magic-curtain.css';
 
-
-
 interface DataItemType  {
   bg: string;
   img: string;
 }
 
-// type ItemType = DataItemType & {
-//   index: number;
-// }
-
 interface NavItemProps extends  DataItemType{
   index: number;
-  // previewViewportWrapperRef: React.RefObject<HTMLDivElement>;
-  // onMouseOver: (index: number) => void;
-  // onMouseOut: (index: number) => void;
 }
 
 interface CurtainItemProps extends React.HTMLProps<HTMLElement>, DataItemType {
   index: number;
   defaultVisibility: "hidden" | "visible" | "animating-out";
-  // onChangeCurrentIndex: (index: number) => void;
-  // visibility: "hidden" | "visible" | "animating-out";
 }
-
 
 type MagicCurtainContextValue = {
   magicCurtainIndex: number;
@@ -174,7 +162,6 @@ const MagicCurtainControlsPreviewViewport = forwardRef(({}, ref: any) => {
 function MagicCurtainControls({children}: React.PropsWithChildren<{}>) {
   const [open, setOpen] = useState(false);
   const [animating, setAnimating] = useState(false);
-  // const [state, setState] = useState({open: false, animating: false});
   const previewViewportWrapperRef = useRef<HTMLDivElement>(null);
   const magicCurtainControlsRootRef = useRef<HTMLDivElement>(null);
   const [magicCurtainControlsOffsetIndex, setMagicCurtainControlsOffsetIndex] = useState<number>(0);
@@ -182,8 +169,6 @@ function MagicCurtainControls({children}: React.PropsWithChildren<{}>) {
   const handleOpen = () => {
     // setAnimating(true);
     setOpen(true);
-    console.log('handleOpen', open, animating);
-    // setState({animating: true, open: true});
   }
 
   const handleClose = () => {
@@ -193,11 +178,9 @@ function MagicCurtainControls({children}: React.PropsWithChildren<{}>) {
     // });
     setAnimating(true);
     setOpen(false);
-    console.log('handleClose',open, animating);
   }
 
   const handleAnimationEnd = useCallback(() => {
-    console.log('handleAnimationEnd',open, animating);
     setAnimating(false);
   }, [setAnimating, open, animating]); 
 
@@ -237,7 +220,7 @@ function MagicCurtainControls({children}: React.PropsWithChildren<{}>) {
         style={{
           position: "absolute",
           zIndex: 1,
-          left: "74px",
+          left: "5px",
           bottom: "5px"
         }}
       >
@@ -332,7 +315,7 @@ export default function MagicCurtainRoot() {
   }
   return (
     <MagicCurtainProvider magicCurtainIndex={magicCurtainIndex} onMagicCurtainIndexChang={handleChangIndex}>
-      <div ref={magicCurtainRootRef} className="MagicCurtain_MagicCurtainRoot min-h-full h-full">
+      <div ref={magicCurtainRootRef} className="MagicCurtain_MagicCurtainRoot h-[calc(100vh_-_48px)]">
         {DataItems.map((item, index) => <MagicCurtainItem {...item} key={index} index={index} defaultVisibility={index===0? 'visible':'hidden'}  />)}
         <MagicCurtainControls/>
       </div>

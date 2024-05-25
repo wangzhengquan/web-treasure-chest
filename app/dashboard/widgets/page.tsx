@@ -4,6 +4,7 @@ import Indicator from '@/app/ui/indicator';
 import { Button } from "@/components/ui/button"
 import Main from "@/app/ui/main";
 import clsx from 'clsx';
+import {List} from "@/app/components/list";
 import {RadioGroupForm} from "@/app/widgets/radio-group-form";
 import NotificationItem from "@/app/widgets/notification-item";
 import {CardWithForm} from "@/app/widgets/card-with-form";
@@ -30,7 +31,7 @@ export default function Page() {
       <NotificationItem />
       <RadioGroupForm />
       <div><CardWithForm/></div>
-
+      <List />
       {/* <div><DashboardSkeleton /></div>
       <div> <InvoicesTableSkeleton /> </div> */}
     

@@ -24,7 +24,7 @@ const imgUrls = [
 ];
 export default function App() {
   return (
-    <>
+    <div className='h-[calc(100vh_-_48px)]'>
       <Swiper
         effect={'cube'}
         grabCursor={true}
@@ -43,6 +43,7 @@ export default function App() {
         modules={[Autoplay, EffectCube, Pagination]}
         style={{
           '--swiper-pagination-bullet-inactive-color': 'hsl(var(--foreground))',
+          overflow: "visible",
         } as React.CSSProperties}
         className={`!w-[80%] !h-[70%] top-[15%] md:!absolute md:!w-[400px] md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2`}
       >
@@ -57,6 +58,6 @@ export default function App() {
         }
          
       </Swiper>
-    </>
+    </div>
   );
 }
