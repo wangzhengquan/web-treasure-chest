@@ -28,7 +28,7 @@ export default function App() {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass>();
 
   return (
-    <div className='h-[calc(100vh_-_48px)]'>
+    <div className='h-[calc(100vh_-_78px)]'>
       <Swiper
          style={{
           '--swiper-navigation-color': '#fff',

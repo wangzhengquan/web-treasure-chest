@@ -25,7 +25,7 @@ const imgUrls = [
 ];
 export default function App() {
   return (
-    <div className='h-screen'>
+    <div className='h-[calc(100vh_-_78px)]'>
       <Swiper
         effect={'coverflow'}
         grabCursor={true}

@@ -4,7 +4,7 @@ interface IconProps {
 }
 export function CannonIcon({className=""}: IconProps) {
   return (
-  <svg className={className} fill="none" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"  
+  <svg className={className} fill="currentColor" height="800px" width="800px" version="1.1"  xmlns="http://www.w3.org/2000/svg"  
       viewBox="0 0 511.999 511.999" >
     <g>
       <g>

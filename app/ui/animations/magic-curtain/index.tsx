@@ -315,7 +315,7 @@ export default function MagicCurtainRoot() {
   }
   return (
     <MagicCurtainProvider magicCurtainIndex={magicCurtainIndex} onMagicCurtainIndexChang={handleChangIndex}>
-      <div ref={magicCurtainRootRef} className="MagicCurtain_MagicCurtainRoot h-[calc(100vh_-_48px)]">
+      <div ref={magicCurtainRootRef} className="MagicCurtain_MagicCurtainRoot h-[calc(100vh_-_78px)]">
         {DataItems.map((item, index) => <MagicCurtainItem {...item} key={index} index={index} defaultVisibility={index===0? 'visible':'hidden'}  />)}
         <MagicCurtainControls/>
       </div>

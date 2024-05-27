@@ -27,7 +27,7 @@ const imgUrls = [
 export default function App() {
   
   return (
-    <div className='h-[calc(100vh_-_48px)]'>
+    <div className='h-[calc(100vh_-_78px)]'>
       <Swiper
         effect={'flip'}
         grabCursor={true}

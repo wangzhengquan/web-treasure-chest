@@ -11,6 +11,9 @@ import {
   PowerIcon,
 } from '@heroicons/react/24/outline';
 
+import {WorkFlowIcon, SwiperIcon, MagicCurtainIcon} from './nav-icons';
+import {CannonIcon} from '@/app/ui/animations/cannon/cannon-icons';
+
 export const adminLinks = [
   { name: 'Home', href: '/dashboard', icon: HomeIcon },
   { name: 'Invoices', href: '/dashboard/invoices', icon: DocumentDuplicateIcon, },
@@ -18,27 +21,27 @@ export const adminLinks = [
 ];
 
 export const workflowLinks = [
-  { name: 'Audio Flow', href: '/dashboard/workflow/audio-flow', icon: DocumentDuplicateIcon },
-  { name: 'Turbo Flow', href: '/dashboard/workflow/turbo-flow', icon: DocumentDuplicateIcon },
-  { name: 'Tail Flow', href: '/dashboard/workflow/tail-flow', icon: DocumentDuplicateIcon },
+  { name: 'Audio Flow', href: '/dashboard/workflow/audio-flow', icon: WorkFlowIcon },
+  { name: 'Turbo Flow', href: '/dashboard/workflow/turbo-flow', icon: WorkFlowIcon },
+  { name: 'Tail Flow', href: '/dashboard/workflow/tail-flow', icon: WorkFlowIcon },
 ];
 
 export const swiperLinks = [
-  { name: 'Effect Coverflow', href: '/dashboard/swiper/effect-coverflow', icon: DocumentDuplicateIcon },
-  { name: 'Effect Cube', href: '/dashboard/swiper/effect-cube', icon: DocumentDuplicateIcon },
-  { name: 'Effect Flip', href: '/dashboard/swiper/effect-flip', icon: DocumentDuplicateIcon },
-  { name: 'Thumbs Gallery', href: '/dashboard/swiper/thumbs-gallery', icon: DocumentDuplicateIcon },
+  { name: 'Effect Coverflow', href: '/dashboard/swiper/effect-coverflow', icon: SwiperIcon },
+  { name: 'Effect Cube', href: '/dashboard/swiper/effect-cube', icon: SwiperIcon },
+  { name: 'Effect Flip', href: '/dashboard/swiper/effect-flip', icon: SwiperIcon },
+  { name: 'Thumbs Gallery', href: '/dashboard/swiper/thumbs-gallery', icon: SwiperIcon },
 ];
 
 
 
 export const animationsLinks = [
-  { name: 'Cannon', href: '/dashboard/animations/cannon', icon: DocumentDuplicateIcon },
-  { name: 'Magic Curtain', href: '/dashboard/animations/magic-curtain', icon: DocumentDuplicateIcon },
+  { name: 'Cannon', href: '/dashboard/animations/cannon', icon: CannonIcon },
+  { name: 'Magic Curtain', href: '/dashboard/animations/magic-curtain', icon: MagicCurtainIcon },
 ];
 
 export const treedLinks = [
-  { name: 'Transform Function', href: '/dashboard/3d/transform-function', icon: DocumentDuplicateIcon },
+  { name: 'Transform Function', href: '/dashboard/3d/transform-function', icon: CubeIcon },
 ];
 
 export const widgetsLinks = [
