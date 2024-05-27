@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
  
 import { usePathname } from 'next/navigation';
-import { useRef, useState, useLayoutEffect } from 'react';
+import { useRef, useState, useLayoutEffect, ReactElement } from 'react';
 import {ChevronDownIcon} from '@heroicons/react/24/outline';
 import Animation from '@/app/components/animation';
 import {Separator} from "@/components/ui/separator";
@@ -17,10 +17,7 @@ import {Button} from '@/components/ui/button';
 export type NavLinkType = {
   name: string,
   href: string,
-  icon: React.ForwardRefExoticComponent<Omit<React.SVGProps<SVGSVGElement>, "ref"> & {
-        title?: string | undefined;
-        titleId?: string | undefined;
-      } & React.RefAttributes<SVGSVGElement>>
+  icon: React.JSXElementConstructor<any>,
 }
 
 type NavContextValue = {
@@ -129,9 +126,9 @@ export function Nav({className=""} : {className?: string}) {
       <NavLinksGroup title="Swiper" links={swiperLinks} />
       <NavLinksGroup title="Animations" links={animationsLinks} />
       <NavLinksGroup title="3D" links={treedLinks} />
-      <NavLinksGroup title="Widgets" links={widgetsLinks} />
+      {/* <NavLinksGroup title="Widgets" links={widgetsLinks} />
       <NavLinksGroup title="SVG" links={svgLinks} />
-      <NavLinksGroup title="DEMO" defaultCollapsed={false} links={demoLinks} />
+      <NavLinksGroup title="DEMO" defaultCollapsed={false} links={demoLinks} /> */}
     </nav>
   );
 }

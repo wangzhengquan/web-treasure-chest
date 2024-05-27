@@ -158,6 +158,7 @@ const MagicCurtainControlsPreviewViewport = forwardRef(({}, ref: any) => {
   );
 })
 
+MagicCurtainControlsPreviewViewport.displayName = "MagicCurtainControlsPreviewViewport";
 
 function MagicCurtainControls({children}: React.PropsWithChildren<{}>) {
   const [open, setOpen] = useState(false);
