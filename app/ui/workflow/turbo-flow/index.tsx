@@ -1,6 +1,15 @@
 'use client';
 import React, { useCallback } from 'react';
-import ReactFlow, { Controls, useNodesState, useEdgesState, addEdge, Node, Edge, OnConnect, Background } from 'reactflow';
+import ReactFlow, {
+  Controls,
+  useNodesState,
+  useEdgesState,
+  addEdge,
+  Node,
+  Edge,
+  OnConnect,
+  Background,
+} from 'reactflow';
 
 import 'reactflow/dist/base.css';
 import './index.css';
@@ -9,8 +18,23 @@ import TurboEdge from './TurboEdge';
 import FunctionIcon from './FunctionIcon';
 
 const FiFile = () => {
-  return (<svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>);
-}
+  return (
+    <svg
+      stroke="currentColor"
+      fill="none"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      height="1em"
+      width="1em"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+      <polyline points="13 2 13 9 20 9"></polyline>
+    </svg>
+  );
+};
 
 const initialNodes: Node<TurboNodeData>[] = [
   {
@@ -96,7 +120,10 @@ const Flow = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  const onConnect:OnConnect = useCallback((params) => setEdges((els) => addEdge(params, els)), []);
+  const onConnect: OnConnect = useCallback(
+    (params) => setEdges((els) => addEdge(params, els)),
+    [],
+  );
 
   return (
     <ReactFlow

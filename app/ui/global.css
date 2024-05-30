@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 246 25.0% 92.2%;
+    --background: 246 25% 92.2%;
     --foreground: 240 10% 3.9%;
 
     --nav: 0 0% 100%;
@@ -24,11 +24,9 @@
     --input: 0 0% 100%;
     /* --input: 240 33.3% 96.5%; */
     --input-border: 240 5.9% 90%;
-    
 
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-
 
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
@@ -42,7 +40,7 @@
 
     --border: 240 5.9% 90%;
     /* --border: 192 18.5% 94.7%; */
-    
+
     --ring: 211 65.1% 44.9%;
 
     --radius: 0.5rem;
@@ -51,8 +49,8 @@
   .dark {
     --background: 79 75.8% 6.5%;
     --foreground: 240 14.3% 93.1%;
- 
-    --nav: 215 30.4% 22.0%;
+
+    --nav: 215 30.4% 22%;
     --nav-foreground: 210 4.5% 91.4%;
 
     --primary: 0 0% 98%;
@@ -73,8 +71,7 @@
     --input: 216 31.4% 20%;
     --input2: 226 18.7% 36.7%;
     --input-border: 240 4.9% 83.9%;
-    
-    
+
     --popover: 216 31.4% 20%;
     --popover2: 226 18.7% 36.7%;
     --popover-foreground: 240 14.3% 93.1%;
@@ -82,26 +79,24 @@
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
 
-
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 240 14.3% 93.1%;
-    
+
     --ring: 211 65.1% 44.9%;
 
-    --surface: #1D2125;
-    --surface-sunken: #161A1D;
+    --surface: #1d2125;
+    --surface-sunken: #161a1d;
   }
 }
 
 @layer base {
   html {
-    @apply text-[14px]
+    @apply text-[14px];
   }
   body {
     @apply bg-background text-foreground;
-     
   }
 }
 
@@ -142,8 +137,6 @@ input[type='number']::-webkit-outer-spin-button {
   margin: 0;
 }
 
-
-
 @layer utilities {
   /* scrollbar start */
   /* width */
@@ -179,16 +172,39 @@ input[type='number']::-webkit-outer-spin-button {
 
   .scrollbar-stable {
     scrollbar-gutter: stable both-edges;
-  } 
+  }
   /* scrollbar end */
 
   .ufo-bg {
     background-color: var(--surface, white);
-    background-image: linear-gradient( 45deg, var(--surface-sunken, #F7F8F9) 25%, transparent 25% ),linear-gradient( 135deg, var(--surface-sunken, #F7F8F9) 25%, transparent 25% ),linear-gradient( 45deg, transparent 75%, var(--surface-sunken, #F7F8F9) 75% ),linear-gradient( 135deg, transparent 75%, var(--surface-sunken, #F7F8F9) 75% );
-    background-position: 0 0,10px 0,10px -10px,0px 10px;
+    background-image: linear-gradient(
+        45deg,
+        var(--surface-sunken, #f7f8f9) 25%,
+        transparent 25%
+      ),
+      linear-gradient(
+        135deg,
+        var(--surface-sunken, #f7f8f9) 25%,
+        transparent 25%
+      ),
+      linear-gradient(
+        45deg,
+        transparent 75%,
+        var(--surface-sunken, #f7f8f9) 75%
+      ),
+      linear-gradient(
+        135deg,
+        transparent 75%,
+        var(--surface-sunken, #f7f8f9) 75%
+      );
+    background-position:
+      0 0,
+      10px 0,
+      10px -10px,
+      0px 10px;
     background-size: 20px 20px;
   }
-  
+
   .cubic-filter {
     filter: url(#cubic-filter);
   }

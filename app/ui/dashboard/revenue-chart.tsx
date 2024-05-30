@@ -1,6 +1,5 @@
 import { generateYAxis } from '@/app/lib/utils';
 import { CalendarIcon } from '@heroicons/react/24/outline';
-import { lusitana } from '@/app/ui/fonts';
 import { Revenue } from '@/app/lib/definitions';
 import { fetchRevenue } from '@/app/lib/data';
 // This component is representational only.
@@ -22,12 +21,12 @@ export default async function RevenueChart() {
 
   return (
     <div className="w-full md:col-span-4">
-      <h2 className={`${lusitana.className} mb-4 text-xl md:text-xl`}>
+      <h2 className={` mb-4 text-xl md:text-xl`}>
         Recent Revenue
       </h2>
 
       <div className="rounded-xl bg-card p-4">
-        <div className="bg-card-body sm:grid-cols-13 mt-0 grid grid-cols-[repeat(13,minmax(0,1fr))] items-end gap-2 rounded-md p-4 md:gap-4">
+        <div className="sm:grid-cols-13 mt-0 grid grid-cols-[repeat(13,minmax(0,1fr))] items-end gap-2 rounded-md bg-card-body p-4 md:gap-4">
           <div
             className="mb-6 hidden flex-col justify-between text-sm sm:flex"
             style={{ height: `${chartHeight}px` }}

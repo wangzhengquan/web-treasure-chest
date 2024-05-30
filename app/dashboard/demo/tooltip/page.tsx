@@ -1,10 +1,10 @@
-import {ButtonWithTooltip} from "@/app/ui/demo/tooltip";
-import {UpdateBreadcrumbs} from '@/app/ui/indicator/breadcrumbs';
+import { ButtonWithTooltip } from '@/app/ui/demo/tooltip';
+import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 import Main from '@/app/ui/main';
 export default function Page() {
   return (
     <Main>
-      <UpdateBreadcrumbs breadcrumbs={'Tooltip'}/> 
+      <UpdateBreadcrumbs breadcrumbs={'Tooltip'} />
       <ButtonWithTooltip
         tooltipContent={
           <div>
@@ -18,22 +18,16 @@ export default function Page() {
       </ButtonWithTooltip>
       <div style={{ height: 50 }} />
       <ButtonWithTooltip
-        tooltipContent={
-          <div>This tooltip fits above the button</div>
-        }
+        tooltipContent={<div>This tooltip fits above the button</div>}
       >
         Hover over me (tooltip above)
       </ButtonWithTooltip>
       <div style={{ height: 50 }} />
       <ButtonWithTooltip
-        tooltipContent={
-          <div>This tooltip fits above the button</div>
-        }
+        tooltipContent={<div>This tooltip fits above the button</div>}
       >
         Hover over me (tooltip above)
       </ButtonWithTooltip>
     </Main>
   );
-  
 }
-

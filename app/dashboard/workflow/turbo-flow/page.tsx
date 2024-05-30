@@ -1,11 +1,11 @@
 import Flow from '@/app/ui/workflow/turbo-flow';
 import Main from '@/app/ui/main';
-import {UpdateBreadcrumbs} from '@/app/ui/indicator/breadcrumbs';
+import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 export default function Page() {
   return (
-    <Main className="relative w-full h-full">
-      <UpdateBreadcrumbs breadcrumbs={'Turbo flow'}/>
+    <Main className="relative h-full w-full">
+      <UpdateBreadcrumbs breadcrumbs={'Turbo flow'} />
       <Flow />
     </Main>
-  )
+  );
 }

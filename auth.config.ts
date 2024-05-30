@@ -1,5 +1,5 @@
 import type { NextAuthConfig } from 'next-auth';
- 
+
 export const authConfig = {
   pages: {
     signIn: '/login',
@@ -10,7 +10,7 @@ export const authConfig = {
       console.log('nextUrl.searchParams', nextUrl.searchParams.toString());
       let callbackUrl = nextUrl.searchParams.get('callbackUrl') || '/dashboard';
       console.log('callbackUrl', callbackUrl);
-      if (callbackUrl === nextUrl.origin+'/' ) {
+      if (callbackUrl === nextUrl.origin + '/') {
         callbackUrl = '/dashboard';
       }
       console.log('callbackUrl', callbackUrl);
@@ -21,12 +21,11 @@ export const authConfig = {
           return Response.redirect(new URL(callbackUrl, nextUrl));
         }
         return true;
-      } else if (isOnLogin){
+      } else if (isOnLogin) {
         return true;
       }
       // return Response.redirect(new URL('/login', nextUrl));
       return false; // Redirect unauthenticated users to login page
-      
     },
     // authorized({ auth, request: { nextUrl } }) {
     //   const isLoggedIn = !!auth?.user;

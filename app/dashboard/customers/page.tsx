@@ -5,7 +5,7 @@ import Main from '@/app/ui/main';
 import { Suspense } from 'react';
 
 export default async function Page({
-  searchParams,   // url search params
+  searchParams, // url search params
 }: {
   searchParams?: {
     query: string;
@@ -20,19 +20,17 @@ export default async function Page({
 
   return (
     <>
-      <UpdateBreadcrumbs breadcrumbs={'Customers'}/>
+      <UpdateBreadcrumbs breadcrumbs={'Customers'} />
       <Main>
-        <div className="mt-4 md:mt-6 flex items-center justify-between gap-2 ">
+        <div className="mt-4 flex items-center justify-between gap-2 md:mt-6 ">
           <Search placeholder="Search Customers..." />
           {/* <CreateInvoice /> */}
         </div>
-         
+
         <div className="mt-4 md:mt-12">
           <CustomersTable query={query} currentPage={currentPage} />
         </div>
-        
       </Main>
     </>
   );
 }
- 

@@ -8,51 +8,56 @@ import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 
-
 // import required modules
 import { FreeMode, Navigation, Thumbs, Autoplay } from 'swiper/modules';
 
 const imgUrls = [
-  "/swiper/nature-1.jpg",
-  "/swiper/nature-2.jpg",
-  "/swiper/nature-3.jpg",
-  "/swiper/nature-4.jpg",
-  "/swiper/nature-5.jpg",
-  "/swiper/nature-6.jpg",
-  "/swiper/nature-7.jpg",
-  "/swiper/nature-8.jpg",
-  "/swiper/nature-9.jpg",
+  '/swiper/nature-1.jpg',
+  '/swiper/nature-2.jpg',
+  '/swiper/nature-3.jpg',
+  '/swiper/nature-4.jpg',
+  '/swiper/nature-5.jpg',
+  '/swiper/nature-6.jpg',
+  '/swiper/nature-7.jpg',
+  '/swiper/nature-8.jpg',
+  '/swiper/nature-9.jpg',
 ];
 
 export default function App() {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass>();
 
   return (
-    <div className='h-[calc(100vh_-_78px)]'>
+    <div className="h-[calc(100vh_-_78px)]">
       <Swiper
-         style={{
-          '--swiper-navigation-color': '#fff',
-          '--swiper-pagination-color': '#fff',
-          '--swiper-pagination-bullet-inactive-color': 'hsl(var(--foreground))',
-          width: '100%',
-          height: '80%',
-        } as React.CSSProperties}
+        style={
+          {
+            '--swiper-navigation-color': '#fff',
+            '--swiper-pagination-color': '#fff',
+            '--swiper-pagination-bullet-inactive-color':
+              'hsl(var(--foreground))',
+            width: '100%',
+            height: '80%',
+          } as React.CSSProperties
+        }
         spaceBetween={10}
         navigation={true}
-        thumbs={{swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null}}
+        thumbs={{
+          swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
+        }}
         // thumbs={{ swiper: thumbsSwiper }}
-        modules={[ FreeMode, Navigation, Thumbs]}
+        modules={[FreeMode, Navigation, Thumbs]}
       >
-      {
-        imgUrls.map((imgUrl, index) => {
+        {imgUrls.map((imgUrl, index) => {
           return (
             <SwiperSlide className="" key={index}>
-              <img className='block w-full h-full object-cover' src={imgUrl} alt={`swiper nature picture`} />
+              <img
+                className="block h-full w-full object-cover"
+                src={imgUrl}
+                alt={`swiper nature picture`}
+              />
             </SwiperSlide>
           );
-        })
-      }
-         
+        })}
       </Swiper>
       <Swiper
         onSwiper={setThumbsSwiper}
@@ -61,24 +66,24 @@ export default function App() {
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className={`!h-[20%] !py-[10px] box-border bg-black`}
+        className={`box-border !h-[20%] bg-black !py-[10px]`}
       >
-      {
-        imgUrls.map((imgUrl, index) => {
+        {imgUrls.map((imgUrl, index) => {
           return (
-            <SwiperSlide 
-              style={{width:'25%', height: '100%'}}
-              className="box-border bg-cover bg-center opacity-40 [&.swiper-slide-thumb-active]:opacity-100" key={index}>
-              <img className='block w-full h-full object-cover' src={imgUrl} alt={`swiper nature picture`} />
+            <SwiperSlide
+              style={{ width: '25%', height: '100%' }}
+              className="box-border bg-cover bg-center opacity-40 [&.swiper-slide-thumb-active]:opacity-100"
+              key={index}
+            >
+              <img
+                className="block h-full w-full object-cover"
+                src={imgUrl}
+                alt={`swiper nature picture`}
+              />
             </SwiperSlide>
           );
-        })
-      }
-         
-         
+        })}
       </Swiper>
     </div>
   );
 }
-
-

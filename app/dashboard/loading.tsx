@@ -1,10 +1,9 @@
-
-import Loading from "@/app/components/loading";
+import Loading from '@/app/components/loading';
 
 export default function Page() {
   return (
-    <div className="grid place-content-center w-full h-full">
-      <Loading/>
+    <div className="grid h-full w-full place-content-center">
+      <Loading />
     </div>
   );
 }

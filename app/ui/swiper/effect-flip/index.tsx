@@ -13,41 +13,47 @@ import 'swiper/css/navigation';
 // import required modules
 import { EffectFlip, Pagination, Navigation } from 'swiper/modules';
 const imgUrls = [
-  "/swiper/nature-1.jpg",
-  "/swiper/nature-2.jpg",
-  "/swiper/nature-3.jpg",
-  "/swiper/nature-4.jpg",
-  "/swiper/nature-5.jpg",
-  "/swiper/nature-6.jpg",
-  "/swiper/nature-7.jpg",
-  "/swiper/nature-8.jpg",
+  '/swiper/nature-1.jpg',
+  '/swiper/nature-2.jpg',
+  '/swiper/nature-3.jpg',
+  '/swiper/nature-4.jpg',
+  '/swiper/nature-5.jpg',
+  '/swiper/nature-6.jpg',
+  '/swiper/nature-7.jpg',
+  '/swiper/nature-8.jpg',
 ];
- 
 
 export default function App() {
-  
   return (
-    <div className='h-[calc(100vh_-_78px)]'>
+    <div className="h-[calc(100vh_-_78px)]">
       <Swiper
         effect={'flip'}
         grabCursor={true}
         pagination={true}
         navigation={true}
         modules={[EffectFlip, Pagination, Navigation]}
-        style={{
-          '--swiper-pagination-bullet-inactive-color': 'hsl(var(--foreground))',
-        } as React.CSSProperties}
-        className={`!w-[80%] !h-[70%] top-[15%] md:!w-[500px] md:!h-[500px]`}
+        style={
+          {
+            '--swiper-pagination-bullet-inactive-color':
+              'hsl(var(--foreground))',
+          } as React.CSSProperties
+        }
+        className={`top-[15%] !h-[70%] !w-[80%] md:!h-[500px] md:!w-[500px]`}
       >
-      {
-        imgUrls.map((imgUrl, index) => {
+        {imgUrls.map((imgUrl, index) => {
           return (
-            <SwiperSlide className="bg-center bg-cover !w-full !h-full" key={index}>
-              <img className='block w-full h-full object-cover' src={imgUrl} alt={`swiper nature picture`} />
+            <SwiperSlide
+              className="!h-full !w-full bg-cover bg-center"
+              key={index}
+            >
+              <img
+                className="block h-full w-full object-cover"
+                src={imgUrl}
+                alt={`swiper nature picture`}
+              />
             </SwiperSlide>
           );
-        })
-      }
+        })}
       </Swiper>
     </div>
   );

@@ -1,22 +1,18 @@
 import { clsx } from 'clsx';
 
-import { Button } from "@/components/ui/button";
-import ModeToggle from "./mode-toggle";
-import Avatar from "./avatar";
-import Breadcrumbs from "./breadcrumbs";
+import { Button } from '@/components/ui/button';
+import ModeToggle from './mode-toggle';
+import Avatar from './avatar';
+import Breadcrumbs from './breadcrumbs';
 import { BellIcon } from '@heroicons/react/24/outline';
-import { lusitana } from '@/app/ui/fonts';
 import FullScreenToggle from '@/app/components/full-screen-toggle';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import {List} from "@/app/components/list";
-import {NavButton} from "../nav"
-
-
-
+} from '@/components/ui/popover';
+import { List } from '@/app/components/list';
+import { NavButton } from '../nav';
 
 function Notifications() {
   return (
@@ -27,7 +23,7 @@ function Notifications() {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-screen md:w-[680px]">
-         <List />
+        <List />
       </PopoverContent>
     </Popover>
   );
@@ -35,30 +31,31 @@ function Notifications() {
 
 function LeftContent() {
   return (
-    <div className="flex items-center gap-1 justify-start">
-      <NavButton className="md:hidden"/>
-      <Breadcrumbs/>
+    <div className="flex items-center justify-start gap-1">
+      <NavButton className="md:hidden" />
+      <Breadcrumbs />
     </div>
   );
 }
 
 function RightContent() {
   return (
-    <div className="flex items-center gap-1 justify-end">
+    <div className="flex items-center justify-end gap-1">
       <FullScreenToggle />
       <ModeToggle />
       <Notifications />
       <Avatar />
     </div>
-  
   );
 }
 
-export default function Indicator({className}: {className?: string}) {
+export default function Indicator({ className }: { className?: string }) {
   return (
-  <nav className={`${lusitana.className} indicator h-[48px]  bg-nav/[.85] flex flex-auto items-center justify-between px-2 md:px-4 border-b border-background ${className}`}>
-    <LeftContent/>
-    <RightContent/>
-  </nav>
+    <nav
+      className={` indicator flex  h-[48px] flex-auto items-center justify-between border-b border-background bg-nav/[.85] px-2 md:px-4 ${className}`}
+    >
+      <LeftContent />
+      <RightContent />
+    </nav>
   );
 }

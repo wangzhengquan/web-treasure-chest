@@ -8,10 +8,12 @@ import { AuthError } from 'next-auth';
 
 const FormSchema = z.object({
   id: z.string(),
-  customerId: z.string({
-    required_error: "Please select a customer.",
-    invalid_type_error: 'Please select a customer.',
-  }).min(1, { message: "Please select a customer." }),
+  customerId: z
+    .string({
+      required_error: 'Please select a customer.',
+      invalid_type_error: 'Please select a customer.',
+    })
+    .min(1, { message: 'Please select a customer.' }),
   amount: z.coerce
     .number()
     .gt(0, { message: 'Please enter an amount greater than 0.' }),
@@ -24,7 +26,6 @@ const FormSchema = z.object({
 // Use Zod to update the expected types
 const InvoiceFormSchema = FormSchema.omit({ id: true, date: true });
 
- 
 // This is temporary until @types/react-dom is updated
 export type State = {
   errors?: {
@@ -43,7 +44,6 @@ export async function createInvoice(prevState: State, formData: FormData) {
     status: formData.get('status'),
   });
 
- 
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
     // console.log("validatedFields",  validatedFields.error.flatten().fieldErrors)
@@ -51,12 +51,12 @@ export async function createInvoice(prevState: State, formData: FormData) {
       errors: validatedFields.error.flatten().fieldErrors,
     };
   }
- 
+
   // Prepare data for insertion into the database
   const { customerId, amount, status } = validatedFields.data;
   const amountInCents = amount * 100;
   const date = new Date().toISOString().split('T')[0];
- 
+
   // Insert data into the database
   try {
     await sql`
@@ -69,14 +69,17 @@ export async function createInvoice(prevState: State, formData: FormData) {
       message: 'Database Error: Failed to Create Invoice.',
     };
   }
- 
+
   // Revalidate the cache for the invoices page and redirect the user.
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
 }
 
- 
-export async function updateInvoice(id: string, prevState: State, formData: FormData) {
+export async function updateInvoice(
+  id: string,
+  prevState: State,
+  formData: FormData,
+) {
   // console.log("formData", formData,  formData.get('customerId'), formData.get('amount'), formData.get('status'));
   // Validate form using Zod
   const validatedFields = InvoiceFormSchema.safeParse({
@@ -84,7 +87,7 @@ export async function updateInvoice(id: string, prevState: State, formData: Form
     amount: formData.get('amount'),
     status: formData.get('status'),
   });
- 
+
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
     // console.log("validatedFields",  validatedFields.error.flatten().fieldErrors)
@@ -93,7 +96,7 @@ export async function updateInvoice(id: string, prevState: State, formData: Form
       message: 'Missing Fields. Failed to Create Invoice.',
     };
   }
- 
+
   // Prepare data for insertion into the database
   const { customerId, amount, status } = validatedFields.data;
   const amountInCents = amount * 100;
@@ -107,11 +110,10 @@ export async function updateInvoice(id: string, prevState: State, formData: Form
   } catch (error) {
     return { message: 'Database Error: Failed to Update Invoice.' };
   }
- 
+
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
 }
-
 
 export async function deleteInvoice(id: string) {
   try {
@@ -121,7 +123,6 @@ export async function deleteInvoice(id: string) {
     return { message: 'Database Error: Failed to Delete Invoice.' };
   }
 }
-
 
 export async function authenticate(
   prevState: string | undefined,

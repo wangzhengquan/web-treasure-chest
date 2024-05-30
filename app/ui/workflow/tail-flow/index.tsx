@@ -1,6 +1,14 @@
 'use client';
 import React, { useCallback } from 'react';
-import ReactFlow, { useNodesState, useEdgesState, addEdge, MiniMap, Controls, OnConnect, Background } from 'reactflow';
+import ReactFlow, {
+  useNodesState,
+  useEdgesState,
+  addEdge,
+  MiniMap,
+  Controls,
+  OnConnect,
+  Background,
+} from 'reactflow';
 
 import 'reactflow/dist/base.css';
 
@@ -49,7 +57,10 @@ const Flow = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initEdges);
 
-  const onConnect:OnConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
+  const onConnect: OnConnect = useCallback(
+    (params) => setEdges((eds) => addEdge(params, eds)),
+    [],
+  );
 
   return (
     <ReactFlow

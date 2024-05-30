@@ -14,28 +14,30 @@ export default function Page() {
        */
       setPosition({ x: event.offsetX, y: event.offsetY });
     };
-    tableRef.current?.addEventListener("pointermove", listener );
+    tableRef.current?.addEventListener('pointermove', listener);
     return () => {
-      tableRef.current?.removeEventListener("pointermove", listener );
+      tableRef.current?.removeEventListener('pointermove', listener);
     };
   }, []);
 
   return (
-    <div ref={tableRef} className="relative w-full h-full">
+    <div ref={tableRef} className="relative h-full w-full">
       <h1>Move your mouse around</h1>
-    
-      <div style={{
-        position: 'absolute',
-        backgroundColor: 'pink',
-        borderRadius: '50%',
-        opacity: 0.6,
-        transform: `translate(${position.x}px, ${position.y}px)`,
-        pointerEvents: 'none',
-        left: -20,
-        top: -20,
-        width: 40,
-        height: 40,
-      }} />
+
+      <div
+        style={{
+          position: 'absolute',
+          backgroundColor: 'pink',
+          borderRadius: '50%',
+          opacity: 0.6,
+          transform: `translate(${position.x}px, ${position.y}px)`,
+          pointerEvents: 'none',
+          left: -20,
+          top: -20,
+          width: 40,
+          height: 40,
+        }}
+      />
     </div>
   );
 }

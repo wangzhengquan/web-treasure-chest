@@ -1,5 +1,3 @@
-
-
 /**
  * THIS OBJECT WILL ONLY WORK IF your target is positioned relative or absolute,
  * or anything that works with the top and left css properties (not static).
@@ -47,7 +45,7 @@
  * This might be required in some cases where the positioning of the target
  * is automatically done by the means of other css properties.
  *
- * 
+ *
  *
  *
  *
@@ -66,7 +64,7 @@
  *
  */
 
-export type SDragableElement = HTMLElement | SVGElement ;
+export type SDragableElement = HTMLElement | SVGElement;
 
 // The callback types for the drag and stop actions
 export type DragCallback = (
@@ -75,22 +73,22 @@ export type DragCallback = (
   startX: number,
   pageY: number,
   startY: number,
-  fix: Record<string, any>
+  fix: Record<string, any>,
 ) => void;
-  
+
 export type StopCallback = (
   el: HTMLElement | SVGElement,
   pageX: number,
   startX: number,
   pageY: number,
-  startY: number
+  startY: number,
 ) => void;
 
 export function makeDragalbe(
   self: HTMLElement | SVGElement,
   onDrag?: DragCallback,
   onStop?: StopCallback,
-  direction?: 'vertical' | 'horizontal'
+  direction?: 'vertical' | 'horizontal',
 ): void {
   let startX: number = 0;
   let startY: number = 0;
@@ -106,7 +104,7 @@ export function makeDragalbe(
         startX = fix.startX;
       }
       if (!('skipX' in fix)) {
-          self.style.left = `${pageX - startX}px`;
+        self.style.left = `${pageX - startX}px`;
       }
     }
     if (direction !== 'horizontal') {
@@ -115,13 +113,16 @@ export function makeDragalbe(
         startY = fix.startY;
       }
       if (!('skipY' in fix)) {
-          self.style.top = `${pageY - startY}px`;
+        self.style.top = `${pageY - startY}px`;
       }
     }
   };
 
   const startDragging = (e: MouseEvent): void => {
-    if (e.currentTarget instanceof HTMLElement || e.currentTarget instanceof SVGElement) {
+    if (
+      e.currentTarget instanceof HTMLElement ||
+      e.currentTarget instanceof SVGElement
+    ) {
       dragging = true;
       const left = self.style.left ? parseInt(self.style.left) : 0;
       const top = self.style.top ? parseInt(self.style.top) : 0;
@@ -132,11 +133,14 @@ export function makeDragalbe(
       startY = e.pageY - top;
       window.addEventListener('mousemove', move);
     } else {
-      throw new Error("Your target must be an HTML or SVG element");
+      throw new Error('Your target must be an HTML or SVG element');
     }
   };
 
-  self.addEventListener('mousedown', startDragging as EventListenerOrEventListenerObject);
+  self.addEventListener(
+    'mousedown',
+    startDragging as EventListenerOrEventListenerObject,
+  );
   window.addEventListener('mouseup', (e: MouseEvent): void => {
     if (dragging) {
       dragging = false;
@@ -145,6 +149,6 @@ export function makeDragalbe(
     }
   });
 }
-  
+
 // (typeof window != 'undefined') && (function () {
 // })();

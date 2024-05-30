@@ -1,4 +1,3 @@
-
 .MagicCurtain_MagicCurtainRoot {
   position: relative;
   --magic-curtain-controls-trigger-width: 44px;
@@ -43,140 +42,142 @@
   --black-a11: #000000e6;
   --black-a12: #000000f2;
 
-  --shadow-5: 0 0 0 1px var(--gray-a6),0 12px 60px var(--black-a5),0 12px 32px -16px var(--black-a7);
-    
+  --shadow-5: 0 0 0 1px var(--gray-a6), 0 12px 60px var(--black-a5),
+    0 12px 32px -16px var(--black-a7);
 }
 
-@supports (color: color-mix(in oklab,white,black)) {
+@supports (color: color-mix(in oklab, white, black)) {
   .MagicCurtain_MagicCurtainRoot {
-    --shadow-5: 0 0 0 1px color-mix(in oklab,var(--gray-a6),var(--gray-6) 25%),0 12px 60px var(--black-a5),0 12px 32px -16px var(--black-a7); 
-  }
-  
-}
-
-@media (min-width:360px) {
-  .MagicCurtain_MagicCurtainRoot {
-      --magic-curtain-controls-trigger-width: 48px
+    --shadow-5: 0 0 0 1px color-mix(in oklab, var(--gray-a6), var(--gray-6) 25%),
+      0 12px 60px var(--black-a5), 0 12px 32px -16px var(--black-a7);
   }
 }
 
-@media (min-width:440px) {
+@media (min-width: 360px) {
   .MagicCurtain_MagicCurtainRoot {
-      --magic-curtain-controls-trigger-width: 64px
+    --magic-curtain-controls-trigger-width: 48px;
+  }
+}
+
+@media (min-width: 440px) {
+  .MagicCurtain_MagicCurtainRoot {
+    --magic-curtain-controls-trigger-width: 64px;
   }
 }
 
 .MagicCurtain_MagicCurtainItem {
   position: relative;
   z-index: 0;
-  --animation-duration: 600ms
+  --animation-duration: 600ms;
 }
 
-@media (min-width:1280px) {
+@media (min-width: 1280px) {
   .MagicCurtain_MagicCurtainItem {
-      --animation-duration: 800ms
+    --animation-duration: 800ms;
   }
 }
 
-.MagicCurtain_MagicCurtainItem[data-visibility=hidden] {
-  display: none
+.MagicCurtain_MagicCurtainItem[data-visibility='hidden'] {
+  display: none;
 }
 
-.MagicCurtain_MagicCurtainItem[data-visibility=animating-out] {
+.MagicCurtain_MagicCurtainItem[data-visibility='animating-out'] {
   position: absolute;
   z-index: 1;
-  inset: 0
+  inset: 0;
 }
 
-@media (prefers-reduced-motion:no-preference) {
-  .MagicCurtain_MagicCurtainItem[data-visibility=animating-out] {
-      animation-name: MagicCurtain_magic-curtain-clip;
-      animation-duration: var(--animation-duration);
-      animation-timing-function: ease-in-out;
+@media (prefers-reduced-motion: no-preference) {
+  .MagicCurtain_MagicCurtainItem[data-visibility='animating-out'] {
+    animation-name: MagicCurtain_magic-curtain-clip;
+    animation-duration: var(--animation-duration);
+    animation-timing-function: ease-in-out;
   }
 
-  .MagicCurtain_MagicCurtainItem[data-visibility=visible]~.MagicCurtain_MagicCurtainItem[data-visibility=animating-out] {
-      animation-name: MagicCurtain_magic-curtain-clip-reverse;
+  .MagicCurtain_MagicCurtainItem[data-visibility='visible']
+    ~ .MagicCurtain_MagicCurtainItem[data-visibility='animating-out'] {
+    animation-name: MagicCurtain_magic-curtain-clip-reverse;
   }
 }
 
-@media (min-width:1920px) and (-webkit-min-device-pixel-ratio:1.25),
-(min-width:1920px) and (min-resolution:120dpi),
-(min-width:3000px) {
-  [data-is-firefox=true] .MagicCurtain_MagicCurtainItem[data-visibility=animating-out] {
-      animation-name: MagicCurtain_magic-curtain-fade;
-      animation-duration: calc(var(--animation-duration) / 4);
-      animation-timing-function: ease-in-out;
+@media (min-width: 1920px) and (-webkit-min-device-pixel-ratio: 1.25),
+  (min-width: 1920px) and (min-resolution: 120dpi),
+  (min-width: 3000px) {
+  [data-is-firefox='true']
+    .MagicCurtain_MagicCurtainItem[data-visibility='animating-out'] {
+    animation-name: MagicCurtain_magic-curtain-fade;
+    animation-duration: calc(var(--animation-duration) / 4);
+    animation-timing-function: ease-in-out;
   }
 }
 
 @media (prefers-reduced-motion) {
-  .MagicCurtain_MagicCurtainItem[data-visibility=animating-out] {
-      animation-name: MagicCurtain_magic-curtain-fade;
-      animation-duration: calc(var(--animation-duration) / 4);
-      animation-timing-function: ease-in-out;
+  .MagicCurtain_MagicCurtainItem[data-visibility='animating-out'] {
+    animation-name: MagicCurtain_magic-curtain-fade;
+    animation-duration: calc(var(--animation-duration) / 4);
+    animation-timing-function: ease-in-out;
   }
 }
 
 @keyframes MagicCurtain_magic-curtain-fade {
   0% {
-      opacity: 1
+    opacity: 1;
   }
 
   to {
-      opacity: 0
+    opacity: 0;
   }
 }
 
 @keyframes MagicCurtain_magic-curtain-clip {
   0% {
-      clip-path: polygon(0 0, 120% 0, 100% 100%, 0 100%)
+    clip-path: polygon(0 0, 120% 0, 100% 100%, 0 100%);
   }
 
   to {
-      clip-path: polygon(0 0, -20% 0, 0 100%, 0 100%)
+    clip-path: polygon(0 0, -20% 0, 0 100%, 0 100%);
   }
 }
 
 @keyframes MagicCurtain_magic-curtain-clip-reverse {
   0% {
-      clip-path: polygon(-20% 0, 100% 0, 100% 100%, 0 100%)
+    clip-path: polygon(-20% 0, 100% 0, 100% 100%, 0 100%);
   }
 
   to {
-      clip-path: polygon(120% 0, 100% 0, 100% 100%, 100% 100%)
+    clip-path: polygon(120% 0, 100% 0, 100% 100%, 100% 100%);
   }
 }
 
-@media (min-width:1000px) {
+@media (min-width: 1000px) {
   @keyframes MagicCurtain_magic-curtain-clip {
-      0% {
-          clip-path: polygon(0 0, 105% 0, 100% 100%, 0 100%)
-      }
+    0% {
+      clip-path: polygon(0 0, 105% 0, 100% 100%, 0 100%);
+    }
 
-      to {
-          clip-path: polygon(0 0, -5% 0, 0 100%, 0 100%)
-      }
+    to {
+      clip-path: polygon(0 0, -5% 0, 0 100%, 0 100%);
+    }
   }
 
   @keyframes MagicCurtain_magic-curtain-clip-reverse {
-      0% {
-          clip-path: polygon(-5% 0, 100% 0, 100% 100%, 0 100%)
-      }
+    0% {
+      clip-path: polygon(-5% 0, 100% 0, 100% 100%, 0 100%);
+    }
 
-      to {
-          clip-path: polygon(105% 0, 100% 0, 100% 100%, 100% 100%)
-      }
+    to {
+      clip-path: polygon(105% 0, 100% 0, 100% 100%, 100% 100%);
+    }
   }
 }
 
 .MagicCurtain_MagicCurtainControlsRoot {
   position: relative;
-  display: flex
+  display: flex;
 }
 
 .MagicCurtain_MagicCurtainControlsItem {
-  position: relative
+  position: relative;
 }
 
 .MagicCurtain_MagicCurtainControlsTrigger {
@@ -196,24 +197,24 @@
   position: relative;
   width: var(--magic-curtain-controls-trigger-width);
   height: var(--magic-curtain-controls-trigger-height);
-  margin: calc(-1 * 16px) 0
+  margin: calc(-1 * 16px) 0;
 }
 
 .MagicCurtain_MagicCurtainControlsTrigger:before {
   --magic-curtain-control-line-width: calc(4px / 2);
-  content: "";
+  content: '';
   position: absolute;
   pointer-events: none;
   height: var(--magic-curtain-control-line-width);
   left: 4px;
   right: 4px;
-  border-radius:8px;
-  background-color: rgba(255, 255, 255, .5);
-  transition: background-color .2s
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.5);
+  transition: background-color 0.2s;
 }
 
-.MagicCurtain_MagicCurtainControlsTrigger[data-visually-hidden=true]:before {
-  content: none
+.MagicCurtain_MagicCurtainControlsTrigger[data-visually-hidden='true']:before {
+  content: none;
 }
 
 .MagicCurtain_MagicCurtainControlsTrigger:hover:before {
@@ -221,24 +222,27 @@
   background-color: rgba(255, 255, 255, 1);
 }
 
-.MagicCurtain_MagicCurtainControlsTrigger[data-highlighted=true]:before {
+.MagicCurtain_MagicCurtainControlsTrigger[data-highlighted='true']:before {
   transition-duration: 30ms;
   background-color: rgba(255, 255, 255, 1);
 }
 
-
 .MagicCurtain_MagicCurtainControlsPreviewViewportWrapper {
-  transform: translateX(calc(var(--magic-curtain-controls-offset-index) * var(--magic-curtain-controls-trigger-width)));
+  transform: translateX(
+    calc(
+      var(--magic-curtain-controls-offset-index) *
+        var(--magic-curtain-controls-trigger-width)
+    )
+  );
   position: absolute;
-  top: calc(-1 * var(--magic-curtain-controls-preview-height) );
+  top: calc(-1 * var(--magic-curtain-controls-preview-height));
   left: 0;
-  transition: transform .25s ease-out;
+  transition: transform 0.25s ease-out;
 }
 
-
-@media (hover:none) {
+@media (hover: none) {
   .MagicCurtain_MagicCurtainControlsPreviewViewportWrapper {
-      display: none
+    display: none;
   }
 }
 
@@ -251,64 +255,67 @@
   background-color: #fff;
   box-shadow: var(--shadow-5);
   border-radius: 6px;
-  overflow: hidden
+  overflow: hidden;
 }
 
-.MagicCurtain_MagicCurtainControlsPreviewViewport[data-state=open] {
-  animation: MagicCurtain_scale-in .25s ease
+.MagicCurtain_MagicCurtainControlsPreviewViewport[data-state='open'] {
+  animation: MagicCurtain_scale-in 0.25s ease;
 }
 
-.MagicCurtain_MagicCurtainControlsPreviewViewport[data-state=closed] {
-  animation: MagicCurtain_scale-out .25s ease
+.MagicCurtain_MagicCurtainControlsPreviewViewport[data-state='closed'] {
+  animation: MagicCurtain_scale-out 0.25s ease;
 }
-
 
 @keyframes MagicCurtain_scale-in {
   0% {
-      opacity: 0;
-      transform: rotateX(-30deg) scale(.9)
+    opacity: 0;
+    transform: rotateX(-30deg) scale(0.9);
   }
 
   to {
-      opacity: 1;
-      transform: rotateX(0deg) scale(1)
+    opacity: 1;
+    transform: rotateX(0deg) scale(1);
   }
 }
 
 @keyframes MagicCurtain_scale-out {
   0% {
-      opacity: 1;
-      transform: rotateX(0deg) scale(1)
+    opacity: 1;
+    transform: rotateX(0deg) scale(1);
   }
 
   to {
-      opacity: 0;
-      transform: rotateX(-10deg) scale(.9)
+    opacity: 0;
+    transform: rotateX(-10deg) scale(0.9);
   }
 }
 
 .MagicCurtain_MagicCurtainControlsPreviewContent {
-  min-width:var(--magic-curtain-controls-preview-width);
+  min-width: var(--magic-curtain-controls-preview-width);
 }
-@media (prefers-reduced-motion:no-preference) {
+@media (prefers-reduced-motion: no-preference) {
   .MagicCurtain_MagicCurtainControlsPreviewContent {
-      transform: translateX(calc(-1 * var(--magic-curtain-controls-offset-index) * var(--magic-curtain-controls-preview-width)));
-      transition: transform .25s ease-out
+    transform: translateX(
+      calc(
+        -1 * var(--magic-curtain-controls-offset-index) * var(--magic-curtain-controls-preview-width)
+      )
+    );
+    transition: transform 0.25s ease-out;
   }
 }
 
 @media (prefers-reduced-motion) {
   .MagicCurtain_MagicCurtainControlsPreviewContent {
-      position: absolute;
-      top: 0;
-      left: 0;
-      transition: opacity .25s ease-out
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.25s ease-out;
   }
 
-  .MagicCurtain_MagicCurtainControlsPreviewContent[data-active=false] {
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s ease-in
+  .MagicCurtain_MagicCurtainControlsPreviewContent[data-active='false'] {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease-in;
   }
 }
 
@@ -320,6 +327,5 @@
   height: var(--magic-curtain-controls-preview-height);
   object-fit: cover;
   border-radius: 8px;
-  border: 4px solid #fff
+  border: 4px solid #fff;
 }
- 

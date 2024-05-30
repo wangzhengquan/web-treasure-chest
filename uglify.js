@@ -17,7 +17,7 @@ fs.readdir(inputDir, (err, files) => {
       // Remove js suffix
       file = file.slice(0, '.js'.length * -1);
       console.log('file', file);
-      const outputFile = path.join(outputDir, file+".min.js");
+      const outputFile = path.join(outputDir, file + '.min.js');
 
       fs.readFile(inputFile, 'utf8', (err, data) => {
         if (err) {
@@ -25,17 +25,19 @@ fs.readdir(inputDir, (err, files) => {
           return;
         }
 
-        minify(data).then((result) => {
-          fs.writeFile(outputFile, result.code, (err) => {
-            if (err) {
-              console.error(`Error writing file: ${outputFile}`, err);
-              return;
-            }
-            console.log(`Minified ${file}`);
+        minify(data)
+          .then((result) => {
+            fs.writeFile(outputFile, result.code, (err) => {
+              if (err) {
+                console.error(`Error writing file: ${outputFile}`, err);
+                return;
+              }
+              console.log(`Minified ${file}`);
+            });
+          })
+          .catch((err) => {
+            console.error(`Error minifying file: ${inputFile}`, err);
           });
-        }).catch((err) => {
-          console.error(`Error minifying file: ${inputFile}`, err);
-        });
       });
     }
   });

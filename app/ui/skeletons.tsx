@@ -4,9 +4,7 @@ const shimmer =
 
 export function CardSkeleton() {
   return (
-    <div
-      className={`${shimmer} rounded-xl bg-card p-2 shadow-sm`}
-    >
+    <div className={`${shimmer} rounded-xl bg-card p-2 shadow-sm`}>
       <div className="flex p-4">
         <div className="h-5 w-5 rounded-md bg-card-200" />
         <div className="ml-2 h-6 w-16 rounded-md bg-card-200 text-sm font-medium" />
@@ -34,7 +32,7 @@ export function RevenueChartSkeleton() {
     <div className={`relative w-full overflow-hidden md:col-span-4`}>
       <div className={`${shimmer} mb-4 h-8 w-36 rounded-md bg-card`} />
       <div className={`${shimmer} rounded-xl bg-card p-4`}>
-        <div className="mt-0 grid h-[410px] grid-cols-12 items-end gap-2 rounded-md bg-card-body p-4 sm:grid-cols-13 md:gap-4" />
+        <div className="sm:grid-cols-13 mt-0 grid h-[410px] grid-cols-12 items-end gap-2 rounded-md bg-card-body p-4 md:gap-4" />
         <div className="flex items-center pb-2 pt-6">
           <div className="h-5 w-5 rounded-full bg-card-200" />
           <div className="ml-2 h-4 w-20 rounded-md bg-card-200" />
@@ -46,7 +44,9 @@ export function RevenueChartSkeleton() {
 
 export function InvoiceSkeleton() {
   return (
-    <div className={`${shimmer} flex flex-row items-center justify-between border-b border-card py-4`}>
+    <div
+      className={`${shimmer} flex flex-row items-center justify-between border-b border-card py-4`}
+    >
       <div className="flex items-center">
         <div className="mr-2 h-8 w-8 rounded-full bg-card-200" />
         <div className="min-w-0">
@@ -81,7 +81,6 @@ export function LatestInvoicesSkeleton() {
     </div>
   );
 }
-
 
 export function TableRowSkeleton() {
   return (
@@ -197,7 +196,6 @@ export function InvoicesTableSkeleton() {
     </div>
   );
 }
-
 
 export default function DashboardSkeleton() {
   return (

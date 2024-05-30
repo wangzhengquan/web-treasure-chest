@@ -1,5 +1,5 @@
 'use client';
-type TOnProgress = ((progress: number) => void) ;
+type TOnProgress = (progress: number) => void;
 type TOnStop = (() => void) | undefined;
 
 class Animation {
@@ -43,8 +43,7 @@ class Animation {
     } else {
       this.onStop && this.onStop();
     }
-   
-  } 
+  }
 
   // onProgress(progress: number) {
   //   if (this.node) {
@@ -59,6 +58,6 @@ class Animation {
     this.duration = 0;
     this.onStop && this.onStop();
   }
-} 
+}
 
-export default Animation; 
+export default Animation;

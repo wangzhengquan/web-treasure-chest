@@ -1,4 +1,4 @@
-import Script from 'next/script'
+import Script from 'next/script';
 const fs = require('fs');
 const path = require('path');
 const { minify } = require('terser');
@@ -53,13 +53,8 @@ const code = `
     };
 `;
 
-export  default async function ArrayUtil({}) {
-    // const inputFile = path.resolve(__dirname, './test.js');
-    const result = await minify(code);
-    return (
-    <Script id="array-util-script">
-        {result.code}
-    </Script>
-    );
+export default async function ArrayUtil({}) {
+  // const inputFile = path.resolve(__dirname, './test.js');
+  const result = await minify(code);
+  return <Script id="array-util-script">{result.code}</Script>;
 }
-

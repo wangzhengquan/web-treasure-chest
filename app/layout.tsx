@@ -1,9 +1,9 @@
 import '@/app/ui/global.css';
-import { ThemeProvider } from "@/components/theme-provider";
-import { inter,lusitana} from '@/app/ui/fonts';
+import { ThemeProvider } from '@/components/theme-provider';
+import { inter, lusitana } from '@/app/ui/fonts';
 import { Metadata } from 'next';
 import SvgFilter from '@/app/ui/svg-effects/svg-filter';
- 
+
 export const metadata: Metadata = {
   title: 'Acme Dashboard',
   description: 'The official Next.js Course Dashboard, built with App Router.',
@@ -16,16 +16,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-screen overflow-hidden" suppressHydrationWarning>
-      <body className={`${inter.className} h-screen overflow-hidden antialiased`}>
+    <html
+      lang="en"
+      className="h-screen overflow-hidden"
+      suppressHydrationWarning
+    >
+      <body
+        className={`${inter.className} h-screen overflow-hidden antialiased`}
+      >
         <SvgFilter />
         <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-        {children}
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
         </ThemeProvider>
       </body>
     </html>

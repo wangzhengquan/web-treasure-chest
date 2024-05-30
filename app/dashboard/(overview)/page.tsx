@@ -3,24 +3,23 @@ import RevenueChart from '@/app/ui/dashboard/revenue-chart';
 import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
 
 import { Suspense } from 'react';
-import { 
-  RevenueChartSkeleton, 
+import {
+  RevenueChartSkeleton,
   LatestInvoicesSkeleton,
-  CardsSkeleton
+  CardsSkeleton,
 } from '@/app/ui/skeletons';
 import Main from '@/app/ui/main';
-import {UpdateBreadcrumbs} from '@/app/ui/indicator/breadcrumbs';
+import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 export default async function Page() {
-  
   return (
     <Main>
-      <UpdateBreadcrumbs breadcrumbs={'Dashboard'}/>
+      <UpdateBreadcrumbs breadcrumbs={'Dashboard'} />
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Suspense fallback={<CardsSkeleton />}>
           <CardWrapper />
         </Suspense>
       </div>
-      
+
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
         <Suspense fallback={<RevenueChartSkeleton />}>
           <RevenueChart />

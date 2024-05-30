@@ -35,7 +35,7 @@ class FadeInAnimation {
       // We still have more frames to paint
       this.frameId = requestAnimationFrame(() => this.onFrame());
     }
-  } 
+  }
 
   onProgress(progress: number) {
     if (this.node) {
@@ -49,8 +49,7 @@ class FadeInAnimation {
     this.frameId = null;
     this.duration = 0;
   }
-}     
-
+}
 
 function Welcome() {
   const ref = useRef(null);
@@ -72,7 +71,8 @@ function Welcome() {
         padding: 50,
         textAlign: 'center',
         fontSize: 50,
-        backgroundImage: 'radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)'
+        backgroundImage:
+          'radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)',
       }}
     >
       Welcome
@@ -84,11 +84,13 @@ export default function App() {
   const [show, setShow] = useState(false);
   return (
     <>
-
-      <button onClick={() => setShow(!show)} className="
-        bg-sky-500 text-white font-bold py-2 px-4 rounded
-        hover:bg-sky-700 transition-colors duration-300 ease-in-out
-      ">
+      <button
+        onClick={() => setShow(!show)}
+        className="
+        rounded bg-sky-500 px-4 py-2 font-bold text-white
+        transition-colors duration-300 ease-in-out hover:bg-sky-700
+      "
+      >
         {show ? 'Remove' : 'Show'}
       </button>
       <hr />

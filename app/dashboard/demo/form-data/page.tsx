@@ -1,13 +1,13 @@
 /**
  * Skipping re-rendering with useCallback and memo
  */
- 'use client';
+'use client';
 import { memo, useState, useCallback } from 'react';
 function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function  ShippingForm({ onSubmit }: { onSubmit: (orderDetails: any) => void }) {
+function ShippingForm({ onSubmit }: { onSubmit: (orderDetails: any) => void }) {
   const [count, setCount] = useState(1);
 
   console.log('[ARTIFICIALLY SLOW] Rendering <ShippingForm />');
@@ -22,7 +22,7 @@ function  ShippingForm({ onSubmit }: { onSubmit: (orderDetails: any) => void }) 
     const formData = new FormData(e.target as HTMLFormElement);
     const orderDetails = {
       ...Object.fromEntries(formData),
-      count
+      count,
     };
     onSubmit(orderDetails);
   }
@@ -31,9 +31,21 @@ function  ShippingForm({ onSubmit }: { onSubmit: (orderDetails: any) => void }) 
     <form onSubmit={handleSubmit} className="block space-y-3">
       <div className="block">
         <span className="inline-block w-32">Number of items:</span>
-        <button type="button" className="bg-blue-500 text-white rounded-lg px-3 py-1 hover:bg-blue-400 " onClick={() => setCount(count - 1)}>–</button>
+        <button
+          type="button"
+          className="rounded-lg bg-blue-500 px-3 py-1 text-white hover:bg-blue-400 "
+          onClick={() => setCount(count - 1)}
+        >
+          –
+        </button>
         <span className="p-5">{count}</span>
-        <button type="button" className="bg-blue-500 text-white rounded-lg px-3 py-1 hover:bg-blue-400 " onClick={() => setCount(count + 1)}>+</button>
+        <button
+          type="button"
+          className="rounded-lg bg-blue-500 px-3 py-1 text-white hover:bg-blue-400 "
+          onClick={() => setCount(count + 1)}
+        >
+          +
+        </button>
       </div>
       <label className="block">
         <span className="inline-block w-32"> Street:</span>
@@ -47,13 +59,24 @@ function  ShippingForm({ onSubmit }: { onSubmit: (orderDetails: any) => void }) 
         <span className="inline-block w-32">Postal code:</span>
         <input name="zipCode" />
       </label>
-      <button type="submit" className="bg-blue-500 text-white rounded-lg px-3 py-1 hover:bg-blue-400 ">Submit</button>
+      <button
+        type="submit"
+        className="rounded-lg bg-blue-500 px-3 py-1 text-white hover:bg-blue-400 "
+      >
+        Submit
+      </button>
     </form>
   );
 }
 
-function ProductPage({ productId, referrerId }: { productId: number, referrerId: string }) {
-  const [formData, setFormData] = useState(null)
+function ProductPage({
+  productId,
+  referrerId,
+}: {
+  productId: number;
+  referrerId: string;
+}) {
+  const [formData, setFormData] = useState(null);
   const handleSubmit = (orderDetails: any) => {
     setFormData(orderDetails);
     post('/product/' + productId + '/buy', {
@@ -65,7 +88,7 @@ function ProductPage({ productId, referrerId }: { productId: number, referrerId:
   return (
     <div>
       <ShippingForm onSubmit={handleSubmit} />
-      <code className=" block mt-5">
+      <code className=" mt-5 block">
         {formData && JSON.stringify(formData, null, 2)}
       </code>
     </div>
@@ -78,15 +101,14 @@ function post(url: string, data: any) {
   console.log(data);
 }
 
-
 export default function Page() {
   const [isDark, setIsDark] = useState(false);
   return (
-  <div className="w-full">
-    <div className="flex w-full items-center justify-between">
-      <h1 className={`text-xl`}>Form Data</h1>
+    <div className="w-full">
+      <div className="flex w-full items-center justify-between">
+        <h1 className={`text-xl`}>Form Data</h1>
+      </div>
+      <ProductPage referrerId="wizard_of_oz" productId={123} />
     </div>
-    <ProductPage referrerId="wizard_of_oz" productId={123} />
-  </div>
   );
 }

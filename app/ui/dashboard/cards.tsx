@@ -4,7 +4,6 @@ import {
   UserGroupIcon,
   InboxIcon,
 } from '@heroicons/react/24/outline';
-import { lusitana } from '@/app/ui/fonts';
 import { fetchCardData } from '@/app/lib/data';
 
 const iconMap = {
@@ -21,7 +20,7 @@ export default async function CardWrapper() {
     totalPaidInvoices,
     totalPendingInvoices,
   } = await fetchCardData();
-  
+
   return (
     <>
       {/* NOTE: comment in this code when you get to this point in the course */}
@@ -29,7 +28,10 @@ export default async function CardWrapper() {
       <Card title="Collected" value={totalPaidInvoices} type="collected" />
       <Card title="Pending" value={totalPendingInvoices} type="pending" />
       <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
-      <Card title="Total Customers" value={numberOfCustomers} type="customers"
+      <Card
+        title="Total Customers"
+        value={numberOfCustomers}
+        type="customers"
       />
     </>
   );
@@ -53,8 +55,8 @@ export function Card({
         <h3 className="ml-2 text-sm font-medium">{title}</h3>
       </div>
       <p
-        className={`${lusitana.className}
-          truncate rounded-xl px-4 py-8 text-center text-2xl bg-card-body`}
+        className={`
+          truncate rounded-xl bg-card-body px-4 py-8 text-center text-2xl`}
       >
         {value}
       </p>

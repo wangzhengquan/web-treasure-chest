@@ -11,8 +11,8 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { logout } from '@/app/actions';
 
@@ -21,13 +21,13 @@ export default function Avatar() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="ml-2">
-        <Image
-          src="/customers/john-doe.jpg"
-          className="rounded-full"
-          width={28}
-          height={28}
-          alt={`john-doe's profile picture`}
-        />
+          <Image
+            src="/customers/john-doe.jpg"
+            className="rounded-full"
+            width={28}
+            height={28}
+            alt={`john-doe's profile picture`}
+          />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
@@ -42,5 +42,4 @@ export default function Avatar() {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-
 }

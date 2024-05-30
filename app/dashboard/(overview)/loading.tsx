@@ -1,11 +1,11 @@
 import DashboardSkeleton from '@/app/ui/skeletons';
 import Main from '@/app/ui/main';
-import {UpdateBreadcrumbs} from '@/app/ui/indicator/breadcrumbs';
+import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 export default function Loading() {
   return (
-      <Main>
-        <UpdateBreadcrumbs breadcrumbs={'Dashboard'}/>
-        <DashboardSkeleton />
-      </Main>
+    <Main>
+      <UpdateBreadcrumbs breadcrumbs={'Dashboard'} />
+      <DashboardSkeleton />
+    </Main>
   );
 }

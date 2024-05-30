@@ -10,31 +10,35 @@ export default function TransformFunction() {
     }
     const exampleElement = exampleElementRef.current;
     const selectElem = event.target;
-   
-    if (selectElem.value === "Choose a function") {
+
+    if (selectElem.value === 'Choose a function') {
       return;
     } else {
       exampleElement.style.transform = `rotate3d(1, 1, 1, 30deg) ${selectElem.value}`;
       setTimeout(() => {
-        exampleElement.style.transform = "rotate3d(1, 1, 1, 30deg)";
+        exampleElement.style.transform = 'rotate3d(1, 1, 1, 30deg)';
       }, 2000);
     }
-  }
+  };
   return (
     <div>
       <div className={styles.main}>
-        <section ref={exampleElementRef} className={styles["example-element"]}>
-          <div className={`${styles["face"]} ${styles["front"]}`}>1</div>
-          <div className={`${styles["face"]} ${styles["back"]}`} >2</div>
-          <div className={`${styles["face"]} ${styles["right"]}`} >3</div>
-          <div className={`${styles["face"]} ${styles["left"]}`} >4</div>
-          <div className={`${styles["face"]} ${styles["top"]}`} >5</div>
-          <div className={`${styles["face"]} ${styles["bottom"]}`} >6</div>
+        <section ref={exampleElementRef} className={styles['example-element']}>
+          <div className={`${styles['face']} ${styles['front']}`}>1</div>
+          <div className={`${styles['face']} ${styles['back']}`}>2</div>
+          <div className={`${styles['face']} ${styles['right']}`}>3</div>
+          <div className={`${styles['face']} ${styles['left']}`}>4</div>
+          <div className={`${styles['face']} ${styles['top']}`}>5</div>
+          <div className={`${styles['face']} ${styles['bottom']}`}>6</div>
         </section>
       </div>
-      <div className={styles["select-form"]}>
+      <div className={styles['select-form']}>
         <label htmlFor="transfunction">Select a transform function: </label>
-        <select id="transfunction" defaultValue="Choose a function" onChange={handleSelectChange}>
+        <select
+          id="transfunction"
+          defaultValue="Choose a function"
+          onChange={handleSelectChange}
+        >
           <option>Choose a function</option>
           <option>rotate(360deg)</option>
           <option>rotateX(360deg)</option>
@@ -58,7 +62,7 @@ export default function TransformFunction() {
           <option>matrix(1, 2, -1, 1, 80, 80)</option>
           <option>matrix3d(1,0,0,0,0,1,3,0,0,0,1,0,50,100,0,1.1)</option>
         </select>
+      </div>
     </div>
-  </div>
   );
 }

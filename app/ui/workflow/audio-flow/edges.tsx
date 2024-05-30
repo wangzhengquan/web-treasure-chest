@@ -1,4 +1,4 @@
-import type { Edge, EdgeTypes } from "reactflow";
+import type { Edge, EdgeTypes } from 'reactflow';
 import React from 'react';
 import {
   BaseEdge,
@@ -37,7 +37,7 @@ export function ButtonCloseEdge({
   });
 
   const onDisconnect = () => {
-    store.deleteEdge( id );
+    store.deleteEdge(id);
   };
 
   return (
@@ -55,16 +55,20 @@ export function ButtonCloseEdge({
           }}
           className="nodrag nopan"
         >
-          <button style={{
-            width: '20px',
-            height: '20px',
-            background: 'hsl(var(--background))',
-            border: '1px solid #fff',
-            cursor: 'pointer',
-            borderRadius: '50%',
-            fontSize: '12px',
-            lineHeight: 1,
-          }} className="hover:shadow-[0_0_6px_2px_rgba(0,0,0,0.08)]" onClick={onDisconnect}>
+          <button
+            style={{
+              width: '20px',
+              height: '20px',
+              background: 'hsl(var(--background))',
+              border: '1px solid #fff',
+              cursor: 'pointer',
+              borderRadius: '50%',
+              fontSize: '12px',
+              lineHeight: 1,
+            }}
+            className="hover:shadow-[0_0_6px_2px_rgba(0,0,0,0.08)]"
+            onClick={onDisconnect}
+          >
             ×
           </button>
         </div>

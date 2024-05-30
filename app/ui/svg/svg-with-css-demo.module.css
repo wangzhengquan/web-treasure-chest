@@ -2,7 +2,7 @@
 
 /* page */
 .flower_container {
-  background-color: beige;  
+  background-color: beige;
 }
 
 .heading {
@@ -60,7 +60,7 @@
   --segment_edge-fill: none;
   --segment_edge-stroke: deepskyblue;
   --segment_edge-stroke-width: 3;
-  
+
   .segment:hover {
     --segment_fill-fill-hover: plum;
     --segment_fill-stroke-hover: none;
@@ -83,13 +83,13 @@
   --segment_edge-fill: none;
   --segment_edge-stroke: yellowgreen;
   --segment_edge-stroke-width: 9;
-  
+
   .segment:hover {
     --segment_fill-fill-hover: darkseagreen;
     --segment_fill-stroke-hover: none;
     --segment_edge-stroke-hover: green;
   }
-  
+
   .segment:hover > .segment_fill {
     fill: darkseagreen;
     stroke: none;
@@ -98,6 +98,3 @@
     stroke: green;
   }
 }
-  
-  
-

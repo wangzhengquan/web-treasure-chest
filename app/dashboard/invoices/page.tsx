@@ -4,18 +4,18 @@ import Table from '@/app/ui/invoices/table';
 import { CreateInvoice } from '@/app/ui/invoices/buttons';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 // import Indicator from '@/app/ui/indicator';
-import {UpdateBreadcrumbs} from '@/app/ui/indicator/breadcrumbs';
+import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 import Main from '@/app/ui/main';
 import { Suspense } from 'react';
 import { fetchInvoicesPages } from '@/app/lib/data';
 import { Metadata } from 'next';
- 
+
 export const metadata: Metadata = {
   title: 'Invoices | Acme Dashboard',
 };
 
 export default async function Page({
-  searchParams,   // url search params
+  searchParams, // url search params
 }: {
   searchParams?: {
     query: string;
@@ -28,15 +28,18 @@ export default async function Page({
   // const totalPages = 10;
   return (
     <>
-      <UpdateBreadcrumbs breadcrumbs={[{label: 'Invoices', href: ''}]} />   
+      <UpdateBreadcrumbs breadcrumbs={[{ label: 'Invoices', href: '' }]} />
       <Main>
-        <div className="mt-4 md:mt-6 flex items-center justify-between gap-2 ">
+        <div className="mt-4 flex items-center justify-between gap-2 md:mt-6 ">
           <Search placeholder="Search invoices..." />
           <CreateInvoice />
         </div>
-         
+
         <div className="mt-4 md:mt-12">
-          <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+          <Suspense
+            key={query + currentPage}
+            fallback={<InvoicesTableSkeleton />}
+          >
             <Table query={query} currentPage={currentPage} />
           </Suspense>
         </div>
