@@ -7,13 +7,9 @@ import {
   useCallback,
   forwardRef,
 } from 'react';
-import { createRoot, Root } from 'react-dom/client';
 import { createContext } from '@radix-ui/react-context';
-import * as Tooltip from '@radix-ui/react-tooltip';
 import { Presence } from '@radix-ui/react-presence';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import * as ReactDOM from 'react-dom';
 import './magic-curtain.css';
 
 interface DataItemType {
@@ -146,7 +142,7 @@ const MagicCurtainControlsPreviewViewport = forwardRef(({}, ref: any) => {
       previewViewport.removeEventListener('animationstart', onAnimationStart);
       previewViewport.removeEventListener('animationend', onAnimationEnd);
     };
-  }, [previewViewportRef.current]);
+  }, [previewViewportRef.current, previewContext]);
   return (
     <div
       ref={refs}

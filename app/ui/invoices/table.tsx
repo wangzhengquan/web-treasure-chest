@@ -86,7 +86,7 @@ export default async function InvoicesTable({
                   key={invoice.id}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                  <td className="relative overflow-hidden whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
                       <Image
                         src={invoice.image_url}
@@ -98,19 +98,19 @@ export default async function InvoicesTable({
                       <p>{invoice.name}</p>
                     </div>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="relative overflow-hidden whitespace-nowrap px-3 py-3">
                     {invoice.email}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="relative overflow-hidden whitespace-nowrap px-3 py-3">
                     {formatCurrency(invoice.amount)}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="relative overflow-hidden whitespace-nowrap px-3 py-3">
                     {formatDateToLocal(invoice.date)}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="relative overflow-hidden whitespace-nowrap px-3 py-3">
                     <InvoiceStatus status={invoice.status} />
                   </td>
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                  <td className="relative overflow-hidden whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       <UpdateInvoice id={invoice.id} />
                       <DeleteInvoice id={invoice.id} />
@@ -133,33 +133,33 @@ export function TableRowSkeleton() {
   return (
     <tr className="w-full border-b border-card last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
       {/* Customer Name and Image */}
-      <td className="relative overflow-hidden whitespace-nowrap py-3 pl-6 pr-3">
+      <td className="relative overflow-hidden box-border whitespace-nowrap py-3 pl-6 pr-3">
         <div className="flex items-center gap-3">
           <div className="h-8 w-8 rounded-full bg-card-200"></div>
           <div className="h-6 w-24 rounded bg-card-200"></div>
         </div>
       </td>
       {/* Email */}
-      <td className="whitespace-nowrap px-3 py-3">
+      <td className="box-border whitespace-nowrap px-3 py-3">
         <div className="h-6 w-32 rounded bg-card-200"></div>
       </td>
       {/* Amount */}
-      <td className="whitespace-nowrap px-3 py-3">
+      <td className="box-border whitespace-nowrap px-3 py-3">
         <div className="h-6 w-16 rounded bg-card-200"></div>
       </td>
       {/* Date */}
-      <td className="whitespace-nowrap px-3 py-3">
+      <td className="box-border whitespace-nowrap px-3 py-3">
         <div className="h-6 w-16 rounded bg-card-200"></div>
       </td>
       {/* Status */}
-      <td className="whitespace-nowrap px-3 py-3">
+      <td className="box-border whitespace-nowrap px-3 py-3">
         <div className="h-6 w-16 rounded bg-card-200"></div>
       </td>
       {/* Actions */}
-      <td className="whitespace-nowrap py-3 pl-6 pr-3">
+      <td className="box-border whitespace-nowrap py-3 pl-6 pr-3">
         <div className="flex justify-end gap-3">
-          <div className="h-[38px] w-[38px] rounded bg-card-200"></div>
-          <div className="h-[38px] w-[38px] rounded bg-card-200"></div>
+          <div className="h-8 w-8 rounded bg-card-200"></div>
+          <div className="h-8 w-8 rounded bg-card-200"></div>
         </div>
       </td>
     </tr>

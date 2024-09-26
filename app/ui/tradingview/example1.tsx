@@ -19,7 +19,7 @@ export const ChartComponent = (props: any) => {
     useEffect(() => {
         if (!chartContainerRef.current) return;
         const handleResize = () => {
-            chart.applyOptions({ width: chartContainerRef.current.clientWidth });
+            chart.applyOptions({ width: chartContainerRef.current?.clientWidth });
         };
 
         const chart = createChart(chartContainerRef.current, {
