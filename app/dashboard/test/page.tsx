@@ -13,18 +13,8 @@ export const metadata: Metadata = {
   title: 'Invoices | Acme Dashboard',
 };
 
-export default async function Page({
-  searchParams, // url search params
-}: {
-  searchParams?: {
-    query: string;
-    page?: string;
-  };
-}) {
-  const query = searchParams?.query || '';
-  const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = await fetchInvoicesPages(query);
-  // const totalPages = 10;
+export default async function Page() {
+  
   return (
     <>
       <UpdateBreadcrumbs breadcrumbs={[{ label: 'Invoices', href: '' }]} />
@@ -35,15 +25,10 @@ export default async function Page({
         </div>
 
         <div className="mt-4 md:mt-12">
-          <Suspense
-            key={query + currentPage}
-            fallback={<InvoicesTableSkeleton />}
-          >
-            <Table query={query} currentPage={currentPage} />
-          </Suspense>
+          <InvoicesTableSkeleton />
         </div>
         <div className="mt-4 flex w-full justify-center">
-          <Pagination totalPages={totalPages} />
+          <Pagination totalPages={1} />
         </div>
       </Main>
     </>

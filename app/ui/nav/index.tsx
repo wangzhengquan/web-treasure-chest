@@ -15,6 +15,7 @@ import {
   widgetsLinks,
   svgLinks,
   demoLinks,
+  tradingviewLinks,
   swiperLinks,
 } from './links-data';
 import LogoIcon from '../logo-icon';
@@ -163,6 +164,7 @@ export function Nav({ className = '' }: { className?: string }) {
     <nav className={clsx('flex w-full flex-col gap-[10px]', className, {})}>
       <NavLinksGroup title="OVERVIEW" links={adminLinks} />
       <NavLinksGroup title="Workflow" links={workflowLinks} />
+      <NavLinksGroup title="Trading View" links={tradingviewLinks} />
       <NavLinksGroup title="Swiper" links={swiperLinks} />
       <NavLinksGroup title="Animations" links={animationsLinks} />
       <NavLinksGroup title="3D" links={treedLinks} />

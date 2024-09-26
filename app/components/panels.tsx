@@ -2,7 +2,7 @@
 import { forwardRef } from 'react';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
-import { useMounted } from '@/app/hooks/use-mounted';
+import { useMounted } from '@/hooks/use-mounted';
 
 export function FloatLeftPanel({
   id,

@@ -82,6 +82,10 @@ export const treedLinks = [
   },
 ];
 
+export const tradingviewLinks = [
+  { name: 'Tradingview 1', href: '/dashboard/tradingview/example1', icon: ArrowTrendingUpIcon },
+];
+
 export const widgetsLinks = [
   { name: 'Widgets', href: '/dashboard/widgets', icon: DocumentDuplicateIcon },
 ];

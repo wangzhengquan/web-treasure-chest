@@ -5,6 +5,7 @@ import {
   InboxIcon,
 } from '@heroicons/react/24/outline';
 import { fetchCardData } from '@/app/lib/data';
+import {shimmer} from '@/app/ui/common/skeletons';
 
 const iconMap = {
   collected: BanknotesIcon,
@@ -61,5 +62,31 @@ export function Card({
         {value}
       </p>
     </div>
+  );
+}
+
+
+export function CardSkeleton() {
+  return (
+    <div className={`${shimmer} rounded-xl bg-card p-2 shadow-sm`}>
+      <div className="flex p-4">
+        <div className="h-5 w-5 rounded-md bg-card-200" />
+        <div className="ml-2 h-6 w-16 rounded-md bg-card-200 text-sm font-medium" />
+      </div>
+      <div className="flex items-center justify-center truncate rounded-xl bg-card-body px-4 py-8">
+        <div className="h-7 w-20 rounded-md bg-card-200" />
+      </div>
+    </div>
+  );
+}
+
+export function CardsSkeleton() {
+  return (
+    <>
+      <CardSkeleton />
+      <CardSkeleton />
+      <CardSkeleton />
+      <CardSkeleton />
+    </>
   );
 }

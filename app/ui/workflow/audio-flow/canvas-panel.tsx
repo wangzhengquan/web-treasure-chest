@@ -76,16 +76,16 @@ const initional_edges: Edge[] = [
   },
 ];
 
-const selector = (store: Store) => ({
-  nodes: store.nodes,
-  edges: store.edges,
-  onNodesChange: store.onNodesChange,
-  onNodesDelete: store.onNodesDelete,
-  onEdgesChange: store.onEdgesChange,
-  addEdge: store.addEdge,
-  createNode: store.createNode,
-  // setNodes: store.setNodes,
-  // setEdges: store.setEdges,
+const selector = (state: Store) => ({
+  nodes: state.nodes,
+  edges: state.edges,
+  onNodesChange: state.onNodesChange,
+  onNodesDelete: state.onNodesDelete,
+  onEdgesChange: state.onEdgesChange,
+  addEdge: state.addEdge,
+  createNode: state.createNode,
+  // setNodes: state.setNodes,
+  // setEdges: state.setEdges,
 });
 
 export default function CanvasPanel() {

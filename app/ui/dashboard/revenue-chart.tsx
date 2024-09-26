@@ -2,6 +2,7 @@ import { generateYAxis } from '@/app/lib/utils';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { Revenue } from '@/app/lib/definitions';
 import { fetchRevenue } from '@/app/lib/data';
+import {shimmer} from '@/app/ui/common/skeletons';
 // This component is representational only.
 // For data visualization UI, check out:
 // https://www.tremor.so/
@@ -21,7 +22,7 @@ export default async function RevenueChart() {
 
   return (
     <div className="bg-card p-4 rounded-md w-full md:col-span-4">
-      <h2 className={`mb-4  text-xl md:text-xl`}>
+      <h2 className={`mb-4`}>
         Recent Revenue
       </h2>
 
@@ -53,6 +54,23 @@ export default async function RevenueChart() {
         <div className="flex items-center pb-2 pt-6 text-foreground/60">
           <CalendarIcon className="h-5 w-5" />
           <h3 className="ml-2 text-sm ">Last 12 months</h3>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+export function RevenueChartSkeleton() {
+  return (
+    <div className={`relative w-full overflow-hidden md:col-span-4 bg-card rounded-xl p-4`}>
+      <div className={`${shimmer} relative mb-4 h-8 w-36 overflow-hidden rounded-md bg-card-200`} />
+      <div className={`${shimmer}`}>
+        <div className="sm:grid-cols-13 mt-0 grid h-[410px] grid-cols-12 items-end gap-2 rounded-md bg-card-body p-4 md:gap-4" />
+        <div className="flex items-center pb-2 pt-6">
+          <div className="h-5 w-5 rounded-full bg-card-200" />
+          <div className="ml-2 h-4 w-20 rounded-md bg-card-200" />
         </div>
       </div>
     </div>
