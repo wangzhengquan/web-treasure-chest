@@ -8,7 +8,7 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/components/button';
-import { createInvoice } from '@/app/actions';
+import { createInvoice } from '@/app/actions/invoices';
 import { useFormState, useFormStatus } from 'react-dom';
 import ErrorAria from '@/app/ui/error-aria';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';

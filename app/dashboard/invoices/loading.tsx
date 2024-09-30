@@ -28,7 +28,7 @@ export default async function Page() {
           <InvoicesTableSkeleton />
         </div>
         <div className="mt-4 flex w-full justify-center">
-          <Pagination totalPages={1} />
+          <Pagination totalPages={10} />
         </div>
       </Main>
     </>

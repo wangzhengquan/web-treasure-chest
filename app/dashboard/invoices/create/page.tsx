@@ -1,6 +1,6 @@
 import Form from '@/app/ui/invoices/create-form';
 import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
-import { fetchCustomers } from '@/app/lib/data';
+import { fetchCustomers } from '@/app/actions/customers';
 import Main from '@/app/ui/main';
 export default async function Page() {
   const customers = await fetchCustomers();

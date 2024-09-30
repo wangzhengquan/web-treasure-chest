@@ -6,7 +6,7 @@ import { CreateInvoice } from '@/app/ui/invoices/buttons';
 import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 import Main from '@/app/ui/main';
 import { Suspense } from 'react';
-import { fetchInvoicesPages } from '@/app/lib/data';
+import { fetchInvoicesPages } from '@/app/actions/invoices';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

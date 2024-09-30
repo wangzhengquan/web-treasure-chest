@@ -7,7 +7,7 @@ import {
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from '@/app/components/button';
 import { useFormState, useFormStatus } from 'react-dom';
-import { authenticate } from '@/app/actions';
+import { authenticate } from '@/app/actions/users';
 import { Input } from '@/components/ui/input';
 
 export default function LoginForm() {

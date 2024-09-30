@@ -1,7 +1,7 @@
 import { generateYAxis } from '@/app/lib/utils';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { Revenue } from '@/app/lib/definitions';
-import { fetchRevenue } from '@/app/lib/data';
+import { fetchRevenue } from '@/app/actions/revenue';
 import {shimmer} from '@/app/ui/common/skeletons';
 // This component is representational only.
 // For data visualization UI, check out:

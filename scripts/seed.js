@@ -162,11 +162,12 @@ async function seedRevenue(client) {
 
 async function main() {
   const client = await db.connect();
-
+  await client.sql`BEGIN`;
   await seedUsers(client);
   await seedCustomers(client);
   await seedInvoices(client);
   await seedRevenue(client);
+  await client.sql`COMMIT`;
 
   await client.end();
 }

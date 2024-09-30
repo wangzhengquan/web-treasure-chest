@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
 import InvoiceStatus from '@/app/ui/invoices/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
-import { fetchFilteredInvoices } from '@/app/lib/data';
+import { fetchFilteredInvoices } from '@/app/actions/invoices';
 import {shimmer} from '@/app/ui/common/skeletons';
 
 export default async function InvoicesTable({
@@ -158,8 +158,8 @@ export function TableRowSkeleton() {
       {/* Actions */}
       <td className="box-border whitespace-nowrap py-3 pl-6 pr-3">
         <div className="flex justify-end gap-3">
-          <div className="h-8 w-8 rounded bg-card-200"></div>
-          <div className="h-8 w-8 rounded bg-card-200"></div>
+          <div className="h-[33.5px] w-[33.5px] rounded bg-card-200"></div>
+          <div className="h-[33.5px] w-[33.5px] rounded bg-card-200"></div>
         </div>
       </td>
     </tr>

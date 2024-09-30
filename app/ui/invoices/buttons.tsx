@@ -1,6 +1,6 @@
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { deleteInvoice } from '@/app/actions';
+import { deleteInvoice } from '@/app/actions/invoices';
 // className="flex h-10 items-center rounded-lg bg-[linear-gradient(94.26deg,rgb(32,121,222)_6.45%,rgb(28,93,192)_100%)] hover:bg-[linear-gradient(94.26deg,rgb(63,140,227)_6.45%,rgb(32,108,223)_100%)] text-[rgb(235_235_240)] border-[0.5px_solid_rgba(255_255_255_0.12)] shadow  px-4 text-sm font-medium  transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
 export function CreateInvoice() {
   return (

@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import { logout } from '@/app/actions';
+import { logout } from '@/app/actions/users';
 
 export default function Avatar() {
   return (

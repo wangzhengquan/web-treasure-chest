@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/components/button';
-import { updateInvoice } from '@/app/actions';
+import { updateInvoice } from '@/app/actions/invoices';
 import { useFormState, useFormStatus } from 'react-dom';
 import ErrorAria from '@/app/ui/error-aria';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
