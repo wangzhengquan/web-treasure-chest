@@ -1,9 +1,7 @@
 import Pagination from '@/app/ui/invoices/pagination';
-import Search from '@/app/components/search';
+import Search from '@/app/ui/common/search';
 import Table, {InvoicesTableSkeleton} from '@/app/ui/invoices/table';
 import { CreateInvoice } from '@/app/ui/invoices/buttons';
-// import Indicator from '@/app/ui/indicator';
-import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 import Main from '@/app/ui/main';
 import { Suspense } from 'react';
 import { fetchInvoicesPages } from '@/app/actions/invoices';
@@ -26,8 +24,6 @@ export default async function Page({
   const totalPages = await fetchInvoicesPages(query);
   // const totalPages = 10;
   return (
-    <>
-      <UpdateBreadcrumbs breadcrumbs={[{ label: 'Invoices', href: '' }]} />
       <Main>
         <div className="mt-4 flex items-center justify-between gap-2 md:mt-6 ">
           <Search placeholder="Search invoices..." />
@@ -46,6 +42,5 @@ export default async function Page({
           <Pagination totalPages={totalPages} />
         </div>
       </Main>
-    </>
   );
 }

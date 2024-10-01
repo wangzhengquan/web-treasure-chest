@@ -1,14 +1,15 @@
+
 import CardWrapper, {CardsSkeleton} from '@/app/ui/dashboard/cards';
 import RevenueChart, {RevenueChartSkeleton} from '@/app/ui/dashboard/revenue-chart';
 import LatestInvoices, {LatestInvoicesSkeleton} from '@/app/ui/dashboard/latest-invoices';
 
 import { Suspense } from 'react';
 import Main from '@/app/ui/main';
-import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
+// import useBreadcrumbs  from '@/app/hooks/useBreadcrumbs';
 export default async function Page() {
+
   return (
     <Main>
-      <UpdateBreadcrumbs breadcrumbs={'Dashboard'} />
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Suspense fallback={<CardsSkeleton />}>
           <CardWrapper />

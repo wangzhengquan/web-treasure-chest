@@ -1,10 +1,12 @@
+'use client'
 import DashboardSkeleton from '@/app/ui/dashboard/skeleton';
 import Main from '@/app/ui/main';
-import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
+import useBreadcrumbs  from '@/app/hooks/useBreadcrumbs';
 export default function Loading() {
+  useBreadcrumbs('Dashboard');
+  
   return (
     <Main>
-      <UpdateBreadcrumbs breadcrumbs={'Dashboard'} />
       <DashboardSkeleton />
     </Main>
   );

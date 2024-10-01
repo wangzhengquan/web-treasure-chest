@@ -1,8 +1,7 @@
 import CustomersTable from '@/app/ui/customers/table';
-import Search from '@/app/components/search';
+import Search from '@/app/ui/common/search';
 import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 import Main from '@/app/ui/main';
-import { Suspense } from 'react';
 
 export default async function Page({
   searchParams, // url search params
@@ -14,10 +13,6 @@ export default async function Page({
 }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-  // return (
-  //   <CustomersTable query={query} currentPage={currentPage}/>
-  // );
-
   return (
     <>
       <UpdateBreadcrumbs breadcrumbs={'Customers'} />

@@ -7,7 +7,7 @@ import {
   CurrencyDollarIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
-import { Button } from '@/app/components/button';
+import { Button } from '@/app/ui/common/button';
 import { createInvoice } from '@/app/actions/invoices';
 import { useFormState, useFormStatus } from 'react-dom';
 import ErrorAria from '@/app/ui/error-aria';

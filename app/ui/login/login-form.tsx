@@ -5,7 +5,7 @@ import {
   ExclamationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
-import { Button } from '@/app/components/button';
+import { Button } from '@/app/ui/common/button';
 import { useFormState, useFormStatus } from 'react-dom';
 import { authenticate } from '@/app/actions/users';
 import { Input } from '@/components/ui/input';

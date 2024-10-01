@@ -5,13 +5,13 @@ import ModeToggle from './mode-toggle';
 import Avatar from './avatar';
 import Breadcrumbs from './breadcrumbs';
 import { BellIcon } from '@heroicons/react/24/outline';
-import FullScreenToggle from '@/app/components/full-screen-toggle';
+import FullScreenToggle from '@/app/ui/common/full-screen-toggle';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { List } from '@/app/components/list';
+import { List } from '@/app/ui/common/list';
 import { NavButton } from '../nav';
 
 function Notifications() {

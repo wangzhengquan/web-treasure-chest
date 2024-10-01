@@ -16,16 +16,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
   return (
     <>
-      <UpdateBreadcrumbs
-        breadcrumbs={[
-          { label: 'Invoices', href: '/dashboard/invoices' },
-          {
-            label: 'Edit Invoice',
-            href: `/dashboard/invoices/${id}/edit`,
-            active: true,
-          },
-        ]}
-      />
+       
       <Main>
         <Form invoice={invoice} customers={customers} />
       </Main>

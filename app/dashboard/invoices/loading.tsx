@@ -1,23 +1,22 @@
+'use client'
 import Pagination from '@/app/ui/invoices/pagination';
-import Search from '@/app/components/search';
+import Search from '@/app/ui/common/search';
 import Table, {InvoicesTableSkeleton} from '@/app/ui/invoices/table';
 import { CreateInvoice } from '@/app/ui/invoices/buttons';
-// import Indicator from '@/app/ui/indicator';
-import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 import Main from '@/app/ui/main';
 import { Suspense } from 'react';
-import { fetchInvoicesPages } from '@/app/lib/data';
 import { Metadata } from 'next';
+import useBreadcrumbs  from '@/app/hooks/useBreadcrumbs';
+
+
 
 export const metadata: Metadata = {
   title: 'Invoices | Acme Dashboard',
 };
 
 export default async function Page() {
-  
+  useBreadcrumbs('Invoices');
   return (
-    <>
-      <UpdateBreadcrumbs breadcrumbs={[{ label: 'Invoices', href: '' }]} />
       <Main>
         <div className="mt-4 flex items-center justify-between gap-2 md:mt-6 ">
           <Search placeholder="Search invoices..." />
@@ -31,6 +30,5 @@ export default async function Page() {
           <Pagination totalPages={10} />
         </div>
       </Main>
-    </>
   );
 }

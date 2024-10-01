@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import ReactFlow, {
   Controls,
   useNodesState,
@@ -103,13 +103,7 @@ const initialEdges: Edge[] = [
   },
 ];
 
-const nodeTypes = {
-  turbo: TurboNode,
-};
-
-const edgeTypes = {
-  turbo: TurboEdge,
-};
+ 
 
 const defaultEdgeOptions = {
   type: 'turbo',
@@ -119,6 +113,18 @@ const defaultEdgeOptions = {
 const Flow = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  const nodeTypes = useMemo(() => (
+    {
+      turbo: TurboNode,
+    }
+  ),[]);
+  
+  const edgeTypes = useMemo(() => (
+    {
+      turbo: TurboEdge,
+    }
+  ),[]);
 
   const onConnect: OnConnect = useCallback(
     (params) => setEdges((els) => addEdge(params, els)),

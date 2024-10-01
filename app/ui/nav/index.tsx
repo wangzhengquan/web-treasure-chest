@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRef, useState, useLayoutEffect, ReactElement } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import Animation from '@/app/components/animation';
+import Animation from '@/app/ui/common/animation';
 import { Separator } from '@/components/ui/separator';
 import {
   adminLinks,
@@ -21,7 +21,7 @@ import {
 import LogoIcon from '../logo-icon';
 import { Bars3Icon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { createContext } from '@radix-ui/react-context';
-import { FloatLeftPanel, BackdropPanel } from '@/app/components/panels';
+import { FloatLeftPanel, BackdropPanel } from '@/app/ui/common/panels';
 import { Button } from '@/components/ui/button';
 
 export type NavLinkType = {
@@ -163,10 +163,11 @@ export function Nav({ className = '' }: { className?: string }) {
   return (
     <nav className={clsx('flex w-full flex-col gap-[10px]', className, {})}>
       <NavLinksGroup title="OVERVIEW" links={adminLinks} />
+      <NavLinksGroup title="Animations" links={animationsLinks} />
       <NavLinksGroup title="Workflow" links={workflowLinks} />
       <NavLinksGroup title="Trading View" links={tradingviewLinks} />
       <NavLinksGroup title="Swiper" links={swiperLinks} />
-      <NavLinksGroup title="Animations" links={animationsLinks} />
+      
       <NavLinksGroup title="3D" links={treedLinks} />
       {/* <NavLinksGroup title="Widgets" links={widgetsLinks} />
       <NavLinksGroup title="SVG" links={svgLinks} />

@@ -8,7 +8,7 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { Button } from '@/app/components/button';
+import { Button } from '@/app/ui/common/button';
 import { updateInvoice } from '@/app/actions/invoices';
 import { useFormState, useFormStatus } from 'react-dom';
 import ErrorAria from '@/app/ui/error-aria';

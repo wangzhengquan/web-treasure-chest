@@ -2,48 +2,54 @@
 import { useReducer, useLayoutEffect } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
-export interface Breadcrumb {
-  label: string;
-  href: string;
-  active?: boolean;
-}
 
-export interface BreadcrumbAction {
-  // type: 'update';
-  payload: Breadcrumb[];
-}
+import {useStore} from '@/app/store';
+import {Breadcrumb} from '@/app/lib/definitions';
+import useBreadcrumbs  from '@/app/hooks/useBreadcrumbs';
+// export interface Breadcrumb {
+//   label: string;
+//   href: string;
+//   active?: boolean;
+// }
 
-export function breadcrumbsReducer(
-  preState: Breadcrumb[],
-  action: BreadcrumbAction,
-) {
-  return action.payload;
-}
 
-let dispatchBreadcrumbs: (action: BreadcrumbAction) => void;
-export { dispatchBreadcrumbs };
+// export interface BreadcrumbAction {
+//   // type: 'update';
+//   payload: Breadcrumb[];
+// }
+
+// export function breadcrumbsReducer(
+//   preState: Breadcrumb[],
+//   action: BreadcrumbAction,
+// ) {
+//   return action.payload;
+// }
+
+// let dispatchBreadcrumbs: (action: BreadcrumbAction) => void;
+// export { dispatchBreadcrumbs };
 
 export default function Breadcrumbs() {
-  const [breadcrumbs, dispatch] = useReducer(breadcrumbsReducer, []);
-  dispatchBreadcrumbs = dispatch;
+  // const [breadcrumbs, dispatch] = useReducer(breadcrumbsReducer, []);
+  // dispatchBreadcrumbs = dispatch;
+  const breadcrumbs = useStore((state) => state.breadcrumbs)
   return (
     <ol className="flex">
-      {breadcrumbs.map((breadcrumb, index) => (
+      {breadcrumbs.map((item, index) => (
         <li
-          key={breadcrumb.href}
-          aria-current={breadcrumb.active}
+          key={item.label}
+          aria-current={item.active}
           className={clsx()
-          // breadcrumb.active ? 'text-gray-900' : 'text-gray-500',
+          // item.active ? 'text-gray-900' : 'text-gray-500',
           }
         >
-          {breadcrumb.active ? (
-            breadcrumb.label
+          {item.active ? (
+            item.label
           ) : (
             <Link
-              href={breadcrumb.href as string}
+              href={item.href as string}
               className="hover:text-accent-foreground"
             >
-              {breadcrumb.label}
+              {item.label}
             </Link>
           )}
           {index < breadcrumbs.length - 1 ? (
@@ -60,13 +66,7 @@ export function UpdateBreadcrumbs({
 }: {
   breadcrumbs: string | Breadcrumb | Breadcrumb[];
 }) {
-  useLayoutEffect(() => {
-    if (typeof breadcrumbs === 'string') {
-      breadcrumbs = [{ label: breadcrumbs, href: '' }];
-    } else if (!Array.isArray(breadcrumbs)) {
-      breadcrumbs = [breadcrumbs];
-    }
-    dispatchBreadcrumbs({ payload: breadcrumbs });
-  }, []);
+  useBreadcrumbs(breadcrumbs)
+  
   return <></>;
 }
