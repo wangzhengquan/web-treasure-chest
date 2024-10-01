@@ -2,7 +2,7 @@
 import Loading  from '@/app/dashboard/loading';
 import useBreadcrumbs  from '@/app/hooks/useBreadcrumbs';
 
-export default  function() {
+export default function Page() {
    
   useBreadcrumbs([
     { label: 'Invoices', href: '/dashboard/invoices' },

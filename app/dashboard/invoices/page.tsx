@@ -6,7 +6,7 @@ import Main from '@/app/ui/main';
 import { Suspense } from 'react';
 import { fetchInvoicesPages } from '@/app/actions/invoices';
 import { Metadata } from 'next';
-
+import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 export const metadata: Metadata = {
   title: 'Invoices | Acme Dashboard',
 };
@@ -24,6 +24,8 @@ export default async function Page({
   const totalPages = await fetchInvoicesPages(query);
   // const totalPages = 10;
   return (
+    <>
+      <UpdateBreadcrumbs breadcrumbs={'Invoices'} />
       <Main>
         <div className="mt-4 flex items-center justify-between gap-2 md:mt-6 ">
           <Search placeholder="Search invoices..." />
@@ -42,5 +44,6 @@ export default async function Page({
           <Pagination totalPages={totalPages} />
         </div>
       </Main>
+    </>
   );
 }

@@ -6,7 +6,6 @@ import { CreateInvoice } from '@/app/ui/invoices/buttons';
 import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 import Main from '@/app/ui/main';
 import { Suspense } from 'react';
-import { fetchInvoicesPages } from '@/app/lib/data';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -17,7 +16,7 @@ export default async function Page() {
   
   return (
     <>
-      <UpdateBreadcrumbs breadcrumbs={[{ label: 'Invoices', href: '' }]} />
+      <UpdateBreadcrumbs breadcrumbs={[{ label: 'Test', href: '' }]} />
       <Main>
         <div className="mt-4 flex items-center justify-between gap-2 md:mt-6 ">
           <Search placeholder="Search invoices..." />

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: 'Invoices | Acme Dashboard',
 };
 
-export default async function Page() {
+export default function Page() {
   useBreadcrumbs('Invoices');
   return (
       <Main>

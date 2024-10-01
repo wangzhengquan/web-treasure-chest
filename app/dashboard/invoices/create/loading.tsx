@@ -2,7 +2,7 @@
 import Loading  from '@/app/dashboard/loading';
 import useBreadcrumbs  from '@/app/hooks/useBreadcrumbs';
 
-export default () => {
+const Page = () => {
    
   useBreadcrumbs([
     { label: 'Invoices', href: '/dashboard/invoices' },
@@ -14,3 +14,5 @@ export default () => {
   ]);
   return <Loading/>
 };
+
+export default Page;

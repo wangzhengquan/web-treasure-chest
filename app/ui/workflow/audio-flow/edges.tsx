@@ -82,11 +82,6 @@ export const CommonEdgeProps = {
   animated: true,
 };
 
-// export const initialEdges = [
-//   { id: "a->c", source: "a", target: "c", ...CommonEdgeProps},
-//   { id: "b->d", source: "b", target: "d" , ...CommonEdgeProps },
-//   { id: "c->d", source: "c", target: "d", ...CommonEdgeProps },
-// ] satisfies Edge[];
 
 export const edgeTypes = {
   // Add your custom edge types here!

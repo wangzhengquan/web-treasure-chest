@@ -5,10 +5,14 @@ import LatestInvoices, {LatestInvoicesSkeleton} from '@/app/ui/dashboard/latest-
 
 import { Suspense } from 'react';
 import Main from '@/app/ui/main';
+import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 // import useBreadcrumbs  from '@/app/hooks/useBreadcrumbs';
 export default async function Page() {
 
   return (
+    <>
+    
+    <UpdateBreadcrumbs breadcrumbs={'Dashboard'} />
     <Main>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Suspense fallback={<CardsSkeleton />}>
@@ -25,5 +29,6 @@ export default async function Page() {
         </Suspense>
       </div>
     </Main>
+    </>
   );
 }
