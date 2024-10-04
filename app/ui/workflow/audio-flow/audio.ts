@@ -56,7 +56,7 @@ export function updateAudioNode(id: string, props: any) {
 
   for (const [key, val] of Object.entries(props)) {
     if (node[key] instanceof AudioParam) {
-      node[key].value = val;
+      node[key].value = val as number;
     } else {
       node[key] = val;
     }
