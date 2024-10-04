@@ -1,14 +1,14 @@
 import * as React from 'react';
 /**
- * useMediaQuery("(min-width: 600px)")
+ * useMediaQuery("(min-width: 768px)")
  * @param query
  * @returns
  */
-export function useMediaQuery(query: string) {
-  const [matches, setMatches] = React.useState(matchMedia(query).matches);
+export default function useMediaQuery(query: string) {
+  const [matches, setMatches] = React.useState(window.matchMedia(query).matches);
 
   React.useEffect(() => {
-    const media = matchMedia(query);
+    const media =  window.matchMedia(query);
     setMatches(media.matches);
     function listener(event: MediaQueryListEvent) {
       setMatches(event.matches);
