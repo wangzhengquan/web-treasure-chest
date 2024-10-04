@@ -1,4 +1,3 @@
-import Indicator from '@/app/ui/indicator';
 import Main from '@/app/ui/main';
 import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 import Cannon from '@/app/ui/animations/cannon';

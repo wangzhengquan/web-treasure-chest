@@ -7,7 +7,7 @@ import { useRef, useState, useLayoutEffect, ReactElement } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import Animation from '@/app/ui/common/animation';
 import { Separator } from '@/components/ui/separator';
-import {
+import navLinksTree, {
   adminLinks,
   workflowLinks,
   animationsLinks,
@@ -23,19 +23,15 @@ import { Bars3Icon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { createContext } from '@radix-ui/react-context';
 import { FloatLeftPanel, BackdropPanel } from '@/app/ui/common/panels';
 import { Button } from '@/components/ui/button';
+import {NavLeaf} from "@/app/lib/definitions";
 
-export type NavLinkType = {
-  name: string;
-  href: string;
-  icon: React.JSXElementConstructor<any>;
-};
 
 type NavContextValue = {
   open: boolean;
   toggleOpen?(): void;
   onOpen?(): void;
   onClose?(): void;
-  onLinkClick?(link: NavLinkType): void;
+  onLinkClick?(link: NavLeaf): void;
   onAnimationEnd?(): void;
   onAnimationStart?(): void;
 };
@@ -43,7 +39,7 @@ type NavContextValue = {
 const [LeftPanelProvider, useLeftPanelContext] =
   createContext<NavContextValue>('LeftPanel');
 
-function NavLink({ item }: { item: NavLinkType }) {
+function NavLink({ item }: { item: NavLeaf }) {
   const context = useLeftPanelContext('NavLink');
   const pathname = usePathname();
   const handleLinkClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -53,7 +49,7 @@ function NavLink({ item }: { item: NavLinkType }) {
   return (
     <Link
       href={item.href}
-      title={item.name}
+      title={item.label}
       onClick={handleLinkClick}
       className={clsx(
         'nav-link flex w-full items-center justify-start rounded-[4px] font-medium ',
@@ -69,7 +65,7 @@ function NavLink({ item }: { item: NavLinkType }) {
         <item.icon className="h-[24px] w-[24px] shrink-0" />
       </div>
       <span className="shrink truncate group-[.collapsed]:invisible">
-        {item.name}
+        {item.label}
       </span>
     </Link>
   );
@@ -82,7 +78,7 @@ function NavLinksGroup({
   defaultCollapsed,
 }: {
   title: string;
-  links: NavLinkType[];
+  links: NavLeaf[];
   onClickLink?: (event: React.MouseEvent<HTMLElement>) => void;
   defaultCollapsed?: boolean;
 }) {
@@ -147,7 +143,7 @@ function NavLinksGroup({
         <ul className="flex flex-col">
           {links.map((item) => {
             return (
-              <li key={item.name}>
+              <li key={item.label}>
                 <NavLink item={item} />
               </li>
             );
@@ -162,16 +158,10 @@ export function Nav({ className = '' }: { className?: string }) {
   // console.log('adminLinks=', adminLinks)
   return (
     <nav className={clsx('flex w-full flex-col gap-[10px]', className, {})}>
-      <NavLinksGroup title="OVERVIEW" links={adminLinks} />
-      <NavLinksGroup title="Animations" links={animationsLinks} />
-      <NavLinksGroup title="Workflow" links={workflowLinks} />
-      <NavLinksGroup title="Trading View" links={tradingviewLinks} />
-      <NavLinksGroup title="Swiper" links={swiperLinks} />
+      {
+        navLinksTree.map((node) => (<NavLinksGroup key={node.label} title={node.label} links={node.children} />))
+      }
       
-      <NavLinksGroup title="3D" links={treedLinks} />
-      {/* <NavLinksGroup title="Widgets" links={widgetsLinks} />
-      <NavLinksGroup title="SVG" links={svgLinks} />
-      <NavLinksGroup title="DEMO" defaultCollapsed={false} links={demoLinks} /> */}
     </nav>
   );
 }

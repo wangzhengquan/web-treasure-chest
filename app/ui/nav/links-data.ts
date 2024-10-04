@@ -13,30 +13,31 @@ import {
 
 import { WorkFlowIcon, SwiperIcon, MagicCurtainIcon } from './nav-icons';
 import { CannonIcon } from '@/app/ui/animations/cannon/cannon-icons';
+import { Children } from 'react';
 
 export const adminLinks = [
-  { name: 'Home', href: '/dashboard', icon: HomeIcon },
+  { label: 'Home', href: '/dashboard', icon: HomeIcon },
   {
-    name: 'Invoices',
+    label: 'Invoices',
     href: '/dashboard/invoices',
     icon: DocumentDuplicateIcon,
   },
-  { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
+  { label: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
 ];
 
 export const workflowLinks = [
   {
-    name: 'Audio Flow',
+    label: 'Audio Flow',
     href: '/dashboard/workflow/audio-flow',
     icon: WorkFlowIcon,
   },
   {
-    name: 'Turbo Flow',
+    label: 'Turbo Flow',
     href: '/dashboard/workflow/turbo-flow',
     icon: WorkFlowIcon,
   },
   {
-    name: 'Tail Flow',
+    label: 'Tail Flow',
     href: '/dashboard/workflow/tail-flow',
     icon: WorkFlowIcon,
   },
@@ -44,31 +45,36 @@ export const workflowLinks = [
 
 export const swiperLinks = [
   {
-    name: 'Effect Coverflow',
+    label: 'Effect Coverflow',
     href: '/dashboard/swiper/effect-coverflow',
     icon: SwiperIcon,
   },
   {
-    name: 'Effect Cube',
+    label: 'Effect Cube',
     href: '/dashboard/swiper/effect-cube',
     icon: SwiperIcon,
   },
   {
-    name: 'Effect Flip',
+    label: 'Effect Flip',
     href: '/dashboard/swiper/effect-flip',
     icon: SwiperIcon,
   },
   {
-    name: 'Thumbs Gallery',
+    label: 'Thumbs Gallery',
     href: '/dashboard/swiper/thumbs-gallery',
     icon: SwiperIcon,
   },
 ];
 
 export const animationsLinks = [
-  { name: 'Cannon', href: '/dashboard/animations/cannon', icon: CannonIcon },
   {
-    name: 'Magic Curtain',
+    label: 'Waterfall',
+    href: '/dashboard/animations/waterfall',
+    icon: MagicCurtainIcon,
+  },
+  { label: 'Cannon', href: '/dashboard/animations/cannon', icon: CannonIcon },
+  {
+    label: 'Magic Curtain',
     href: '/dashboard/animations/magic-curtain',
     icon: MagicCurtainIcon,
   },
@@ -76,54 +82,95 @@ export const animationsLinks = [
 
 export const treedLinks = [
   {
-    name: 'Transform Function',
+    label: 'Transform Function',
     href: '/dashboard/3d/transform-function',
     icon: CubeIcon,
   },
 ];
 
 export const tradingviewLinks = [
-  { name: 'Tradingview 1', href: '/dashboard/tradingview/example1', icon: ArrowTrendingUpIcon },
+  { label: 'Tradingview 1', href: '/dashboard/tradingview/example1', icon: ArrowTrendingUpIcon },
 ];
 
 export const widgetsLinks = [
-  { name: 'Widgets', href: '/dashboard/widgets', icon: DocumentDuplicateIcon },
+  { label: 'Widgets', href: '/dashboard/widgets', icon: DocumentDuplicateIcon },
 ];
 
 export const svgLinks = [
-  { name: 'SVG', href: '/dashboard/svg', icon: DocumentDuplicateIcon },
+  { label: 'SVG', href: '/dashboard/svg', icon: DocumentDuplicateIcon },
 ];
 
 export const demoLinks = [
-  { name: 'Tooltip', href: '/dashboard/demo/tooltip', icon: EyeIcon },
+  { label: 'Tooltip', href: '/dashboard/demo/tooltip', icon: EyeIcon },
   {
-    name: 'Scroll into view',
+    label: 'Scroll into view',
     href: '/dashboard/demo/scroll-into-view',
     icon: ArrowDownTrayIcon,
   },
   {
-    name: 'Pointer move',
+    label: 'Pointer move',
     href: '/dashboard/demo/pointer-move',
     icon: ArrowTrendingUpIcon,
   },
   {
-    name: 'Intersection Observer',
+    label: 'Intersection Observer',
     href: '/dashboard/demo/intersection-observer',
     icon: ArrowTrendingUpIcon,
   },
   {
-    name: 'JS Animation',
+    label: 'JS Animation',
     href: '/dashboard/demo/js-animation',
     icon: ArrowTrendingUpIcon,
   },
   {
-    name: 'Form data',
+    label: 'Form data',
     href: '/dashboard/demo/form-data',
     icon: ArrowTrendingUpIcon,
   },
   {
-    name: 'Life cycle',
+    label: 'Life cycle',
     href: '/dashboard/demo/life-cycle',
     icon: ArrowTrendingUpIcon,
   },
 ];
+
+ const navLinksTree = [
+  {
+    label: 'OVERVIEW',
+    children: adminLinks,
+  },
+  {
+    label: 'Animations',
+    children: animationsLinks,
+  },
+  {
+    label: 'Workflow',
+    children: workflowLinks,
+  },
+  {
+    label: 'Trading View',
+    children: tradingviewLinks,
+  },
+  {
+    label: 'Swiper',
+    children: swiperLinks,
+  },
+  {
+    label: '3D',
+    children: treedLinks,
+  },
+  {
+    label: 'Widgets',
+    children: widgetsLinks,
+  },
+  {
+    label: 'DEMO',
+    children: demoLinks,
+  },
+  {
+    label: 'SVG',
+    children: svgLinks,
+  },
+]
+
+export default navLinksTree;

@@ -1,15 +1,18 @@
 import { cn } from '@/lib/utils';
+import React, { ReactElement } from 'react'
 export default function Main({
   className = '',
   children,
-}: {
-  className?: string;
-  children?: React.ReactNode;
-}) {
+  ...props
+}: React.AllHTMLAttributes<HTMLDivElement>) {
   return (
-    // h-[calc(100%_-_53px)]
-    <main className={cn('relative min-h-full p-2 md:p-4', className)}>
+    <main className={cn('relative min-h-full p-2 md:p-4', className)} {...props}>
       {children}
     </main>
   );
 }
+ 
+
+// export const Waterfall: React.FC<React.AllHTMLAttributes<ReactElement>>  = ( ) => {
+//    return <div></div>
+// };

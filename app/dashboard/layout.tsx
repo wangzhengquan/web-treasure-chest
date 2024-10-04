@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <section className="hidden flex-none md:block">
         <LeftPanel />
       </section>
-      <section className="relative h-full flex-grow overflow-scroll ">
+      <section id='main-scroll-view' className="relative h-full flex-grow overflow-scroll ">
         {/* absolute top-0 left-0 right-0 z-10 */}
         <Indicator className="sticky top-0 z-10" />
         <div className="h-[calc(100%_-_53px)] w-full">{children}</div>

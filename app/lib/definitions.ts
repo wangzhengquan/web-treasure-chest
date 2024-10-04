@@ -93,3 +93,17 @@ export type Breadcrumb = {
   href?: string;
   active?: boolean;
 };
+
+export type NavNode = {
+  label: string;
+  href?: string;
+  icon?: React.JSXElementConstructor<any>;
+  children?: (NavNode | NavLeaf)[]
+};
+
+export type NavLeaf = {
+  label: string;
+  href: string;
+  icon: React.JSXElementConstructor<any>;
+   
+};
