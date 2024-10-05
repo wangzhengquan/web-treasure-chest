@@ -22,6 +22,8 @@ import { useMediaQuery } from 'react-responsive'
 // ];
 
 const defimages = [
+  // "https://picsum.photos/2000/3",
+  "/imgs/858-720x300.jpg",
   "/imgs/1026-640x480.jpg",
   "/imgs/118-480x640.jpg",
   "/imgs/144-640x480.jpg",
@@ -84,7 +86,7 @@ function WaterfallItem({item}: {item: Item}) {
           const viewportWidth = window.innerWidth;
           const viewportHeight = window.innerHeight;
           const image = e.currentTarget; 
-          if (viewportHeight < viewportWidth) {
+          if (image.height / image.width > viewportHeight / viewportWidth ) {
             const height = viewportHeight;
             const width = image.width * viewportHeight  / image.height;
             setImgSize({width:width, height: height })
