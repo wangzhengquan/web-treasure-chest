@@ -1,43 +1,25 @@
 import { ReactElement,useLayoutEffect, useRef, useState } from 'react';
 // import styles from './waterfall-grid.module.css';
 
-// 图片加载器
-export function loadImagesFunc(imgs: HTMLImageElement[]): Promise<any> {
-  const urlArrsPromise = [...imgs].map(image => {
-    return new Promise((resolve, reject) => {
-      image.onload = function () {
-        resolve('image unloded')
-      }
-      image.onerror = function () {
-        reject('image unloded error')
-      }
-      if (image.complete) {
-        resolve('image has loded')
-      }
-    })
-  })
-  return Promise.allSettled(urlArrsPromise)
-    .then(res => res)
-    .catch(err => console.log(err))
+ 
+
+ 
+export function decodeImage(img: HTMLImageElement): Promise<HTMLImageElement | void> {
+  // if ('decode' in img) {
+  //   return img.decode().catch(() => {});
+  // }
+  
+  if (img.complete) {
+    return Promise.resolve(img);
+  }
+
+  return new Promise((resolve, reject) => {
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+  });
 }
 
-function loadImage(image: HTMLImageElement) {
-  return new Promise((resolve, reject) => {
-    if (!image) {
-      resolve('');
-      return;
-    }
-    image.onload = function () {
-      resolve('image unloded')
-    }
-    image.onerror = function () {
-      reject('image unloded error')
-    }
-    if (image.complete) {
-      resolve('image has loded')
-    }
-  })
-}
+
 
 type Props = {
   id?:string,
@@ -60,12 +42,12 @@ const Waterfall: React.FC<Props>  = ({id, children, className="", rowGap=0, colu
     // gridItems.forEach((item, index) => {
     //   const img = item.querySelector(':scope img') as HTMLImageElement;
     //   const content = item.querySelector(':scope > *') as HTMLElement;
-    //   loadImage(img).finally(()=>{
+    //   img.decode().finally(()=>{
     //     (item as HTMLElement).style.gridRowEnd = `span ${~~(content?.offsetHeight) + rowGap}`;
     //     (item as HTMLElement).style.visibility = 'visible';
     //   });
     // });
-    loadImagesFunc(Array.from(imgs)).finally(()=> {
+    Promise.allSettled(Array.from(imgs).map(image => image.decode())).finally(()=> {
       gridItems.forEach((item, index) => {
         const content = item.querySelector(':scope > *') as HTMLElement;
         (item as HTMLElement).style.gridRowEnd = `span ${~~(content?.offsetHeight) + rowGap}`;
@@ -89,6 +71,7 @@ const Waterfall: React.FC<Props>  = ({id, children, className="", rowGap=0, colu
         columnGap: columnGap, 
         gridAutoRows: '1px'
       }}
+      suppressHydrationWarning
     >
       {
         children?.map((item, i) => (<li 

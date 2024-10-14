@@ -21,6 +21,9 @@ export default function RootLayout({
       className="h-screen overflow-hidden"
       suppressHydrationWarning
     >
+      {/* <head>
+      <script src="http://localhost:8097"></script>
+      </head> */}
       <body
         className={`${inter.className} h-screen overflow-hidden antialiased`}
       >
