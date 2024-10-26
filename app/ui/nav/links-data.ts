@@ -159,18 +159,18 @@ export const demoLinks = [
     label: '3D',
     children: treedLinks,
   },
-  {
-    label: 'Widgets',
-    children: widgetsLinks,
-  },
-  {
-    label: 'DEMO',
-    children: demoLinks,
-  },
-  {
-    label: 'SVG',
-    children: svgLinks,
-  },
+  // {
+  //   label: 'Widgets',
+  //   children: widgetsLinks,
+  // },
+  // {
+  //   label: 'DEMO',
+  //   children: demoLinks,
+  // },
+  // {
+  //   label: 'SVG',
+  //   children: svgLinks,
+  // },
 ]
 
 export default navLinksTree;
