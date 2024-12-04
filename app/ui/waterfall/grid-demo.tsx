@@ -4,7 +4,7 @@ import WaterfallComps from "@/app/ui/common/waterfall-grid";
 import { create } from 'zustand';
 import PhotoSwipeLightbox from "photoswipe/lightbox";
 import "photoswipe/style.css";
-import { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from 'react-responsive';
 
 
 // const defimages = [
