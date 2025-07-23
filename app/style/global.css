@@ -31,9 +31,11 @@
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --accent: 204 100% 88%;
+    --accent-foreground: 220 82% 55%;
     --accent-200: 240 4.8% 95.9%;
+    
+    --hover: 0 0.0% 12.2%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -62,6 +64,8 @@
     --accent: 217 30.8% 26.1%;
     --accent-200: 234 15.9% 34.5%;
     --accent-foreground: 192 100% 56.1%;
+
+    --hover: 0 0.0% 99%;
 
     --card: 217 30.8% 26.1%;
     --card-foreground: 240 14.3% 93.1%;
@@ -207,12 +211,12 @@ input[type='number']::-webkit-outer-spin-button {
 
   ufo-shadow {
     box-shadow: 
-    0px 0px 0px 1px rgba(14, 63, 126, 0.04),
-    0px 1px 1px -0.5px rgba(42, 51, 70, 0.04),
-    0px 3px 3px -1.5px rgba(42, 51, 70, 0.04),
-    0px 6px 6px -3px rgba(42, 51, 70, 0.04),
-    0px 12px 12px -6px rgba(14, 63, 126, 0.04),
-    0px 24px 24px -12px rgba(14, 63, 126, 0.04);
+    0px 0px 0px 1px rgba(14 63 126 / 0.04),
+    0px 1px 1px -0.5px rgba(42 51 70 / 0.04),
+    0px 3px 3px -1.5px rgba(42 51 70 / 0.04),
+    0px 6px 6px -3px rgba(42 51 70 / 0.04),
+    0px 12px 12px -6px rgba(14 63 126 / 0.04),
+    0px 24px 24px -12px rgba(14 63 126 / 0.04);
   }
 
   .cubic-filter {

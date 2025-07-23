@@ -24,7 +24,7 @@ import { createContext } from '@radix-ui/react-context';
 import { FloatLeftPanel, BackdropPanel } from '@/app/ui/common/panels';
 import { Button } from '@/components/ui/button';
 import {NavLeaf} from "@/app/lib/definitions";
-
+import styles from './index.module.css';
 
 type NavContextValue = {
   open: boolean;
@@ -143,7 +143,7 @@ function NavLinksGroup({
         <ul className="flex flex-col">
           {links.map((item) => {
             return (
-              <li key={item.label}>
+              <li className={`${styles['nav-link-item']}`}  key={item.label}>
                 <NavLink item={item} />
               </li>
             );
