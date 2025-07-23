@@ -1,7 +1,5 @@
-import { LeftPanel } from '@/app/ui/nav';
-import clsx from 'clsx';
-import Script from 'next/script';
-import Indicator from '@/app/ui/indicator';
+import { LeftPanel } from '@app/ui/nav';
+import Indicator from '@app/ui/indicator';
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen flex-col overflow-hidden md:flex-row ">

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 import {useStore} from '@/app/store';
-import {Breadcrumb} from '@/app/lib/definitions';
+import {Breadcrumb} from '@app/types/definitions';
 import useBreadcrumbs  from '@/app/hooks/useBreadcrumbs';
 // export interface Breadcrumb {
 //   label: string;

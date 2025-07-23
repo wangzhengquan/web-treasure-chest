@@ -1,7 +1,7 @@
 
-import CardWrapper, {CardsSkeleton} from '@/app/ui/dashboard/cards';
-import RevenueChart, {RevenueChartSkeleton} from '@/app/ui/dashboard/revenue-chart';
-import LatestInvoices, {LatestInvoicesSkeleton} from '@/app/ui/dashboard/latest-invoices';
+import CardWrapper, {CardsSkeleton} from './ui/cards';
+import RevenueChart, {RevenueChartSkeleton} from './ui/revenue-chart';
+import LatestInvoices, {LatestInvoicesSkeleton} from './ui/latest-invoices';
 
 import { Suspense } from 'react';
 import Main from '@/app/ui/main';

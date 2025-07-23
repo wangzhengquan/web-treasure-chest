@@ -1,6 +1,6 @@
 import React, { memo, useCallback, Dispatch, FC } from 'react';
 import { useReactFlow, Edge, Node, ReactFlowJsonObject } from 'reactflow';
-import { Button } from '@/components/ui/button';
+import { Button } from '@app/components/button';
 
 type ControlsProps = {
   // setNodes: Dispatch<React.SetStateAction<Node<any>[]>>;

@@ -1,8 +1,9 @@
 {
   "private": true,
+
   "scripts": {
     "build": "next build",
-    "dev": "next dev -p 3001",
+    "dev": "next dev -p 3001 --turbopack",
     "lint": "next lint",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
@@ -26,7 +27,6 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-toggle": "^1.0.3",
     "@radix-ui/react-tooltip": "^1.0.7",
-    "@sentry/nextjs": "^8",
     "@tailwindcss/forms": "^0.5.7",
     "@types/node": "20.5.7",
     "@vercel/postgres": "^0.5.1",
@@ -37,13 +37,14 @@
     "lightweight-charts": "^4.1.5",
     "lucide-react": "^0.372.0",
     "nanoid": "^5.0.7",
-    "next": "^14.0.2",
+    "next": "^15.4.3",
     "next-auth": "^5.0.0-beta.15",
     "next-themes": "^0.3.0",
     "photoswipe": "^5.4.4",
     "postcss": "8.4.31",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "postgres": "^3.4.7",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
     "react-hook-form": "^7.51.3",
     "react-responsive": "^10.0.0",
     "react-transition-group": "^4.4.5",
@@ -63,8 +64,8 @@
     "@testing-library/react": "^15.0.7",
     "@types/bcrypt": "^5.0.1",
     "@types/jest": "^29.5.12",
-    "@types/react": "18.2.21",
-    "@types/react-dom": "18.2.14",
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.6",
     "@vercel/style-guide": "^5.0.1",
     "dotenv": "^16.3.1",
     "eslint": "^8.52.0",
@@ -80,7 +81,11 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
-  "engines": {
-    "node": "20.x"
+   
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "bcrypt",
+      "sharp"
+    ]
   }
 }

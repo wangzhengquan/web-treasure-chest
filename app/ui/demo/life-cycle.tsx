@@ -1,6 +1,6 @@
 'use client';
 import React, { Component } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@app/components/button';
 interface IProps {
   name: string;
   counter: number;

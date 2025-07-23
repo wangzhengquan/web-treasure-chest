@@ -1,6 +1,6 @@
-import Loading from '@/app/ui/common/loading';
+import Loading from '@appcomponents/loading';
 
-export default function Page() {
+export default function () {
   return (
     <div className="grid h-full w-full place-content-center">
       <Loading />

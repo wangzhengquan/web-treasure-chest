@@ -1,10 +1,9 @@
 'use client'
-import Pagination from '@/app/ui/invoices/pagination';
-import Search from '@/app/ui/common/search';
-import Table, {InvoicesTableSkeleton} from '@/app/ui/invoices/table';
-import { CreateInvoice } from '@/app/ui/invoices/buttons';
+import Pagination from '@/app/components/pagination';
+import Search from '@appcomponents/search';
+import  {InvoicesTableSkeleton} from './ui/table';
+import { CreateInvoice } from './ui/buttons';
 import Main from '@/app/ui/main';
-import { Suspense } from 'react';
 import { Metadata } from 'next';
 import useBreadcrumbs  from '@/app/hooks/useBreadcrumbs';
 

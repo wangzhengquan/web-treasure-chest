@@ -1,7 +1,7 @@
-import Pagination from '@/app/ui/invoices/pagination';
-import Search from '@/app/ui/common/search';
-import Table, {InvoicesTableSkeleton} from '@/app/ui/invoices/table';
-import { CreateInvoice } from '@/app/ui/invoices/buttons';
+import Pagination from '@app/components/pagination';
+import Search from '@appcomponents/search';
+import Table, {InvoicesTableSkeleton} from './ui/table';
+import { CreateInvoice } from './ui/buttons';
 import Main from '@/app/ui/main';
 import { Suspense } from 'react';
 import { fetchInvoicesPages } from '@/app/actions/invoices';

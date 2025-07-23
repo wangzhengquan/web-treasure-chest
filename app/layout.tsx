@@ -1,12 +1,12 @@
-import '@/app/style/global.css';
-import { ThemeProvider } from '@/components/theme-provider';
-import { inter } from '@/app/fonts';
+import '@appstyles/global.css';
+import { ThemeProvider } from '@app/components/theme-provider';
+import { inter } from '@appstyles/fonts';
 import { Metadata } from 'next';
 import SvgFilter from '@/app/ui/svg-effects/svg-filter';
 
 export const metadata: Metadata = {
-  title: 'Acme Dashboard',
-  description: 'The official Next.js Course Dashboard, built with App Router.',
+  title: 'Web Demos',
+  description: 'wangzheng_service@126.com',
   metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
 };
 

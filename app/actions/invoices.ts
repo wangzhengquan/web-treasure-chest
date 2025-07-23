@@ -8,7 +8,7 @@ import {
   LatestInvoiceRaw,
   User,
   Revenue,
-} from '../lib/definitions';
+} from '@app/types/db';
 import { formatCurrency } from '../lib/utils';
 import { unstable_noStore as noStore } from 'next/cache';
 

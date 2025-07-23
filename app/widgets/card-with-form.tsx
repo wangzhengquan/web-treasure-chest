@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@app/components/button';
 import {
   Card,
   CardContent,
@@ -8,16 +8,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from '@app/components/card';
+import { Input } from '@app/components/input';
+import { Label } from '@app/components/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '@app/components/select';
 
 export function CardWithForm() {
   return (

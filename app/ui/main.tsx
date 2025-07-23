@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@app/lib/utils';
 import React, { ReactElement } from 'react'
 export default function Main({
   className = '',

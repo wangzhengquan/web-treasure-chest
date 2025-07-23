@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRef, useState, useLayoutEffect, ReactElement } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import Animation from '@/app/ui/common/animation';
-import { Separator } from '@/components/ui/separator';
+import Animation from '@app/lib/animation';
+import { Separator } from '@app/components/separator';
 import navLinksTree, {
   adminLinks,
   workflowLinks,
@@ -18,12 +18,12 @@ import navLinksTree, {
   tradingviewLinks,
   swiperLinks,
 } from './links-data';
-import LogoIcon from '../logo-icon';
+import LogoIcon from './logo-icon';
 import { Bars3Icon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { createContext } from '@radix-ui/react-context';
-import { FloatLeftPanel, BackdropPanel } from '@/app/ui/common/panels';
-import { Button } from '@/components/ui/button';
-import {NavLeaf} from "@/app/lib/definitions";
+import { FloatLeftPanel, BackdropPanel } from '@appcomponents/panels';
+import { Button } from '@appcomponents/button';
+import {NavLeaf} from "@app/types/definitions";
 import styles from './index.module.css';
 
 type NavContextValue = {

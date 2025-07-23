@@ -11,8 +11,8 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
+} from '@app/components/dropdown-menu';
+import { Button } from '@app/components/button';
 import Image from 'next/image';
 import { logout } from '@/app/actions/users';
 

@@ -1,5 +1,5 @@
 'use client'
-import DashboardSkeleton from '@/app/ui/dashboard/skeleton';
+import DashboardSkeleton from './ui/skeleton';
 import Main from '@/app/ui/main';
 import useBreadcrumbs  from '@/app/hooks/useBreadcrumbs';
 export default function Loading() {

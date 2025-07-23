@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import {Breadcrumb} from '@/app/lib/definitions';
+import {Breadcrumb} from '@app/types/definitions';
  
 type  Store = {
   breadcrumbs: Breadcrumb[],
