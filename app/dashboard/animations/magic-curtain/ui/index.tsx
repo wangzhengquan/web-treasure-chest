@@ -10,7 +10,7 @@ import {
 import { createContext } from '@radix-ui/react-context';
 import { Presence } from '@radix-ui/react-presence';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import './magic-curtain.css';
+import styles from './magic-curtain.module.css';
 
 interface DataItemType {
   bg: string;
@@ -97,7 +97,7 @@ function MagicCurtainControlsTrigger(props: NavItemProps) {
   return (
     <button
       data-visibility="visible"
-      className="MagicCurtain_MagicCurtainControlsTrigger"
+      className={styles.MagicCurtain_MagicCurtainControlsTrigger}
       data-highlighted={props.index === context.magicCurtainIndex}
       onClick={handleClick}
       onPointerEnter={handlePointerEnter}
@@ -146,20 +146,20 @@ const MagicCurtainControlsPreviewViewport = forwardRef(({}, ref: any) => {
   return (
     <div
       ref={refs}
-      className="MagicCurtain_MagicCurtainControlsPreviewViewport"
+      className={styles.MagicCurtain_MagicCurtainControlsPreviewViewport}
       data-state={previewContext.open ? 'open' : 'closed'}
     >
       {DataItems.map((item, index) => (
         <div
           key={index}
-          className="MagicCurtain_MagicCurtainControlsPreviewContent"
+          className={styles.MagicCurtain_MagicCurtainControlsPreviewContent}
         >
           {/* <img
           className={`MagicCurtain_MagicCurtainControlsPreviewContentImage bg-${item.bg}`}
           src={item.img}
         /> */}
           <div
-            className={`MagicCurtain_MagicCurtainControlsPreviewContentImage text-2xl font-bold text-white ${item.bg}`}
+            className={`${styles.MagicCurtain_MagicCurtainControlsPreviewContentImage} text-2xl font-bold text-white ${item.bg}`}
           >
             {previewContext.magicCurtainControlsOffsetIndex}
           </div>
@@ -235,7 +235,7 @@ function MagicCurtainControls({ children }: React.PropsWithChildren<{}>) {
       <div>
         <nav
           ref={magicCurtainControlsRootRef}
-          className="MagicCurtain_MagicCurtainControlsRoot"
+          className={styles.MagicCurtain_MagicCurtainControlsRoot}
           style={{
             position: 'absolute',
             zIndex: 1,
@@ -256,7 +256,7 @@ function MagicCurtainControls({ children }: React.PropsWithChildren<{}>) {
             >
               {DataItems.map((item, index) => (
                 <li
-                  className="MagicCurtain_MagicCurtainControlsItem"
+                  className={styles.MagicCurtain_MagicCurtainControlsItem}
                   key={index}
                 >
                   <MagicCurtainControlsTrigger {...item} index={index} />
@@ -267,7 +267,7 @@ function MagicCurtainControls({ children }: React.PropsWithChildren<{}>) {
 
           <div
             ref={previewViewportWrapperRef}
-            className="MagicCurtain_MagicCurtainControlsPreviewViewportWrapper"
+            className={styles.MagicCurtain_MagicCurtainControlsPreviewViewportWrapper}
             style={
               {
                 display: open || animating ? 'block' : 'none',
@@ -339,7 +339,7 @@ function MagicCurtainItem({
     <div
       ref={curtainItemRef}
       data-visibility={defaultVisibility}
-      className={`MagicCurtain_MagicCurtainItem grid h-full place-content-center text-9xl font-extrabold text-white ${props.bg}`}
+      className={`${styles.MagicCurtain_MagicCurtainItem} grid h-full place-content-center text-9xl font-extrabold text-white ${props.bg}`}
     >
       {index}
     </div>
@@ -359,7 +359,7 @@ export default function MagicCurtainRoot() {
     >
       <div
         ref={magicCurtainRootRef}
-        className="MagicCurtain_MagicCurtainRoot h-[calc(100vh_-_78px)]"
+        className={`${styles.MagicCurtain_MagicCurtainRoot} h-[calc(100vh_-_78px)]`}
       >
         {DataItems.map((item, index) => (
           <MagicCurtainItem

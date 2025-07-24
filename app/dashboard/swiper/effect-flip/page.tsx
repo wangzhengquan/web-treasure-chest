@@ -1,12 +1,12 @@
 import Main from '@/app/ui/main';
-import DispalyUI from '@/app/ui/swiper/effect-flip';
+import Demo from './ui';
 import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 export default async function Page() {
   return (
     <>
       <UpdateBreadcrumbs breadcrumbs={'Transform Function'} />
       <Main className="">
-        <DispalyUI />
+        <Demo />
       </Main>
     </>
   );

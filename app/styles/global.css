@@ -104,6 +104,11 @@
   }
 }
 
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+
 html::-webkit-scrollbar {
   width: 8px;
 }

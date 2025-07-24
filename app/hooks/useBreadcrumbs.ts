@@ -1,11 +1,11 @@
 'use client';
 
 import { useStore } from '@/app/store';
-import { useLayoutEffect } from 'react';
-import { Breadcrumb } from '../lib/definitions';
+import { useLayoutEffect, useEffect } from 'react';
+import { Breadcrumb } from '@app/types/definitions';
 const useBreadcrumbs = (breadcrumbs : string | Breadcrumb | Breadcrumb[]) => {
   const setBreadcrumbs = useStore((state) => state.setBreadcrumbs);
-  useLayoutEffect(() => {
+  useEffect(() => {
     setBreadcrumbs(breadcrumbs);
   }, []);
 };

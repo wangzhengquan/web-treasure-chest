@@ -1,6 +1,6 @@
-import '@appstyles/global.css';
+import '@app/styles/global.css';
 import { ThemeProvider } from '@app/components/theme-provider';
-import { inter } from '@appstyles/fonts';
+import { inter } from '@app/styles/fonts';
 import { Metadata } from 'next';
 import SvgFilter from '@/app/ui/svg-effects/svg-filter';
 

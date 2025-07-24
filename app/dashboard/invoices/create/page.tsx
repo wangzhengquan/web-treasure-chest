@@ -1,4 +1,4 @@
-import Form from '@/app/ui/invoices/create-form';
+import Form from '../ui/create-form';
 import { fetchCustomers } from '@/app/actions/customers';
 import Main from '@/app/ui/main';
 export default async function Page() {

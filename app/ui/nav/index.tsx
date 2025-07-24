@@ -7,17 +7,7 @@ import { useRef, useState, useLayoutEffect, ReactElement } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import Animation from '@app/lib/animation';
 import { Separator } from '@app/components/separator';
-import navLinksTree, {
-  adminLinks,
-  workflowLinks,
-  animationsLinks,
-  treedLinks,
-  widgetsLinks,
-  svgLinks,
-  demoLinks,
-  tradingviewLinks,
-  swiperLinks,
-} from './links-data';
+import navLinksTree from './links-data';
 import LogoIcon from './logo-icon';
 import { Bars3Icon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { createContext } from '@radix-ui/react-context';

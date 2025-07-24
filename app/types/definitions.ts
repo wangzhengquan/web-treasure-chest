@@ -1,8 +1,5 @@
 
-export type Revenue = {
-  month: string;
-  revenue: number;
-};
+
 
 export type LatestInvoice = {
   id: string;
@@ -80,3 +77,7 @@ export type NavLeaf = {
   href: string;
   icon: React.JSXElementConstructor<any>;
 };
+
+export interface IconProps {
+  className?: string;
+}

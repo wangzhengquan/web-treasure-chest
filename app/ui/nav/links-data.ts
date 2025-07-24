@@ -12,7 +12,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 import { WorkFlowIcon, SwiperIcon, MagicCurtainIcon } from './nav-icons';
-import { CannonIcon } from '@/app/ui/animations/cannon/cannon-icons';
+// import { CannonIcon } from '@/app/ui/animations/cannon/cannon-icons';
 import { Children } from 'react';
 
 export const adminLinks = [
@@ -72,7 +72,7 @@ export const animationsLinks = [
     href: '/dashboard/animations/waterfall',
     icon: MagicCurtainIcon,
   },
-  { label: 'Cannon', href: '/dashboard/animations/cannon', icon: CannonIcon },
+  { label: 'Cannon', href: '/dashboard/animations/cannon', icon: CubeIcon },
   {
     label: 'Magic Curtain',
     href: '/dashboard/animations/magic-curtain',
