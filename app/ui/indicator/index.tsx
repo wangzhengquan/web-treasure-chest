@@ -1,18 +1,18 @@
 import { clsx } from 'clsx';
 
-import { Button } from '@appcomponents/button';
+import { Button } from '@app/components/button';
 import ModeToggle from './mode-toggle';
 import Avatar from './avatar';
 import Breadcrumbs from './breadcrumbs';
 import { BellIcon } from '@heroicons/react/24/outline';
-import FullScreenToggle from '@appcomponents/full-screen-toggle';
+import FullScreenToggle from '@app/components/full-screen-toggle';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@appcomponents/popover';
-import { List } from '@appcomponents/list';
-import { NavButton } from '../nav';
+} from '@app/components/popover';
+import { List } from '@app/components/list';
+import { NavButton } from '../side_nav';
 
 function Notifications() {
   return (

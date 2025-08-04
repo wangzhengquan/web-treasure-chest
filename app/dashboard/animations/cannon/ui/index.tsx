@@ -1,9 +1,9 @@
 'use client';
-import { makeDragalbe } from '@appcomponents/simple_drag';
+import { makeDragalbe } from '@app/components/simple_drag';
 
 import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { CannonIcon, BearIcon, CalibrationIcon } from './cannon-icons';
-import CubicCircleButton from '@appcomponents/cubic-circle-button';
+import CubicCircleButton from '@app/components/cubic-circle-button';
 
 type Point = {
   x: number;

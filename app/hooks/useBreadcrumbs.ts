@@ -7,7 +7,7 @@ const useBreadcrumbs = (breadcrumbs : string | Breadcrumb | Breadcrumb[]) => {
   const setBreadcrumbs = useStore((state) => state.setBreadcrumbs);
   useEffect(() => {
     setBreadcrumbs(breadcrumbs);
-  }, []);
+  }, [breadcrumbs, setBreadcrumbs]);
 };
 
 export default useBreadcrumbs;

@@ -1,6 +1,4 @@
-interface IconProps {
-  className?: string;
-}
+import {IconProps} from '@app/types/definitions';
 export function CannonIcon({ className = '' }: IconProps) {
   return (
     <svg

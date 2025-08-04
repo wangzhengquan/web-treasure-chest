@@ -11,8 +11,8 @@ import navLinksTree from './links-data';
 import LogoIcon from './logo-icon';
 import { Bars3Icon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { createContext } from '@radix-ui/react-context';
-import { FloatLeftPanel, BackdropPanel } from '@appcomponents/panels';
-import { Button } from '@appcomponents/button';
+import { FloatLeftPanel, BackdropPanel } from '@app/components/panels';
+import { Button } from '@app/components/button';
 import {NavLeaf} from "@app/types/definitions";
 import styles from './index.module.css';
 
@@ -156,7 +156,7 @@ export function Nav({ className = '' }: { className?: string }) {
   );
 }
 
-export function LeftPanel() {
+export function SideNav() {
   const [open, setOpen] = useState(true);
   return (
     <LeftPanelProvider

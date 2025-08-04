@@ -5,7 +5,7 @@ import {
   ExclamationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
-import { Button } from '@appcomponents/button';
+import { Button } from '@app/components/button2';
 import { authenticate } from '@/app/actions/users';
 import { Input } from '@app/components/input';
 import { useActionState } from 'react';
@@ -56,7 +56,7 @@ export default function LoginForm() {
                 placeholder="Enter password"
                 required
                 minLength={6}
-                defaultValue={'123456'}
+                defaultValue="123456"
               />
               <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-foreground/50" />
             </div>

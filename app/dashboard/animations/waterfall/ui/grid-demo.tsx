@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useRef, useCallback, useEffect } from "react";
-import WaterfallComps from "@appcomponents/waterfall-grid";
+import WaterfallComps from "@app/components/waterfall-grid";
 import { create } from 'zustand';
 import PhotoSwipeLightbox from "photoswipe/lightbox";
 import "photoswipe/style.css";

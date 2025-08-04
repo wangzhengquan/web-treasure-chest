@@ -1,6 +1,6 @@
 'use client';
 
-import { CustomerField, InvoiceForm } from '@app/types/definitions';
+import { CustomerField, InvoiceForm } from '@app/types/db';
 import {
   CheckIcon,
   ClockIcon,
@@ -8,9 +8,10 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { Button } from '@appcomponents/button';
-import { updateInvoice } from '@/app/actions/invoices';
-import { useFormState, useFormStatus } from 'react-dom';
+import { Button } from '@app/components/button2';
+import { updateInvoice, State } from '@/app/actions/invoices';
+// import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState } from 'react';
 import ErrorAria from '@/app/ui/error-aria';
 import { Card, CardContent, CardFooter } from '@app/components/card';
 
@@ -33,8 +34,8 @@ export default function EditInvoiceForm({
   customers: CustomerField[];
 }) {
   const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
-  const initialState = { message: null, errors: {} };
-  const [state, action] = useFormState(updateInvoiceWithId, initialState);
+  const initialState: State = { message: null, errors: {} };
+  const [state, action, pending] = useActionState(updateInvoiceWithId, initialState);
   return (
     <Card className="p-6">
       <form action={action}>
@@ -186,23 +187,16 @@ export default function EditInvoiceForm({
           >
             Cancel
           </Link>
-          <CommitButton />
+          <Button
+            aria-disabled={pending}
+            disabled={pending}
+            className="w-full md:w-fit"
+          >
+            {' '} Save{' '}
+          </Button>
         </CardFooter>
       </form>
     </Card>
   );
 }
-
-function CommitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button
-      aria-disabled={pending}
-      disabled={pending}
-      className="w-full md:w-fit"
-    >
-      {' '}
-      Save{' '}
-    </Button>
-  );
-}
+ 

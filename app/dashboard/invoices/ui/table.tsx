@@ -3,7 +3,7 @@ import { UpdateInvoice, DeleteInvoice } from './buttons';
 import InvoiceStatus from './status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredInvoices } from '@/app/actions/invoices';
-import {shimmer} from '@appcomponents/loading';
+import {shimmer} from '@app/components/loading';
 
 export default async function InvoicesTable({
   query,

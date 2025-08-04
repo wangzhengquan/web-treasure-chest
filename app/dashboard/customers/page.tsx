@@ -1,5 +1,5 @@
 import CustomersTable from './ui/table';
-import Search from '@appcomponents/search';
+import Search from '@app/components/search';
 import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 import Main from '@/app/ui/main';
 

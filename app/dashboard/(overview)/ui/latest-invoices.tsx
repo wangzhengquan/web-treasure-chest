@@ -2,7 +2,7 @@ import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { fetchLatestInvoices } from '@/app/actions/invoices';
-import {shimmer} from '@appcomponents/loading';
+import {shimmer} from '@app/components/loading';
 
 export default async function LatestInvoices() {
   const latestInvoices = await fetchLatestInvoices();

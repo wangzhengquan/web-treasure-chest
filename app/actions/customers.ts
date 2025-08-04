@@ -1,4 +1,4 @@
-import { sql } from '@vercel/postgres';
+import { sql } from '@app/lib/db';
 import {
   CustomerField,
   CustomersTableType,
@@ -10,7 +10,7 @@ export async function fetchCustomers() {
   noStore();
 
   try {
-    const data = await sql<CustomerField>`
+    const customers = await sql<CustomerField[]>`
       SELECT
         id,
         name
@@ -18,7 +18,6 @@ export async function fetchCustomers() {
       ORDER BY name ASC
     `;
 
-    const customers = data.rows;
     return customers;
   } catch (err) {
     console.error('Database Error:', err);
@@ -32,7 +31,7 @@ export async function fetchFilteredCustomers(query: string) {
   noStore();
 
   try {
-    const data = await sql<CustomersTableType>`
+    const data = await sql<CustomersTableType[]>`
 		SELECT
 		  customers.id,
 		  customers.name,
@@ -50,7 +49,7 @@ export async function fetchFilteredCustomers(query: string) {
 		ORDER BY customers.name ASC
 	  `;
 
-    const customers = data.rows.map((customer) => ({
+    const customers = data.map((customer) => ({
       ...customer,
       total_pending: formatCurrency(customer.total_pending),
       total_paid: formatCurrency(customer.total_paid),

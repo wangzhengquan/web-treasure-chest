@@ -1,5 +1,5 @@
 'use client';
-import { CustomerField } from '@app/types/definitions';
+import { CustomerField } from '@app/types/db';
 import Link from 'next/link';
 import {
   CheckIcon,
@@ -7,9 +7,9 @@ import {
   CurrencyDollarIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
-import { Button } from '@appcomponents/button';
-import { createInvoice } from '@/app/actions/invoices';
-import { useFormState, useFormStatus } from 'react-dom';
+import { Button } from '@app/components/button2';
+import { createInvoice, State } from '@/app/actions/invoices';
+import { useActionState } from 'react';
 import ErrorAria from '@/app/ui/error-aria';
 import { Card, CardContent, CardFooter } from '@app/components/card';
 
@@ -25,8 +25,9 @@ import {
 } from '@app/components/select';
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
-  const initialState = { message: null, errors: {} };
-  const [state, action] = useFormState(createInvoice, initialState);
+  const initialState: State = { message: null, errors: {} };
+  const [state, action, pending] = useActionState(createInvoice, initialState);
+  console.log('state', state);
   return (
     <Card className="p-6">
       <form action={action}>
@@ -37,7 +38,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
               Choose customer
             </label>
             <div className="relative">
-              <Select name="customerId">
+              <Select name="customerId" aria-describedby="customer-error">
                 <SelectTrigger
                   aria-describedby="customer-error"
                   className="relative pl-10"
@@ -72,6 +73,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                   placeholder="Enter USD amount"
                   className="pl-10 outline-2 "
                   aria-describedby="amount-error"
+                  // required
                 />
                 <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 " />
               </div>
@@ -123,22 +125,16 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
           >
             Cancel
           </Link>
-          <CommitButton />
+          <Button
+            aria-disabled={pending}
+            disabled={pending}
+            className="w-full md:w-fit"
+          >
+            {pending ? 'Creating...' : 'Create'}
+          </Button>
         </CardFooter>
       </form>
     </Card>
   );
 }
-
-function CommitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button
-      aria-disabled={pending}
-      disabled={pending}
-      className="w-full md:w-fit"
-    >
-      {pending ? 'Creating...' : 'Create'}
-    </Button>
-  );
-}
+ 

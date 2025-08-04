@@ -1,6 +1,6 @@
 'use client'
 import Pagination from '@/app/components/pagination';
-import Search from '@appcomponents/search';
+import Search from '@app/components/search';
 import  {InvoicesTableSkeleton} from './ui/table';
 import { CreateInvoice } from './ui/buttons';
 import Main from '@/app/ui/main';

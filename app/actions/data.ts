@@ -1,9 +1,8 @@
 'use server';
-import { sql } from '@vercel/postgres';
+import { sql } from '@app/lib/db';
  
 import { formatCurrency } from '../lib/utils';
 import { unstable_noStore as noStore } from 'next/cache';
-// import {revenue} from './placeholder-data'
  
 
 export async function fetchCardData() {
@@ -26,10 +25,10 @@ export async function fetchCardData() {
       invoiceStatusPromise,
     ]);
 
-    const numberOfInvoices = Number(data[0].rows[0].count ?? '0');
-    const numberOfCustomers = Number(data[1].rows[0].count ?? '0');
-    const totalPaidInvoices = formatCurrency(data[2].rows[0].paid ?? '0');
-    const totalPendingInvoices = formatCurrency(data[2].rows[0].pending ?? '0');
+    const numberOfInvoices = Number(data[0][0].count ?? '0');
+    const numberOfCustomers = Number(data[1][0].count ?? '0');
+    const totalPaidInvoices = formatCurrency(data[2][0].paid ?? '0');
+    const totalPendingInvoices = formatCurrency(data[2][0].pending ?? '0');
 
     return {
       numberOfCustomers,

@@ -1,13 +1,9 @@
 'use server';
-import { sql } from '@vercel/postgres';
+import { sql } from '@app/lib/db';
 import {
   User,
 } from '@app/types/db';
-import { formatCurrency } from '../lib/utils';
 import { unstable_noStore as noStore } from 'next/cache';
-import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 
@@ -15,8 +11,8 @@ export async function getUser(email: string) {
   noStore();
 
   try {
-    const user = await sql`SELECT * FROM users WHERE email=${email}`;
-    return user.rows[0] as User;
+    const users = await sql`SELECT * FROM users WHERE email=${email}`;
+    return users[0] as User;
   } catch (error) {
     console.error('Failed to fetch user:', error);
     throw new Error('Failed to fetch user.');
@@ -46,5 +42,6 @@ export async function authenticate(
 
 export async function logout() {
   'use server';
+  // await signOut({ redirectTo: '/' });
   await signOut();
 }

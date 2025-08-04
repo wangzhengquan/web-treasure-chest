@@ -1,5 +1,5 @@
 import Pagination from '@app/components/pagination';
-import Search from '@appcomponents/search';
+import Search from '@app/components/search';
 import Table, {InvoicesTableSkeleton} from './ui/table';
 import { CreateInvoice } from './ui/buttons';
 import Main from '@/app/ui/main';
@@ -8,21 +8,20 @@ import { fetchInvoicesPages } from '@/app/actions/invoices';
 import { Metadata } from 'next';
 import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 export const metadata: Metadata = {
-  title: 'Invoices | Acme Dashboard',
+  title: 'Invoices',
 };
 
-export default async function Page({
-  searchParams, // url search params
-}: {
-  searchParams?: {
-    query: string;
+export default async function Page(props: {
+  searchParams?: Promise<{
+    query?: string;
     page?: string;
-  };
-}) {
+  }>;
+})  {
+  const searchParams = await props.searchParams;
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
+
   const totalPages = await fetchInvoicesPages(query);
-  // const totalPages = 10;
   return (
     <>
       <UpdateBreadcrumbs breadcrumbs={'Invoices'} />
@@ -33,10 +32,7 @@ export default async function Page({
         </div>
 
         <div className="mt-4 md:mt-12">
-          <Suspense
-            key={query + currentPage}
-            fallback={<InvoicesTableSkeleton />}
-          >
+          <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />} >
             <Table query={query} currentPage={currentPage} />
           </Suspense>
         </div>

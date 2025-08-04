@@ -1,10 +1,10 @@
-import Loading from '@appcomponents/loading';
+import Loading from '@app/components/loading';
 import { Input } from '@app/components/input';
 import Indicator from '@/app/ui/indicator';
 import { Button } from '@app/components/button';
 import Main from '@/app/ui/main';
 import clsx from 'clsx';
-import { List } from '@appcomponents/list';
+import { List } from '@app/components/list';
 import { RadioGroupForm } from '@/app/widgets/radio-group-form';
 import NotificationItem from '@/app/widgets/notification-item';
 import { CardWithForm } from '@/app/widgets/card-with-form';
