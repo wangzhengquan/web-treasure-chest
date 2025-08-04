@@ -15,6 +15,7 @@ import {
 import { Button } from '@app/components/button';
 import Image from 'next/image';
 import { logout } from '@/app/actions/users';
+import { signOut } from '@/auth';
 
 export default function Avatar() {
   return (
@@ -35,7 +36,13 @@ export default function Avatar() {
         <DropdownMenuItem>Settings</DropdownMenuItem>
         <DropdownMenuItem>Help</DropdownMenuItem>
         <DropdownMenuItem>
-          <form action={logout}>
+          <form 
+          // action={logout}
+          action={async () => {
+            'use server';
+            await signOut({ redirectTo: '/' });
+          }}
+          >
             <button> Sign Out </button>
           </form>
         </DropdownMenuItem>
