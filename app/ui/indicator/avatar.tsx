@@ -40,7 +40,7 @@ export default function Avatar() {
           // action={logout}
           action={async () => {
             'use server';
-            await signOut({ redirectTo: '/' });
+            await signOut();
           }}
           >
             <button> Sign Out </button>

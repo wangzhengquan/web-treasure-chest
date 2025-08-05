@@ -8,12 +8,14 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from '@app/components/button2';
 import { authenticate } from '@/app/actions/users';
 import { Input } from '@app/components/input';
-import { useActionState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useActionState } from '@app/hooks/use-action-state';
+import { useSearchParams, usePathname } from 'next/navigation';
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+  console.log('callbackUrl', callbackUrl);
   const [errorMessage, formAction, isPending] = useActionState(
     authenticate,
     undefined,

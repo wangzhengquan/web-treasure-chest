@@ -25,6 +25,7 @@ function ListItem() {
             height={44}
             style={{ borderRadius: '100%' }}
             src="/customers/balazs-orban.png"
+            alt="Balázs Orbán"
           />
         </div>
         <div className="item-inner relative box-border block min-h-[44px] w-full items-center justify-between self-stretch overflow-hidden pb-[9px] pr-[15px] pt-2.5 peer-[.item-media]:ml-[15px]">

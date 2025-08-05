@@ -11,7 +11,6 @@ export default async function Page() {
   
   return (
     <>
-    
     <UpdateBreadcrumbs breadcrumbs={'Dashboard'} />
     <Main>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

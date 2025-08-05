@@ -19,8 +19,6 @@ export function decodeImage(img: HTMLImageElement): Promise<HTMLImageElement | v
   });
 }
 
-
-
 type Props = {
   id?:string,
   children?: ReactElement[], 
@@ -58,7 +56,7 @@ const Waterfall: React.FC<Props>  = ({id, children, className="", rowGap=0, colu
     
     setPrevChildrenLen(children.length);
 
-  }, [children?.length])
+  }, [children, onLoadComplete, prevChildrenLen, rowGap])
 
    
   
