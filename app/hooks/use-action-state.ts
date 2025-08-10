@@ -12,10 +12,10 @@ import { useFormState, useFormStatus } from 'react-dom';
 // }
 
 export function useActionState<State, Payload>(
-  action: (state: Awaited<State>, payload: Payload) => State | Promise<State>,
+  action: (state: State, payload: Payload) => Promise<State>,
   initialState: Awaited<State>,
   permalink?: string,
-): [state: Awaited<State>, dispatch: (payload: Payload) => void, isPending: boolean]{
+): [state: State, dispatch: (payload: Payload) => void, isPending: boolean]{
   const [ formState, dispatch ] = useFormState<State, Payload>(action, initialState, permalink);
   const { pending } = useFormStatus();
 

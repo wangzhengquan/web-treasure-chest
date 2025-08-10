@@ -59,7 +59,7 @@ const Flow = () => {
 
   const onConnect: OnConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
-    [],
+    [setEdges],
   );
 
   return (

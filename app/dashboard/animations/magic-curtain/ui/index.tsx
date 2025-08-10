@@ -142,7 +142,7 @@ const MagicCurtainControlsPreviewViewport = forwardRef(({}, ref: any) => {
       previewViewport.removeEventListener('animationstart', onAnimationStart);
       previewViewport.removeEventListener('animationend', onAnimationEnd);
     };
-  }, [previewViewportRef.current, previewContext]);
+  }, [previewContext]);
   return (
     <div
       ref={refs}
@@ -196,7 +196,7 @@ function MagicCurtainControls({ children }: React.PropsWithChildren<{}>) {
 
   const handleAnimationEnd = useCallback(() => {
     setAnimating(false);
-  }, [setAnimating, open, animating]);
+  }, [setAnimating]);
 
   // const handleAnimationStart = () => {
   //   setAnimating(true);
@@ -304,8 +304,9 @@ function MagicCurtainItem({
   };
   useEffect(() => {
     if (!curtainItemRef.current) return;
+    const curtainItemEle = curtainItemRef.current;
     const originalVisibility =
-      curtainItemRef.current.getAttribute('data-visibility');
+      curtainItemEle.getAttribute('data-visibility');
     // console.log(index, context.magicCurtainIndex, originalVisibility);
     if (context.magicCurtainIndex === index) {
       setVisibility('visible');
@@ -319,12 +320,12 @@ function MagicCurtainItem({
         // ReactDOM.flushSync(() =>  setVisibility("hidden"));
       };
 
-      curtainItemRef.current.addEventListener(
+      curtainItemEle.addEventListener(
         'animationend',
         handleAnimationEnd,
       );
       return () => {
-        curtainItemRef.current?.removeEventListener(
+        curtainItemEle?.removeEventListener(
           'animationend',
           handleAnimationEnd,
         );

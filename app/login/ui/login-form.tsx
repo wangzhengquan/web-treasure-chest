@@ -12,10 +12,10 @@ import { useActionState } from '@app/hooks/use-action-state';
 import { useSearchParams, usePathname } from 'next/navigation';
 
 export default function LoginForm() {
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   const pathname = usePathname();
-  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
-  console.log('callbackUrl', callbackUrl);
+  // const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+  // console.log('callbackUrl', callbackUrl);
   const [errorMessage, formAction, isPending] = useActionState(
     authenticate,
     undefined,

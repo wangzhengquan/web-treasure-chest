@@ -30,7 +30,7 @@ export function LifeCycleCmp(props: IProps) {
     return () => {
       console.log(`${props.name} componentWillUnmount`);
     };
-  }, []);
+  }, [props.name]);
 
   useEffect(() => {
     console.log(`${props.name} componentDidUpdate`);
@@ -80,14 +80,14 @@ export function ChildCmp(props: IProps) {
     return () => {
       console.log(`${props.name} useLayoutEffect componentWillUnmount`);
     };
-  }, []);
+  }, [props.name]);
 
   useEffect(() => {
     console.log(`${props.name} useEffect componentDidMount`);
     return () => {
       console.log(`${props.name}useEffect componentWillUnmount`);
     };
-  }, []);
+  }, [props.name]);
 
   useEffect(() => {
     console.log(`${props.name} componentDidUpdate`);

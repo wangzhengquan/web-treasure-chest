@@ -12,10 +12,10 @@ import {
 } from '@heroicons/react/24/outline';
 
 import { WorkFlowIcon, SwiperIcon, MagicCurtainIcon } from './nav-icons';
-// import { CannonIcon } from '@/app/ui/animations/cannon/cannon-icons';
-import { Children } from 'react';
+import { CannonIcon } from '@/app/dashboard/animations/cannon/ui/cannon-icons';
+import {D3Icon} from '@/app/icons';
 
-export const adminLinks = [
+const adminLinks = [
   { label: 'Home', href: '/dashboard', icon: HomeIcon },
   {
     label: 'Invoices',
@@ -25,7 +25,7 @@ export const adminLinks = [
   { label: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
 ];
 
-export const workflowLinks = [
+const workflowLinks = [
   {
     label: 'Audio Flow',
     href: '/dashboard/workflow/audio-flow',
@@ -43,7 +43,7 @@ export const workflowLinks = [
   },
 ];
 
-export const swiperLinks = [
+const swiperLinks = [
   {
     label: 'Effect Coverflow',
     href: '/dashboard/swiper/effect-coverflow',
@@ -66,13 +66,13 @@ export const swiperLinks = [
   },
 ];
 
-export const animationsLinks = [
+const animationsLinks = [
   {
     label: 'Waterfall',
-    href: '/dashboard/animations/waterfall',
+    href: '/dashboard/waterfall',
     icon: MagicCurtainIcon,
   },
-  { label: 'Cannon', href: '/dashboard/animations/cannon', icon: CubeIcon },
+  { label: 'Cannon', href: '/dashboard/animations/cannon', icon: CannonIcon },
   {
     label: 'Magic Curtain',
     href: '/dashboard/animations/magic-curtain',
@@ -80,7 +80,7 @@ export const animationsLinks = [
   },
 ];
 
-export const treedLinks = [
+const treedLinks = [
   {
     label: 'Transform Function',
     href: '/dashboard/3d/transform-function',
@@ -88,19 +88,19 @@ export const treedLinks = [
   },
 ];
 
-export const tradingviewLinks = [
+const tradingviewLinks = [
   { label: 'Tradingview 1', href: '/dashboard/tradingview/example1', icon: ArrowTrendingUpIcon },
 ];
 
-export const widgetsLinks = [
+const widgetsLinks = [
   { label: 'Widgets', href: '/dashboard/widgets', icon: DocumentDuplicateIcon },
 ];
 
-export const svgLinks = [
+const svgLinks = [
   { label: 'SVG', href: '/dashboard/svg', icon: DocumentDuplicateIcon },
 ];
 
-export const demoLinks = [
+const demoLinks = [
   { label: 'Tooltip', href: '/dashboard/demo/tooltip', icon: EyeIcon },
   {
     label: 'Scroll into view',
@@ -134,10 +134,20 @@ export const demoLinks = [
   },
 ];
 
+const D3Links = [
+  { label: 'Gauge', href: '/dashboard/d3/gauge', icon: D3Icon },
+   
+]
+
+
  const navLinksTree = [
   {
     label: 'OVERVIEW',
     children: adminLinks,
+  },
+  {
+    label: 'D3',
+    children: D3Links,
   },
   {
     label: 'Animations',

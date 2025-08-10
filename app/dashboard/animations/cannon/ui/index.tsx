@@ -116,7 +116,7 @@ export default function Cannon() {
     )
       return;
     const rect = parentRef.current.getBoundingClientRect();
-    console.log('rect', rect);
+    // console.log('rect', rect);
     start.current.style.left =
       start.current.getBoundingClientRect().width / 2 + 'px';
     start.current.style.top = '236px';
@@ -127,7 +127,7 @@ export default function Cannon() {
       (rect.width - control.current.getBoundingClientRect().width) / 2 + 'px';
     control.current.style.top = '80px';
     updatePaths();
-  }, []);
+  }, [updatePaths]);
 
   useEffect(() => {
     if (!svgcontext.current) return;
@@ -156,7 +156,7 @@ export default function Cannon() {
         },
       );
     }
-  }, []);
+  }, [updatePaths]);
   return (
     <>
       <div

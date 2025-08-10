@@ -1,0 +1,27 @@
+import {IconProps} from '@app/types/definitions';
+export default function SvgComponent(props: IconProps) {
+ 
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="-10 -10 116 111"
+      fill="currentColor"
+      stroke="currentColor"
+      {...props}
+    >
+      <clipPath id="a">
+        <path d="M0 0h7.75a45.5 45.5 0 110 91H0V71h7.75a25.5 25.5 0 100-51H0zm36.251 0h32a27.75 27.75 0 0121.331 45.5A27.75 27.75 0 0168.251 91h-32a53.69 53.69 0 0018.746-20H68.25a7.75 7.75 0 100-15.5H60.5a53.69 53.69 0 000-20h7.75a7.75 7.75 0 100-15.5H54.997A53.69 53.69 0 0036.251 0z" />
+      </clipPath>
+       
+      <g clipPath="url(#a)">
+        <path d="M-128-102v300h300z"  />
+        <path d="M-72-102h300v300z"  />
+        <path
+          d="M-100-102l300 300"
+          stroke="currentColor"
+          strokeWidth={40}
+        />
+      </g>
+    </svg>
+  );
+}

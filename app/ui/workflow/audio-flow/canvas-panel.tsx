@@ -131,7 +131,7 @@ export default function CanvasPanel() {
       });
       store.createNode(type, position);
     },
-    [reactFlowInstance],
+    [reactFlowInstance, store],
   );
 
   useEffect(() => {
@@ -155,7 +155,7 @@ export default function CanvasPanel() {
       };
       store.addEdge(connection);
     }
-  }, []);
+  }, [store]);
 
   return (
     <div className="relative h-full w-full">

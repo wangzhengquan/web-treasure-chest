@@ -113,9 +113,10 @@ export default function  WaterfallGridDemo() {
     setLoading(true);
     appendItems( defimages.map((img, i)=>({img: `${img}?random=${items.length + i}`})));
   };
-  const handleLoadComplete = () => {
+  const handleLoadComplete = useCallback(() => {
     setLoading(false);
-  }
+  }, []);
+  
   useEffect(()=> {
     const scrollView = document.getElementById('main-scroll-view');
     if (!scrollView) return;

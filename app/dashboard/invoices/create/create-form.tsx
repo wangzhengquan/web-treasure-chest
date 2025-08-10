@@ -26,8 +26,10 @@ import {
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
   const initialState: State = { message: null, errors: {} };
+  // const state: State = { message: null, errors: {} };
+  // const pending: boolean = false;
   const [state, action, pending] = useActionState(createInvoice, initialState);
-  console.log('state', state);
+  // console.log('state', state);
   return (
     <Card className="p-6">
       <form action={action}>
