@@ -109,10 +109,10 @@ export default function  WaterfallGridDemo() {
   const [loading, setLoading] = useState(true);
   const md = useMediaQuery({query:"(min-width: 768px)"});
 
-  const loadMore =  () => {
+  const loadMore = useCallback(() => {
     setLoading(true);
-    appendItems( defimages.map((img, i)=>({img: `${img}?random=${items.length + i}`})));
-  };
+    appendItems(defimages.map((img, i)=>({img: `${img}?random=${items.length + i}`})));
+  }, [appendItems]);
   const handleLoadComplete = useCallback(() => {
     setLoading(false);
   }, []);
@@ -120,7 +120,6 @@ export default function  WaterfallGridDemo() {
   useEffect(()=> {
     const scrollView = document.getElementById('main-scroll-view');
     if (!scrollView) return;
-   
      
     function scrollHandler(this: HTMLElement, ev: Event) {
      
@@ -133,10 +132,10 @@ export default function  WaterfallGridDemo() {
       }
     }
     scrollView.addEventListener('scroll', scrollHandler);
-    return ()=> {
+    return () => {
       scrollView.removeEventListener('scroll', scrollHandler);
     }
-  }, [loading])
+  }, [loading, loadMore])
 
   useEffect(() => {
 
