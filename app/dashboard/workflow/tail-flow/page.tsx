@@ -1,4 +1,4 @@
-import Flow from '@/app/ui/workflow/tail-flow';
+import Flow from './ui';
 import Main from '@/app/ui/main';
 import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 export default function Page() {

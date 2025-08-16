@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 import { usePathname } from 'next/navigation';
-import { useRef, useState, useLayoutEffect, ReactElement } from 'react';
+import { useRef, useState, useEffect, useLayoutEffect, ReactElement } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import Animation from '@app/lib/animation';
 import { Separator } from '@app/components/separator';
@@ -14,6 +14,8 @@ import { createContext } from '@radix-ui/react-context';
 import { FloatLeftPanel, BackdropPanel } from '@app/components/panels';
 import { Button } from '@app/components/button';
 import {NavLeaf} from "@app/types/definitions";
+import {useScrollRestoration} from '@app/hooks/use-scroll-restoration';
+
 import styles from './index.module.css';
 
 type NavContextValue = {
@@ -26,8 +28,7 @@ type NavContextValue = {
   onAnimationStart?(): void;
 };
 
-const [LeftPanelProvider, useLeftPanelContext] =
-  createContext<NavContextValue>('LeftPanel');
+const [LeftPanelProvider, useLeftPanelContext] = createContext<NavContextValue>('LeftPanel');
 
 function NavLink({ item }: { item: NavLeaf }) {
   const context = useLeftPanelContext('NavLink');
@@ -155,9 +156,12 @@ export function Nav({ className = '' }: { className?: string }) {
     </nav>
   );
 }
-
+// const SCROLL_POSITION_KEY = 'scrollPosition';
 export function SideNav() {
   const [open, setOpen] = useState(true);
+  const elementRef = useRef<HTMLElement | null>(null);
+  useScrollRestoration(elementRef);
+   
   return (
     <LeftPanelProvider
       toggleOpen={() => setOpen(!open)}
@@ -165,6 +169,8 @@ export function SideNav() {
       open={open}
     >
       <aside
+        id ="side-nav"
+        ref = {elementRef}
         className={clsx(
           'group flex flex-col bg-nav text-nav-foreground',
           'border-r border-background',
@@ -179,7 +185,7 @@ export function SideNav() {
       >
         <header
           className={clsx(
-            'flex w-full items-center justify-between',
+            'flex w-full items-center justify-between sticky top-0 z-10 bg-nav',
             'group-[.collapsed]:justify-center',
             'h-[52px] flex-none',
             {},

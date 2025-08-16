@@ -17,7 +17,7 @@ import ReactFlow, {
 import { edgeTypes } from './edges';
 import { nodeTypes } from './nodes';
 import { useStore, Store } from './store';
-import DevTools from '../dev-tools';
+import DevTools from '../../dev-tools';
 import 'reactflow/dist/base.css';
 
 const initional_notes: Node[] = [
@@ -155,7 +155,7 @@ export default function CanvasPanel() {
       };
       store.addEdge(connection);
     }
-  }, [store]);
+  }, []);
 
   return (
     <div className="relative h-full w-full">

@@ -1,4 +1,4 @@
-import AudioFlow from '@/app/ui/workflow/audio-flow';
+import AudioFlow from './ui';
 import Main from '@/app/ui/main';
 import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 export default function Page() {
