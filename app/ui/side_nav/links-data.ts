@@ -136,7 +136,7 @@ const demoLinks = [
 
 const D3Links = [
   { label: 'Gauge', href: '/dashboard/d3/gauge', icon: D3Icon },
-   
+  { label: 'Clock', href: '/dashboard/d3/clock', icon: D3Icon },
 ]
 
 

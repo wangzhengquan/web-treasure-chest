@@ -8,35 +8,28 @@ const getTickRef = (tickCount, minVal, maxVal, minAngle, maxAngle) => {
       "Ticks should be odd numbered to ensure a tick in in the middle of the gauge."
     );
 
-  const idxToRef = scaleLinear()
-    .domain([0, tickCount - 1])
-    .range([0, 1]);
-
   const idxToVal = scaleLinear()
     .domain([0, tickCount - 1])
     .range([minVal, maxVal]);
 
-  const refToDeg = scaleLinear()
-    .domain([0, 1])
+  const idxToDeg = scaleLinear()
+    .domain([0, tickCount - 1])
     .range([minAngle, maxAngle]);
 
   return [...Array(tickCount)].map((v, i) => ({
     index: i,
     val: idxToVal(i),
-    deg: refToDeg(idxToRef(i))
+    deg: idxToDeg(i)
   }));
 };
 
-const tickLineLong = line()
-  .x(0)
-  .y((d, i) => i)({ length: 35 });
-
 const tickLineShort = line()
   .x(0)
-  .y((d, i) => i)({ length: 12 });
+  .y((d, i) => i)({ length: 10 });
 
-export default class Label extends PureComponent {
+export default class Ticks extends PureComponent {
   render() {
+    // console.log("Label props: ", this.props);
     const {
       disabled,
       center,
@@ -46,7 +39,7 @@ export default class Label extends PureComponent {
       maxAngle,
       minAngle,
       offsetText,
-      length = 300 / 2 - 30
+      length = 280/2 - 20
     } = this.props;
 
     const ticks = getTickRef(tickCount, min, max, minAngle, maxAngle);
@@ -63,7 +56,7 @@ export default class Label extends PureComponent {
             d={tickLineShort}
             stroke="#344c69"
             strokeWidth="1"
-            transform={`translate(0,${45 - length})`}
+            transform={`translate(0,${ 20 - 140})`}
             opacity={disabled ? 0.4 : undefined}
           />
           <text

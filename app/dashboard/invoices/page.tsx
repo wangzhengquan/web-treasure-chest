@@ -12,12 +12,12 @@ export const metadata: Metadata = {
 };
 
 export default async function Page(props: {
-  searchParams?: Promise<{
+  searchParams?: {
     query?: string;
     page?: string;
-  }>;
+  };
 })  {
-  const searchParams = await props.searchParams;
+  const searchParams = props.searchParams;
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
 

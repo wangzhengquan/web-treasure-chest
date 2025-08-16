@@ -2,12 +2,11 @@ import React, { PureComponent, useCallback, useMemo } from "react";
 import { scaleLinear, lineRadial, symbol, symbolTriangle, line  } from "d3";
 
 import GaugeArc from "./GaugeArc";
-import Label from "./label";
+import Ticks from "./ticks";
  
 export class Gradient extends PureComponent {
   constructor(props) {
     super(props);
-    console.log(this.props, this.props);
   }
   
   render() {
@@ -123,7 +122,7 @@ class UnitOfMeasurement extends PureComponent {
 
 
 
-const defaultSize = 250;
+const defaultSize = 280;
 
 const Gauge = ({
   height,
@@ -152,9 +151,7 @@ const Gauge = ({
   };
 
   const valueScale = useCallback(
-    scaleLinear()
-      .domain([min, max])
-      .range([0, 1]),
+    scaleLinear().domain([min, max]).range([0, 1]),
     [min, max]
   );
 
@@ -167,20 +164,13 @@ const Gauge = ({
         width={width ? width : height ? height : defaultSize}
         height={height ? height : width ? width : defaultSize}
         viewBox={"0 0 280 280"}
-        style={{
-          transition: "all 0.25s 0.25s"
-        }}
+        // style={{
+        //   transition: "all 0.25s 0.25s"
+        // }}
         {...props}
       >
-        <GaugeArc
-          stroke={"#344c69"}
-          strokeWidth={0}
-          center={gaugeOrigin}
-          maxAngle={maxAngle}
-          minAngle={minAngle}
-          opacity={disabled ? 0.25 : undefined}
-        />
-        <Label
+         
+        <Ticks
           disabled={disabled}
           center={gaugeOrigin}
           tickCount={tickCount}
@@ -190,27 +180,21 @@ const Gauge = ({
           minAngle={minAngle}
           {...labelProps}
         />
-        {arcSegments.map(({ min, max, color, node }, idx) => (
-          <g key={`arcsegment-${idx}`}>
-            {typeof node === "function" ? node(disabled) : node}
-            <GaugeArc
-              key={`gauge-arcsegment-${idx}`}
-              inset={12}
-              min={min}
-              max={max}
-              stroke={
-                disabled && !node
-                  ? `rgba(${idx * 15},${idx * 15},${idx * 15}, ${idx * 0.1 +
-                      0.1})`
-                  : color
-              }
-              strokeWidth={20}
-              center={gaugeOrigin}
-              maxAngle={maxAngle}
-              minAngle={minAngle}
-            />
-          </g>
-        ))}
+        <GaugeArc
+          inset={12}
+          // min={min}
+          // max={max}
+          // stroke={
+          //   disabled && !node
+          //     ? `rgba(${idx * 15},${idx * 15},${idx * 15}, ${idx * 0.1 +
+          //         0.1})`
+          //     : color
+          // }
+          // strokeWidth={20}
+          center={gaugeOrigin}
+          // maxAngle={maxAngle}
+          // minAngle={minAngle}
+        />
         <InvertedTriangle center={gaugeOrigin} disabled={disabled} />
         <Pointer
           value={disabled ? -0.025 : valueRef}

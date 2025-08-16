@@ -20,9 +20,7 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@apptypes/*": ["./app/types/*"],
       "@appstyles/*": ["./app/styles/*"],
-      "@appcomponents/*": ["./app/components/*"],
       "@app/*": ["./app/*"],
       "@/*": ["./*"]
     }
@@ -33,7 +31,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/lib/placeholder-data.ts",
-    "scripts/seed.js"
+    
   ],
   "exclude": ["node_modules"]
 }

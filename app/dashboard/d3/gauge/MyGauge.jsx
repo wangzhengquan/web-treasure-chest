@@ -1,5 +1,5 @@
 'use client';
-import { Gauge, useGradient} from './ui';
+import { Gauge, useGradient} from '@app/components/gauge';
 import { useState, useEffect } from 'react';
 
 export default function MyGauge() {
@@ -24,24 +24,6 @@ export default function MyGauge() {
     }
   }, [min, max, value]);
 
-  /** Red gradient props for arcSegments */
-  const redFade = useGradient(
-    "rgba(255,0,0,0)",
-    "rgba(255,0,0,1)",
-    "redFade-randomkey"
-  );
-
-  /** Renders coloured arcs to demarcate target ranges. */
-  const arcSegments = [
-    // {min: 0, max:1, color: "#148382"}
-    { min: 0, max: 0.5, color: "rgb(181,230,29)" },
-    { min: 0.5, max: 1, color: "orange" },
-    {
-      min: 0.75,
-      max: 1,
-      ...redFade
-    }
-  ];
 
   return(
     <Gauge
@@ -60,7 +42,6 @@ export default function MyGauge() {
       labelProps={{
         offsetText: labelOffset
       }}
-      arcSegments={arcSegments}
     />
   );
 }

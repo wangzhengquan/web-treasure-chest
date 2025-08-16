@@ -15,13 +15,13 @@ export const authConfig = {
       }
       // console.log('callbackUrl', callbackUrl);
       const isLoggedIn = !!auth?.user;
-      const isOnLogin = nextUrl.pathname.startsWith('/login');
+      const isOnLoginPage = nextUrl.pathname.startsWith('/login');
       if (isLoggedIn) {
-        if (nextUrl.pathname === '/' || isOnLogin) {
+        if (nextUrl.pathname === '/' || isOnLoginPage) {
           return Response.redirect(new URL(callbackUrl, nextUrl));
         }
         return true;
-      } else if (isOnLogin) {
+      } else if (isOnLoginPage) {
         return true;
       }
       // return Response.redirect(new URL('/login', nextUrl));

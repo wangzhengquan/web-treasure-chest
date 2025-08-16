@@ -1,0 +1,55 @@
+.clock {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+}
+
+.clock .rim {
+  fill: none;
+  stroke: #999;
+  stroke-width: 3px;
+}
+
+.clock .second-hand {
+  stroke-width:3;
+  stroke:rgb(225 69 34);
+  stroke-linecap:round;
+}
+
+.clock .minute-hand {
+  stroke-width:4;
+  stroke-linecap:round;
+}
+
+.clock .hour-hand {
+  stroke-width:8;
+  stroke-linecap:round;
+}
+
+.clock .hands-cover {
+  fill: rgb(var(--background));
+}
+
+.clock .second-tick {
+  stroke-width:3;
+  stroke:rgba(222, 227, 232, 1); 
+}
+
+.dark .clock .second-tick {
+  stroke:rgba(83, 84, 86, 1); 
+}
+
+.clock .hour-tick {
+  stroke-width:8; 
+  stroke:rgba(222, 227, 232, 1); 
+}
+
+.dark .clock .hour-tick {
+  stroke:rgba(83, 84, 86, 1); 
+}
+
+.clock .second-label {
+  font-size: 12px;
+}
+
+.clock .hour-label {
+  font-size: 24px;
+}

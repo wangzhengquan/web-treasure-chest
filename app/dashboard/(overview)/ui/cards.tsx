@@ -4,7 +4,7 @@ import {
   UserGroupIcon,
   InboxIcon,
 } from '@heroicons/react/24/outline';
-import { fetchCardData } from '@/app/actions/data';
+import { fetchCardData } from '@app/actions/card';
 import {shimmer} from '@app/components/loading';
 
 const iconMap = {
