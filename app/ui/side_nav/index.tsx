@@ -15,6 +15,7 @@ import { FloatLeftPanel, BackdropPanel } from '@app/components/panels';
 import { Button } from '@app/components/button';
 import {NavLeaf} from "@app/types/definitions";
 import {useScrollRestoration} from '@app/hooks/use-scroll-restoration';
+import { useSessionStorage } from '@app/hooks/use-session-storage';
 
 import styles from './index.module.css';
 
@@ -55,7 +56,7 @@ function NavLink({ item }: { item: NavLeaf }) {
       <div className="flex min-w-[40px] items-center justify-center">
         <item.icon className="h-[24px] w-[24px] shrink-0" />
       </div>
-      <span className="shrink truncate group-[.collapsed]:invisible">
+      <span className="shrink truncate group-[.collapsed]:hidden">
         {item.label}
       </span>
     </Link>
@@ -158,6 +159,7 @@ export function Nav({ className = '' }: { className?: string }) {
 }
 // const SCROLL_POSITION_KEY = 'scrollPosition';
 export function SideNav() {
+  // const [open, setOpen] = useSessionStorage<boolean>('SideNavOpen', true);
   const [open, setOpen] = useState(true);
   const elementRef = useRef<HTMLElement | null>(null);
   useScrollRestoration(elementRef);
@@ -171,23 +173,27 @@ export function SideNav() {
       <aside
         id ="side-nav"
         ref = {elementRef}
+        suppressHydrationWarning
         className={clsx(
           'group flex flex-col bg-nav text-nav-foreground',
           'border-r border-background',
-          'h-full overflow-y-auto ',
+          'h-full overflow-y-auto',
           'transition-width duration-200',
-          'w-[264px] px-[16px] [&.collapsed]:w-[76px]',
+          'w-[264px] [&.collapsed]:w-[60px]',
+          // "ufo-scrollbar",
           {
-            // "ufo-scrollbar": !collapsed,
-            collapsed: !open,
+            "scrollbar-hidden": !open,
+            "collapsed": !open,
           },
         )}
       >
         <header
           className={clsx(
-            'flex w-full items-center justify-between sticky top-0 z-10 bg-nav',
+            'flex w-full items-center justify-between sticky top-0 z-10',
             'group-[.collapsed]:justify-center',
-            'h-[52px] flex-none',
+            'h-[48px] flex-none',
+            'px-[10px]',
+            'border-b border-alpha/[.15] from-nav to-nav/[.85] bg-gradient-to-b',
             {},
           )}
         >
@@ -204,7 +210,7 @@ export function SideNav() {
             <Bars3Icon className="h-6 w-6" />
           </a>
         </header>
-        <Nav className={clsx('pt-5', {})} />
+        <Nav className={clsx('pt-5 px-[10px]', {})} />
         {/* <div className="grow"/>  */}
       </aside>
     </LeftPanelProvider>

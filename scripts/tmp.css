@@ -4,12 +4,6 @@
 
 @layer base {
   :root {
-    --surface: #1d2125;
-    --surface-sunken: #161a1d;
-    --radius: 0.5rem;
-  }
-
-  .light {
     --background: 246.0 25.0% 92.2%;  
     --foreground: 240.0 10.0% 3.9%;  
 
@@ -50,9 +44,9 @@
     /* --border: 192.0 18.5% 94.7%;   */
 
     --ring: 211.0 65.1% 44.9%;  
-    --alpha: 0 0% 0%;
+
+    --radius: 0.5rem;
   }
-   
 
   .dark {
     --background: 79.2 75.8% 6.5%;  
@@ -94,11 +88,11 @@
 
     --border: 240.0 14.3% 93.1%;  
 
-    --ring: 211.0 65.1% 44.9%; 
-    --alpha: 0 0% 100%; 
+    --ring: 211.0 65.1% 44.9%;  
+
+    --surface: #1d2125;
+    --surface-sunken: #161a1d;
   }
-   
-   
 }
 
 @layer base {
@@ -106,48 +100,51 @@
     @apply text-[14px];
   }
   body {
-    font-family: "Poppins", sans-serif;
     @apply bg-background text-foreground;
-  }
-
-  html::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  /* Track */
-  html::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 16px;
-  }
-
-  /* Handle */
-  html::-webkit-scrollbar-thumb {
-    background: rgba(85, 86, 87, 0.408);
-    border-radius: 16px;
-  }
-
-  /* Handle on hover */
-  html::-webkit-scrollbar-thumb:hover {
-    background: #4250afad;
-    border-radius: 16px;
-  }
-
-  input[type='number'] {
-    -moz-appearance: textfield;
-    appearance: textfield;
-  }
-
-  input[type='number']::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  input[type='number']::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
   }
 }
 
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+
+html::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+html::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 16px;
+}
+
+/* Handle */
+html::-webkit-scrollbar-thumb {
+  background: rgba(85, 86, 87, 0.408);
+  border-radius: 16px;
+}
+
+/* Handle on hover */
+html::-webkit-scrollbar-thumb:hover {
+  background: #4250afad;
+  border-radius: 16px;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 @layer utilities {
   /* scrollbar start */

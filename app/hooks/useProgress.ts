@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import { number } from 'zod';
-let useProgress = (animate: boolean, time: number) => {
+const useProgress = (animate: boolean, time: number) => {
 	let [progress, setProgress] = useState(0);
 
 	useEffect(() => {
@@ -23,3 +23,5 @@ let useProgress = (animate: boolean, time: number) => {
 
 	return animate ? Math.min(progress / time, 1) : 0;
 }
+
+export default useProgress;
