@@ -45,10 +45,10 @@ export default function FullScreenToggle() {
       // onKeyDown={(e) => {console.log(e.key)}}
     >
       <FullScreenIcon
-        className={`h-[1.6rem] w-[1.6rem] transition-all ${isFullScreen ? 'scale-0' : 'scale-100'}`}
+        className={`h-[22px] w-[22px] transition-all ${isFullScreen ? 'scale-0' : 'scale-100'}`}
       />
       <ExitFullScreenIcon
-        className={`absolute h-[1.6rem] w-[1.6rem] transition-all ${isFullScreen ? 'scale-100' : 'scale-0'}`}
+        className={`absolute h-[22px] w-[22px] transition-all ${isFullScreen ? 'scale-100' : 'scale-0'}`}
       />
       <span className="sr-only">Toggle FullScreen</span>
     </Button>

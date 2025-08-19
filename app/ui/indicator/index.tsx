@@ -19,7 +19,7 @@ function Notifications() {
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="ghost" size="icon">
-          <BellIcon className="h-6 w-6" />
+          <BellIcon className="h-[22px] w-[22px]" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-screen md:w-[680px]">

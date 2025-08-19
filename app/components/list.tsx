@@ -51,7 +51,7 @@ function ListItem() {
             urna, a aliquam ante. Donec vitae volutpat orci. Aliquam sed
             molestie risus, quis tincidunt dui.
           </div>
-          <hr className="absolute bottom-0 left-0 right-auto top-auto z-[15] block h-px w-full origin-[50%_100%] scale-y-50 bg-border opacity-40 group-[li&.item:last-child]:hidden" />
+          <hr className="absolute bottom-0 left-0 right-auto top-auto z-[15] block h-px w-full origin-[50%_100%] scale-y-50 bg-alpha group-[li&.item:last-child]:hidden" />
         </div>
       </div>
     </li>

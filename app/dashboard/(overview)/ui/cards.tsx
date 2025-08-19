@@ -51,7 +51,7 @@ export function Card({
     <div className="rounded-xl bg-card p-2 shadow-sm">
       <div className="flex p-4">
         {Icon ? <Icon className="h-5 w-5" /> : null}
-        <h3 className="ml-2 text-sm font-medium">{title}</h3>
+        <h3 className="ml-2 font-medium">{title}</h3>
       </div>
       <p
         className={`

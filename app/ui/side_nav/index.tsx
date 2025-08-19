@@ -198,16 +198,16 @@ export function SideNav() {
           )}
         >
           <span className="flex items-center">
-            <LogoIcon className="h-10 w-10 group-[.collapsed]:hidden" />
+            <LogoIcon className="h-8 w-8 group-[.collapsed]:hidden" />
             <span
-              className={clsx('ml-3 text-xl group-[.collapsed]:hidden', {})}
+              className={clsx('ml-3 text-base font-medium group-[.collapsed]:hidden', {})}
             >
               Storeity
             </span>
           </span>
 
           <a onClick={() => setOpen(!open)} className="relative cursor-pointer">
-            <Bars3Icon className="h-6 w-6" />
+            <Bars3Icon className="h-[21px] w-[21px]" />
           </a>
         </header>
         <Nav className={clsx('pt-5 px-[10px]', {})} />
