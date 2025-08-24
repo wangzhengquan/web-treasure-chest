@@ -31,6 +31,7 @@ const Donut =  forwardRef(function({data, width = 600, height = 600}, ref) {
 
     // 创建 pie（饼图）布局生成器，初始值基于 "apples"
     const pie = d3.pie().sort(null).value((d) => d["apples"]);
+// console.log('pie(data): ', pie(data));
 
     const path = svg.selectAll("path")
         .data(pie(data))
@@ -94,8 +95,8 @@ export default function DonutControls() {
   return (
     <div style={{width:"500px"}}>
       <div className="controls flex gap-4">
-        <Button intent="blue" onClick={() => {chartRef.current?.change('apples')}}>切换到 Apples 数据</Button>
-        <Button intent="blue" onClick={() => {chartRef.current?.change('oranges')}}>切换到 Oranges 数据</Button>
+        <Button variant="blue-gradient" onClick={() => {chartRef.current?.change('apples')}}>切换到 Apples 数据</Button>
+        <Button variant="blue-gradient" onClick={() => {chartRef.current?.change('oranges')}}>切换到 Oranges 数据</Button>
       </div>
       <Donut data={data} ref={chartRef}/>
     </div>

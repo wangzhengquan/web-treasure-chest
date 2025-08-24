@@ -15,7 +15,7 @@ const buttonVariants = cva([
         // default: 'bg-primary text-primary-foreground shadow hover:bg-primary/90',
         default:
           'rounded-lg bg-blue-500 text-sm text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600  [&:not([disabled])]:hover:bg-blue-400',
-        blue_gradient: 'bg-[linear-gradient(94.26deg,rgb(32,121,222)_6.45%,rgb(28,93,192)_100%)] hover:bg-[linear-gradient(94.26deg,rgb(63,140,227)_6.45%,rgb(32,108,223)_100%)] text-[rgb(235_235_240)] border-[0.5px_solid_rgba(255_255_255_0.12)] shadow  ',
+        'blue-gradient': 'bg-[linear-gradient(94.26deg,rgb(32,121,222)_6.45%,rgb(28,93,192)_100%)] hover:bg-[linear-gradient(94.26deg,rgb(63,140,227)_6.45%,rgb(32,108,223)_100%)] text-[rgb(235_235_240)] border-[0.5px_solid_rgba(255_255_255_0.12)] shadow  ',
         destructive:
           'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
         outline:

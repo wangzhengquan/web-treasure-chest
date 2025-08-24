@@ -1,6 +1,6 @@
 import Main from '@/app/ui/main';
 import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
-import Clock from '@/app/components/d3/clock';
+import Clock from './ui';
  
 export default function Page() {
   return (

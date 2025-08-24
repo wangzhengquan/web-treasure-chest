@@ -81,7 +81,7 @@ function drawClock(svg) {
 
   // add marks for seconds
   face
-    .selectAll(styles["second-tick"])
+    .selectAll(`.${styles["second-tick"]}`)
     .data(d3.range(0, 60))
     .enter()
     .append("line")
@@ -92,25 +92,9 @@ function drawClock(svg) {
     .attr("y2", secondTickStart + secondTickLength)
     .attr("transform", d => `rotate(${sixty(d)})`);
 
-  // and labels...
-  // face
-  //   .selectAll(styles["second-label"])
-  //   .data(d3.range(5, 61, 5))
-  //   .enter()
-  //   .append("text")
-  //   .attr("class", styles["second-label"])
-  //   .attr("text-anchor", "middle")
-  //   .attr("x", d => secondLabelRadius * Math.sin(sixty(d) * radians))
-  //   .attr(
-  //     "y",
-  //     d =>
-  //       -secondLabelRadius * Math.cos(sixty(d) * radians) + secondLabelYOffset
-  //   )
-  //   .text(d => d);
-
   // ... and hours
   face
-    .selectAll(styles["hour-tick"])
+    .selectAll(`.${styles["hour-tick"]}`)
     .data(d3.range(0, 12))
     .enter()
     .append("line")
@@ -122,7 +106,7 @@ function drawClock(svg) {
     .attr("transform", d => `rotate(${twelve(d)})`);
 
   face
-    .selectAll(styles["hour-label"])
+    .selectAll(`.${styles["hour-label"]}`)
     .data(d3.range(1, 13))
     .enter()
     .append("text")

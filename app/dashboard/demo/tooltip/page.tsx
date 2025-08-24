@@ -1,4 +1,4 @@
-import { ButtonWithTooltip } from '@/app/ui/demo/tooltip';
+import { ButtonWithTooltip } from './tooltip';
 import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
 import Main from '@/app/ui/main';
 export default function Page() {

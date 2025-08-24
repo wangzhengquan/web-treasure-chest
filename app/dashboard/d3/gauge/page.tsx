@@ -8,7 +8,10 @@ export default function Page() {
   return (
     <Main className="h-full w-full">
       <UpdateBreadcrumbs breadcrumbs={'Gauge'} />
-      <MyGauge />
+      <div className="bg-card-body flex items-center justify-center">
+        <MyGauge />
+      </div>
+       
     </Main>
   );
 }

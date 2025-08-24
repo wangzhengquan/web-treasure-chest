@@ -33,10 +33,6 @@
   stroke:rgba(222, 227, 232, 1); 
 }
 
-.dark .clock .second-tick {
-  stroke:rgba(83, 84, 86, 1); 
-}
-
 .clock .hour-tick {
   stroke-width:8; 
   stroke:rgba(222, 227, 232, 1); 

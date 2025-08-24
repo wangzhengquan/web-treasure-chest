@@ -98,9 +98,16 @@
    
    
 }
-
+@font-face {
+  font-family: 'D7CBI';
+  font-style: italic;
+  font-weight: 400;
+  src:
+    url(https://static.figma.com/webfont/1/DSEG7Classic-Italic-Custom2.woff2) format('woff2'),
+    url(https://static.figma.com/webfont/1/DSEG7Classic-Italic-Custom2.woff) format('woff');
+}
 @layer base {
- 
+  
   body {
     font-family: "Poppins", sans-serif;
     @apply bg-background text-foreground text-[14px];
