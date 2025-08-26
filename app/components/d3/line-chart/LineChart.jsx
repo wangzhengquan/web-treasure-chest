@@ -122,7 +122,7 @@ function drawLineChart(svg, {
 
   // Compute titles.
   const T = title === undefined ? Z : title === null ? null : d3.map(data, title);
-  const tDomain = new d3.InternSet(T);
+  const titleByZ = new d3.InternMap(d3.map(I, (i) => [Z[i], T[i]]));
   // Construct a line generator.
   const line = d3.line()
       .defined(i => D[i])
@@ -130,10 +130,10 @@ function drawLineChart(svg, {
       .x(i => xScale(X[i]))
       .y(i => yScale(Y[i]));
   
-  // svg.on("pointerenter", pointerentered)
-  //   .on("pointermove", pointermoved)
-  //   .on("pointerleave", pointerleft)
-  //   .on("touchstart", event => event.preventDefault());
+  svg.on("pointerenter", pointerentered)
+    .on("pointermove", pointermoved)
+    .on("pointerleave", pointerleft)
+    .on("touchstart", event => event.preventDefault());
   
   // An optional Voronoi display (for fun).
   if (voronoi) svg.append("path")
@@ -164,19 +164,7 @@ function drawLineChart(svg, {
           .attr("fill", "currentColor")
           .attr("text-anchor", "start")
           .text(yLabel));
-
-  // console.log('width - marginLeft - marginRight', width - marginLeft - marginRight);
-  const interactionArea = svg.append("rect")
-      .attr("x", marginLeft)
-      .attr("y", marginTop)
-      .attr("width", (width - marginLeft - marginRight))
-      .attr("height", (height - marginTop - marginBottom))
-      .attr("fill", "transparent")
-      .style("cursor", "pointer")
-      .on("pointerenter", pointerentered)
-      .on("pointermove", pointermoved)
-      .on("pointerleave", pointerleft)
-      .on("touchstart", event => event.preventDefault());
+ 
 
   const pathGroup = svg.append("g")
       .attr("fill", "none")
@@ -211,17 +199,81 @@ function drawLineChart(svg, {
 
   //==================== legend start =======
   if (legend && zDomain.size > 1) {
-    drawLegend(svg, {
-      tDomain,
-      width,
-      height,
-      color,
-      legendRectWidth,
-      legendRectHeight,
-      legendRectCornerRadius,
-      legendTextSpacing,
-      legendItemSpacing,
+    // 创建一个总的 <g> 容器来包裹所有色块项，方便整体移动
+    const legendGroup = svg.append("g")
+      .attr("class", "legend-group");
+
+    // 使用 D3 的数据绑定来创建每个色块项 (色块 + 文字)
+    const legendItems = legendGroup.selectAll(".legend-item")
+      .data(titleByZ)
+      .enter()
+      .append("g")
+      .attr("class", "legend-item")
+      .style("cursor", "pointer")
+      .on("pointerenter", pointerEnteredLegend)
+      .on("pointerleave", pointerLeaveLegend)
+      .on("touchstart", event => event.preventDefault());
+
+    // 在每个项中添加圆角矩形
+    legendItems.append("rect")
+      .attr("width", legendRectWidth)
+      .attr("height", legendRectHeight)
+      .attr("rx", legendRectCornerRadius) // 设置 x 方向的圆角
+      .attr("ry", legendRectCornerRadius) // 设置 y 方向的圆角
+      .style("fill", ([z]) => color(z));
+
+    // 在每个项中添加文字
+    legendItems.append("text")
+      .attr("x", legendRectWidth + legendTextSpacing)
+      .attr("y", legendRectHeight / 2) // 垂直居中于色块
+      .attr("dy", "0.35em") // 微调垂直对齐
+      // .style("font-size", "16px")
+      .style("fill", "currentColor")
+      .text(([_, t]) => t);
+
+    legendItems.each(function() {
+      const item = d3.select(this);
+      const bbox = this.getBBox(); // 获取 <g> 元素的边界框 (包含 rect 和 text)
+      
+      // 使用 .insert() 将背景矩形作为第一个子元素插入
+      // 这样它就不会覆盖掉可见的 rect 和 text
+      item.insert("rect", ":first-child")
+          .attr("class", "hitbox") // 通常称之为"点击区域"
+          .attr("x", bbox.x)
+          .attr("y", bbox.y)
+          .attr("width", bbox.width)
+          .attr("height", bbox.height)
+          .style("fill", "transparent"); // 设置为透明
+  });
+    // 4. 定位与居中
+    let currentX = 0;
+    legendItems.attr("transform", function(d) {
+      // 'this' 指向当前的 <g> 元素 (legend-item)
+      const transform = `translate(${currentX}, 0)`;
+      // 计算当前元素的宽度 (getBBox() 可以获取元素的边界框)
+      const itemWidth = this.getBBox().width;
+      // 更新下一个元素开始的 x 坐标
+      currentX += itemWidth + legendItemSpacing;
+      return transform;
     });
+
+    // 9. 将整个图例容器居中和底部对齐
+    const legendBBox = legendGroup.node().getBBox();
+    const legendX = (width - legendBBox.width) / 2;
+    const legendY = height - legendBBox.height - 10; // 距离底部20px
+
+    legendGroup.attr("transform", `translate(${legendX}, ${legendY})`);
+
+    
+    function pointerEnteredLegend(event, [z, t]) {
+      path.style("opacity", ([key]) => key === z ?  "1": "0.3");
+      if(vertex) verticesCircle.style("opacity", i => Z[i] === z ? "1" : "0.3");
+    }
+  
+    function pointerLeaveLegend() {
+      path.style("mix-blend-mode", mixBlendMode).style("opacity", null);
+      if(vertex) verticesCircle.style("mix-blend-mode", mixBlendMode).style("opacity", null);
+    }
   }
   // =========================== legend end ==========================
 
@@ -278,52 +330,7 @@ function drawLegend(svg, {
   legendItemSpacing ,     // 每个项目之间的间距
   
 }){
-  // 创建一个总的 <g> 容器来包裹所有色块项，方便整体移动
-  const legendGroup = svg.append("g")
-    .attr("class", "legend-group");
-
-  // 使用 D3 的数据绑定来创建每个色块项 (色块 + 文字)
-  const legendItems = legendGroup.selectAll(".legend-item")
-    .data(tDomain)
-    .enter()
-    .append("g")
-    .attr("class", "legend-item");
-
-  // 在每个项中添加圆角矩形
-  legendItems.append("rect")
-    .attr("width", legendRectWidth)
-    .attr("height", legendRectHeight)
-    .attr("rx", legendRectCornerRadius) // 设置 x 方向的圆角
-    .attr("ry", legendRectCornerRadius) // 设置 y 方向的圆角
-    .style("fill", color);
-
-  // 在每个项中添加文字
-  legendItems.append("text")
-    .attr("x", legendRectWidth + legendTextSpacing)
-    .attr("y", legendRectHeight / 2) // 垂直居中于色块
-    .attr("dy", "0.35em") // 微调垂直对齐
-    // .style("font-size", "16px")
-    .style("fill", "currentColor")
-    .text(d => d);
-
-  // 4. 定位与居中
-  let currentX = 0;
-  legendItems.attr("transform", function(d) {
-    // 'this' 指向当前的 <g> 元素 (legend-item)
-    const transform = `translate(${currentX}, 0)`;
-    // 计算当前元素的宽度 (getBBox() 可以获取元素的边界框)
-    const itemWidth = this.getBBox().width;
-    // 更新下一个元素开始的 x 坐标
-    currentX += itemWidth + legendItemSpacing;
-    return transform;
-  });
-
-  // 9. 将整个图例容器居中和底部对齐
-  const legendBBox = legendGroup.node().getBBox();
-  const legendX = (width - legendBBox.width) / 2;
-  const legendY = height - legendBBox.height - 10; // 距离底部20px
-
-  legendGroup.attr("transform", `translate(${legendX}, ${legendY})`);
+  
 }
 
 export function LineChart(props) {
