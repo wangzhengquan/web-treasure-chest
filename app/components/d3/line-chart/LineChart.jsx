@@ -66,10 +66,8 @@ function drawLineChart(svg, {
   height = 600, // outer height, in pixels
   xType = d3.scaleUtc, // type of x-scale
   xDomain, // [xmin, xmax]
-  xRange = [marginLeft, width - marginRight], // [left, right]
   yType = d3.scaleLinear, // type of y-scale
   yDomain, // [ymin, ymax]
-  yRange = [height - marginBottom, marginTop], // [bottom, top]
   yFormat, // a format specifier string for the y-axis
   yLabel, // a label for the y-axis
   zDomain, // array of z-values
@@ -89,6 +87,8 @@ function drawLineChart(svg, {
   vertex = true, // show showV(points) on the line?
   voronoi // show a Voronoi overlay? (for debugging)
 }) {
+  const xRange = [0, width - marginRight-marginLeft]; // [left, right]
+  const yRange = [height - marginBottom-marginTop, 0]; // [bottom, top]
   const X = d3.map(data, x);
   const Y = d3.map(data, y);
   const Z = d3.map(data, z);
@@ -129,34 +129,51 @@ function drawLineChart(svg, {
       .curve(curveMap[curve])
       .x(i => xScale(X[i]))
       .y(i => yScale(Y[i]));
+
+  const visHeight = height - marginTop - marginBottom;
+  const visWidth = width - marginLeft - marginRight; //width is basically max-width
   
-  svg.on("pointerenter", pointerentered)
+  
+
+  const vis = svg.append('g')
+    .attr('transform', `translate(${marginLeft}, ${marginTop})`);
+
+ 
+  const interactionArea = vis.append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", visWidth)
+    .attr("height", visHeight)
+    .attr("fill", "transparent");
+    // .style("cursor", "pointer");
+
+  vis.on("pointerenter", pointerentered)
     .on("pointermove", pointermoved)
     .on("pointerleave", pointerleft)
     .on("touchstart", event => event.preventDefault());
-  
+
   // An optional Voronoi display (for fun).
-  if (voronoi) svg.append("path")
+  if (voronoi) vis.append("path")
       .attr("fill", "none")
       .attr("stroke", "#ccc")
       .attr("d", d3.Delaunay
         .from(I, i => xScale(X[i]), i => yScale(Y[i]))
-        .voronoi([0, 0, w, h])
+        .voronoi([0, 0, visWidth, visHeight])
         .render());
 
-  svg.append("g")
-      .attr("transform", `translate(0,${height - marginBottom})`)
+  vis.append("g")
+      .attr("transform", `translate(0, ${visHeight})`)
       .call(xAxis)
       .call(voronoi ? () => {} : g => g.selectAll(".tick line").clone()
-        .attr("y2", -height + marginTop + marginBottom)
+        .attr("y2", -visHeight )
         .attr("stroke-opacity", 0.1));
 
-  svg.append("g")
-      .attr("transform", `translate(${marginLeft},0)`)
+  vis.append("g")
+      // .attr("transform", `translate(${marginLeft},0)`)
       .call(yAxis)
       // .call(g => g.select(".domain").remove())
       .call(voronoi ? () => {} : g => g.selectAll(".tick line").clone()
-          .attr("x2", width - marginLeft - marginRight)
+          .attr("x2", visWidth)
           .attr("stroke-opacity", 0.1))
       .call(g => g.append("text")
           .attr("x", -marginLeft)
@@ -166,7 +183,7 @@ function drawLineChart(svg, {
           .text(yLabel));
  
 
-  const pathGroup = svg.append("g")
+  const pathGroup = vis.append("g")
       .attr("fill", "none")
       .attr("stroke", typeof color === "string" ? color : null)
       .attr("stroke-linecap", strokeLinecap)
@@ -277,7 +294,7 @@ function drawLineChart(svg, {
   }
   // =========================== legend end ==========================
 
-  const dot = svg.append("g")
+  const dot = vis.append("g")
       .attr("stroke", "currentColor")
       .attr("fill", "currentColor")
       .attr("display", "none");
@@ -317,21 +334,7 @@ function drawLineChart(svg, {
   }
 
 }
-
-function drawLegend(svg, { 
-  tDomain,
-  color,
-  width,
-  height,
-  legendRectWidth,
-  legendRectHeight,
-  legendRectCornerRadius, // 圆角半径
-  legendTextSpacing ,     // 色块与文字的间距
-  legendItemSpacing ,     // 每个项目之间的间距
-  
-}){
-  
-}
+ 
 
 export function LineChart(props) {
   const svgRef = useRef(null);
