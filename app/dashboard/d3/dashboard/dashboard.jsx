@@ -1,6 +1,7 @@
 'use client';
 import { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import {LineChart} from '@app/components/d3/line-chart';
+import {PieChart} from '@app/components/d3/pie-chart';
 import * as d3 from 'd3';
 import { useTheme } from 'next-themes';
 import Loading from "@/app/components/loading";
@@ -32,11 +33,19 @@ const moldTrendData = [
   {name: '设变', month: "2月", value: 60},{name: '设变', month: "3月", value: 90},
 ];
 
+const moldStatusData = [
+  { label: '延期', value: 29 },
+  { label: '正常交付', value: 29 },
+  { label: '加工中', value: 41 }
+];
+
 const partTrendData = [ // Just duplicating for example
     {name: '电极', month: '1月', value: 30},{name: '电极', month: '2月', value: 80},{name: '电极', month: '3月', value: 30},{name: '电极', month: '4月', value: 90},{name: '电极', month: '5月', value: 25},{name: '电极', month: '6月', value: 85},
     {name: '铜件', month: '1月', value: 70},{name: '铜件', month: '2月', value: 60},{name: '铜件', month: '3月', value: 20},{name: '铜件', month: '4月', value: 40},{name: '铜件', month: '5月', value: 60},{name: '铜件', month: '6月', value: 50},
     {name: '其他', month: '1月', value: 50},{name: '其他', month: '2月', value: 40},{name: '其他', month: '3月', value: 55},{name: '其他', month: '4月', value: 10},{name: '其他', month: '5月', value: 45},{name: '其他', month: '6月', value: 70},
 ];
+
+
 
 export default function Dashboard() {
   const columnRef = useRef(null), blockRef = useRef(null);
@@ -125,10 +134,16 @@ export default function Dashboard() {
           />
         </div>
         <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
-          <div>
-          <Gauge title="加工中模具数量" width={blockWidth} uom="模具数" value={0} valueRange={[0, 120]} />
-          </div>
           <div ref={blockRef}>
+          <PieChart 
+            title="模具状态统计" 
+            width={blockWidth} 
+            data={moldStatusData} 
+            name={d => d.label}
+            value={d => d.value}
+            />
+          </div>
+          <div >
             <Gauge title="加工中模具数量" width={blockWidth} uom="模具数" value={45} valueRange={[0, 120]} />
           </div>
            

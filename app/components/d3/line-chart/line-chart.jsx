@@ -95,10 +95,12 @@ export function LineChart({
   const svgRef = useRef(null);
   const tooltipRef = useRef(null);
   const [tooltipData, setTooltipData] = useState([]);
+  const [tooltipTitle, setTooltipTitle] = useState("");
   useEffect(() => {
     if(!svgRef.current) return;
     if(width == 0 || height == 0) return;
-     draw();
+
+    draw();
     return () => {
       // 移除所有由 D3 创建的子元素，防止重复渲染
       d3.select(svgRef.current).selectAll("*").remove();
@@ -361,12 +363,12 @@ export function LineChart({
       dashline.attr("transform",  `translate(${xScale(xValue)}, 0)`);
 
       setTooltipData(xI.map(i => ({
-        x: X[i],
-        y: Y[i],
-        z: Z[i],
-        t: T[i],
+        name: T[i],
+        value: Y[i],
         color: typeof color === "function" ? color(Z[i]) : color,
       })));
+      setTooltipTitle(xValue);
+
       const tooltipRect = tooltip.node().getBoundingClientRect();
       // console.log("tooltipRect", tooltipRect);
       const offset = 20;
@@ -408,7 +410,7 @@ export function LineChart({
     function pointerleft() {
       dashline.attr("display", "none");
       setTooltipData([]);
-
+      setTooltipTitle("");
       // path.style("mix-blend-mode", mixBlendMode).style("stroke", null);
       // if(showVertices) verticesCircle.style("mix-blend-mode", mixBlendMode).style("stroke", null);
       // dot.attr("display", "none");
@@ -437,12 +439,13 @@ export function LineChart({
     >
     </svg>
 
-    <Tooltip ref={tooltipRef} data={tooltipData} open={tooltipData && tooltipData.length > 0}/>
+    <Tooltip ref={tooltipRef} title={tooltipTitle} data={tooltipData} open={tooltipData && tooltipData.length > 0}/>
   </div>
   );
 }
 
 const Tooltip= forwardRef(function ({ 
+  title,
   data,
   open,
 }, ref) {
@@ -459,13 +462,13 @@ const Tooltip= forwardRef(function ({
         display: open ? "block" : "none",
       }}>
        
-      <h3 className="font-semibold">{data && data.length > 0 ? data[0].x : '' }</h3>
+      <h3 className="font-semibold">{title}</h3>
       {
         data.map( (d, i) => (
-          <div key={d.t} className="mt-[10px] block" style={{lineHeight: 1}}>
+          <div key={d.name} className="mt-[10px] block" style={{lineHeight: 1}}>
             <span className="w-[10px] h-[10px] rounded-full inline-block" style={{backgroundColor: d.color, lineHeight: 1}}/>
-            <span className="inline-block ml-[6px]" style={{lineHeight: 1}}>{d.t}</span>
-            <span className="font-semibold  text-right inline-block ml-[20px] float-right" style={{lineHeight: 1}}>{d.y}</span>
+            <span className="inline-block ml-[6px]" style={{lineHeight: 1}}>{d.name}</span>
+            <span className="font-semibold  text-right inline-block ml-[20px] float-right" style={{lineHeight: 1}}>{d.value}</span>
           </div>
         ) )
       }

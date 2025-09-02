@@ -19,13 +19,12 @@ const tick2deg = d3.scaleLinear().domain([-4, 4]).range([startAngle, endAngle]);
 
 const arcSegments = segments.map(seg => ({
   startAngle: seg2deg(seg.range[0]) * radians,
-  endAngle: seg2deg(seg.range[1]) * radians
+  endAngle: seg2deg(seg.range[1]) * radians,
+  color: seg.color
 }));
 
 
 export default function Gauge({
-  width,
-  // ringWidth = 10,
   value = 0,
   uom = 'Units',
   valueRange = [0, 100],
@@ -33,6 +32,7 @@ export default function Gauge({
   labelFontSize = 14,
   uomFontSize = 12,
   valueFontSize = 30,
+  width,
   margin = 10
 }) {
   const svgRef = useRef();
@@ -46,7 +46,7 @@ export default function Gauge({
     labelRadius = innerRadius - tickLength - 13,
     labelYOffset = 7,
     // valueOffset = outerRadius - valueFontSize / 2,
-    valueOffset = innerRadius,
+    valueOffset = labelRadius,
     // uomOffset = labelRadius - uomFontSize - 5,
     uomOffset = labelRadius/1.6,
     pointerHead = labelRadius - labelFontSize,
@@ -66,123 +66,76 @@ export default function Gauge({
 
   const tick2value = d3.scaleLinear().domain([-4, 4]).range(valueRange);
   const value2deg = d3.scaleLinear().domain(valueRange).range([startAngle, endAngle]);
-  useEffect(() => {
-    console.log("gauge useEffect", value, width);
-    if(!svgRef.current) return;
-    if(width <= 0 ) return;
-    draw();
-    return () => {
-      d3.select(svgRef.current).selectAll("*").remove();
-    }
-  }, [value, width]);
 
-  function draw(){
-    const svg = d3.select(svgRef.current);
-    const face = svg
-      .append("g")
-      .attr("id", "gauge-face")
-      .attr("transform", `translate(${[gaugeRadius, gaugeRadius]})`);
+  const arc = d3.arc()
+    .innerRadius(innerRadius)
+    .outerRadius(outerRadius);
   
-    const arc = d3.arc()
-      .innerRadius(innerRadius)
-      .outerRadius(outerRadius);
-
-    // face.append("circle")
-    //   .attr("cx", 0)         // 设置圆心的 x 坐标
-    //   .attr("cy", 0)         // 设置圆心的 y 坐标
-    //   .attr("r", innerRadius)           // 设置圆的半径
-    //   .attr("stroke", "hsl(var(--card-body))")
-    //   .attr("fill", "hsl(var(--card-body))");
-  
-    const ring = face
-        .append("g")
-        .attr("class", "gauge-ring");
-  
-    ring.selectAll(".gauge-ring-segment")
-      .data(arcSegments)
-      .join("path")
-      .attr("class", "gauge-ring-segment")
-      .attr("fill", (d, i) => segments[i].color)
-      .attr("stroke", (d, i) => segments[i].color)
-      .attr("d", arc);
-      // .each(function(d) {this._current = d; });
-    
-    face.selectAll(".gauge-tick")
-      .data(d3.range(-4, 5))
-      .enter()
-      .append("line")
-      .attr("class", "gauge-tick")
-      .attr("x1", 0)
-      .attr("x2", 0)
-      .attr("y1", tickStart)
-      .attr("y2", tickStart + tickLength)
-      .attr("stroke-width", 4)
-      .attr("stroke", (d, i) => {
-        const seg = segments.find(seg => seg.range[0] <= i && seg.range[1] > i);
-        return seg ? seg.color : segments[segments.length-1].color;
-      })
-      .attr("transform", d => `rotate(${tick2deg(d)})`);
-  
-    face
-      .selectAll(".gauge-label")
-      .data(d3.range(-4, 5))
-      .enter()
-      .append("text")
-      .attr("class", `gauge-label ${digital7.className}`)
-      .attr("text-anchor", "middle")
-      .attr("x", d => labelRadius * Math.sin(tick2deg(d) * radians))
-      .attr(
-        "y",
-        d => -labelRadius * Math.cos(tick2deg(d) * radians) + labelYOffset
-      )
-      .attr("font-size", labelFontSize)
-      .text(d =>tick2value(d))
-      .attr("style", `letter-spacing: 2px;`);
-  
-    face.append("path")
-      .attr("class", "gauge-pointer")
-      .attr("d", pointerPath)
-      .attr("fill", "rgb(176, 216, 242")
-      .attr("stroke", "rgb(176, 216, 242)")
-      .attr("transform", `rotate(${value2deg(value)})`);
-    
-    face.append("text")
-      .attr("class", `gauge-uom`)
-      .attr("text-anchor", "middle")
-      .attr("x", 0)
-      .attr("y", uomOffset)
-      .attr("font-size", uomFontSize)
-      .text(uom)
-      
-      // .attr("style", `font-size: ${uomFontSize};`);
-    
-    face.append("text")
-      .attr("class", `gauge-value ${digital7.className}`)
-      .attr("text-anchor", "middle")
-      .attr("x", 0)
-      .attr("y", valueOffset)
-      .attr("font-size", valueFontSize)
-      .text(value)
-      // .attr("style", `font-size: ${uomFontSize};`);
-  
-  }
   return (
-  <div className={`bg-card`} style={{padding: `${margin}px`}}>
-    {title && <h2 className="font-bold" style={{
-      // paddingLeft: `15px`,
-      paddingBottom: `${margin/2}px`,
-    }}>{title}</h2>}
+  <div className={`bg-card`}>
+    {
+      title && 
+      <h2 className="font-bold" 
+        style={{
+        padding: `${margin}px ${margin}px 0px`,
+        }}>
+        {title}
+      </h2>
+    }
     <svg ref={svgRef}
       className="gauge"
-      width={gaugeRadius*2}
-      height={gaugeRadius*2}
-      viewBox={`0 0 ${gaugeRadius*2} ${gaugeRadius*2}`}
+      width={width}
+      height={width}
+      viewBox={`${-width/2} ${-width/2} ${width} ${width}`}
       stroke="currentColor"
       fill="currentColor"
       style={{
         maxWidth: "100%",
       }}
     >
+      
+      {
+        // arc segments
+        arcSegments.map((d, i) => 
+          <path key={d.startAngle} fill={d.color} stroke={d.color} d={arc(d)}/>
+        )
+      }
+      
+      {
+        d3.range(-4, 5).map((d, i) => 
+        <g key={d}>
+          {/* ticks */}
+          <line x1="0" x2="0" 
+            y1={tickStart} y2={tickStart + tickLength} 
+            strokeWidth="4" 
+            stroke={segments.find(seg => seg.range[0] <= i && seg.range[1] > i)?.color || segments[segments.length-1].color}
+            transform={`rotate(${tick2deg(d)})`}
+            /> 
+          {/* labels */}
+          <text className={`${digital7.className}`} 
+            textAnchor="middle" 
+            x={labelRadius * Math.sin(tick2deg(d) * radians)}
+            y={-labelRadius * Math.cos(tick2deg(d) * radians) + labelYOffset}
+            fontSize={labelFontSize}
+            letterSpacing="2"
+            >
+            {tick2value(d)}
+          </text>
+        </g>
+        )
+      }
+      {/* pointer */}
+      <path fill="rgb(176, 216, 242)" stroke='rgb(176, 216, 242)' d={pointerPath} transform={`rotate(${value2deg(value)})`}/>
+      {/* uom */}
+      <text textAnchor="middle" x="0" y={uomOffset} fontSize={uomFontSize}> {uom} </text>
+      {/* value */}
+      <text className={`${digital7.className}`} 
+        textAnchor="middle" 
+        alignmentBaseline="middle" 
+        x="0" y={valueOffset} 
+        fontSize={valueFontSize}> 
+        {value} 
+      </text>
     </svg>
   </div>
   );
