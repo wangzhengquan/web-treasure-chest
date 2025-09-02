@@ -4,6 +4,8 @@
 
 @layer base {
   :root {
+    --shadow: var(--alpha);
+    --shadow-color: hsl(var(--shadow) / var(--shadow-opacity));
     --radius: 0.5rem;
   }
 
@@ -11,7 +13,7 @@
     --background: 246.0 25.0% 92.2%;  
     --foreground: 240.0 10.0% 3.9%;  
 
-    --nav: 0.0 0.0% 100.0%;  
+    --nav: 210.0 20.0% 98.0%;  
     --nav-foreground: 240.0 10.0% 3.9%;  
 
     --primary: 240.0 5.9% 10.0%;  
@@ -39,16 +41,17 @@
     --accent-foreground: 219.9 81.7% 54.9%;  
     --accent-200: 240.0 4.8% 95.9%;  
     
-    --hover: 0.0 0.0% 12.2%;  
-
     --destructive: 0.0 84.2% 60.2%;  
     --destructive-foreground: 0.0 0.0% 98.0%;  
 
-    --border: 240.0 5.9% 90.0%;  
+    --border: 223 5.1% 73.1%;
+    /* --border: 240.0 5.9% 90.0%;   */
     /* --border: 192.0 18.5% 94.7%;   */
 
     --ring: 211.0 65.1% 44.9%;  
     --alpha: 0 0% 0%;
+
+    --shadow-opacity: 0.1;
   }
    
 
@@ -68,8 +71,6 @@
     --accent: 216.6 30.8% 26.1%;  
     --accent-200: 233.6 15.9% 34.5%;  
     --accent-foreground: 192.1 100.0% 56.1%;  
-
-    --hover: 0.0 0.0% 98.8%;  
 
     --card: 216.6 30.8% 26.1%;  
     --card-foreground: 240.0 14.3% 93.1%;  
@@ -94,6 +95,8 @@
 
     --ring: 211.0 65.1% 44.9%; 
     --alpha: 0 0% 100%; 
+
+    --shadow-opacity: 0.5;
   }
    
    
@@ -109,7 +112,7 @@
 @layer base {
   
   body {
-    font-family: "Poppins", sans-serif;
+    font-family: "Google Sans", sans-serif;
     @apply bg-background text-foreground text-[14px];
   }
 
@@ -177,21 +180,6 @@
     border-radius: 16px;
   }
   /* scrollbar end */
-}
-
-
-@layer utilities {
-   /* Hidden scrollbar */
-  /* width */
-  .scrollbar-hidden::-webkit-scrollbar {
-    display: none;
-    scrollbar-width: none;
-  }
-
-  .scrollbar-stable {
-    scrollbar-gutter: stable both-edges;
-  }
-  
 
   .ufo-bg {
     --surface: #1d2125;
@@ -234,6 +222,71 @@
     0px 12px 12px -6px rgba(14 63 126 / 0.04),
     0px 24px 24px -12px rgba(14 63 126 / 0.04);
   }
+
+  .ufo-table {
+    @apply min-w-full rounded-lg;
+    border-collapse: collapse;
+  }
+  .ufo-table thead {
+    @apply rounded-lg text-left font-normal;
+  }
+  .ufo-table thead tr th {
+    @apply px-3 py-4 font-medium;
+  }
+  .ufo-table tbody tr {
+    @apply w-full border-b last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg;
+  }
+  .ufo-table tbody tr td {
+    @apply  relative overflow-hidden whitespace-nowrap px-3 py-3;
+  }
+  /* .ufo-table tbody tr:last-child {
+      border-bottom: none;
+  } */
+
+  .component-table {
+    @apply table w-full min-w-full h-full m-0 relative overflow-hidden border-collapse;
+    table-layout: auto;
+  }
+  .component-table thead {
+    @apply w-full;
+  }
+  .component-table thead tr {
+    @apply w-full  text-[12px] leading-[12px] text-left bg-alpha/10 overflow-hidden font-bold ; 
+  }
+  .component-table thead tr th {
+    @apply text-left px-[8px] leading-[24px] truncate box-border ;
+    font-family: "Google Sans", sans-serif;
+  }
+  .component-table tbody{
+    @apply w-full h-[calc(100%-24px)]  overflow-y-auto text-[12px] leading-[12px]; 
+  }
+
+  .component-table tbody tr {
+    @apply  w-full font-normal;
+    /* table-layout: fixed; */
+  }
+
+  .component-table tbody tr td {
+    @apply bg-transparent text-left p-[8px] truncate box-border border-b border-b-transparent align-middle;
+    font-family: "Google Sans", sans-serif;
+  }
+}
+
+
+@layer utilities {
+   /* Hidden scrollbar */
+  /* width */
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-stable {
+    scrollbar-gutter: stable both-edges;
+  }
+  
+
+  
 
   .cubic-filter {
     filter: url(#cubic-filter);

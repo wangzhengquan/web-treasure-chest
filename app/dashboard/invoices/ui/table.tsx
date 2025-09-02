@@ -57,22 +57,22 @@ export default async function InvoicesTable({
               </div>
             ))}
           </div>
-          <table className="hidden min-w-full md:table">
-            <thead className="rounded-lg text-left font-normal">
+          <table className="ufo-table hidden md:table">
+            <thead>
               <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                <th scope="col" className="sm:pl-6">
                   Customer
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="">
                   Email
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="">
                   Amount
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="">
                   Date
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="">
                   Status
                 </th>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
@@ -84,9 +84,9 @@ export default async function InvoicesTable({
               {invoices?.map((invoice) => (
                 <tr
                   key={invoice.id}
-                  className="w-full border-b py-3 last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
+                  className=""
                 >
-                  <td className="relative overflow-hidden whitespace-nowrap py-3 pl-6 pr-3">
+                  <td className="pl-6 pr-3">
                     <div className="flex items-center gap-3">
                       <Image
                         src={invoice.image_url}
@@ -98,19 +98,19 @@ export default async function InvoicesTable({
                       <p>{invoice.name}</p>
                     </div>
                   </td>
-                  <td className="relative overflow-hidden whitespace-nowrap px-3 py-3">
+                  <td className="">
                     {invoice.email}
                   </td>
-                  <td className="relative overflow-hidden whitespace-nowrap px-3 py-3">
+                  <td className="">
                     {formatCurrency(invoice.amount)}
                   </td>
-                  <td className="relative overflow-hidden whitespace-nowrap px-3 py-3">
+                  <td className="">
                     {formatDateToLocal(invoice.date)}
                   </td>
-                  <td className="relative overflow-hidden whitespace-nowrap px-3 py-3">
+                  <td className="">
                     <InvoiceStatus status={invoice.status} />
                   </td>
-                  <td className="relative overflow-hidden whitespace-nowrap py-3 pl-6 pr-3">
+                  <td className="pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       <UpdateInvoice id={invoice.id} />
                       <DeleteInvoice id={invoice.id} />
@@ -131,32 +131,32 @@ export default async function InvoicesTable({
 
 export function TableRowSkeleton() {
   return (
-    <tr className="w-full border-b border-card last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
+    <tr className="">
       {/* Customer Name and Image */}
-      <td className="relative overflow-hidden box-border whitespace-nowrap py-3 pl-6 pr-3">
+      <td className="relative overflow-hidden box-border pl-6 pr-3">
         <div className="flex items-center gap-3">
           <div className="h-8 w-8 rounded-full bg-card-200"></div>
           <div className="h-6 w-24 rounded bg-card-200"></div>
         </div>
       </td>
       {/* Email */}
-      <td className="box-border whitespace-nowrap px-3 py-3">
+      <td className="">
         <div className="h-6 w-32 rounded bg-card-200"></div>
       </td>
       {/* Amount */}
-      <td className="box-border whitespace-nowrap px-3 py-3">
+      <td className="">
         <div className="h-6 w-16 rounded bg-card-200"></div>
       </td>
       {/* Date */}
-      <td className="box-border whitespace-nowrap px-3 py-3">
+      <td className="">
         <div className="h-6 w-16 rounded bg-card-200"></div>
       </td>
       {/* Status */}
-      <td className="box-border whitespace-nowrap px-3 py-3">
+      <td className="">
         <div className="h-6 w-16 rounded bg-card-200"></div>
       </td>
       {/* Actions */}
-      <td className="box-border whitespace-nowrap py-3 pl-6 pr-3">
+      <td className="box-border whitespace-nowrap pl-6 pr-3">
         <div className="flex justify-end gap-3">
           <div className="h-[33.5px] w-[33.5px] rounded bg-card-200"></div>
           <div className="h-[33.5px] w-[33.5px] rounded bg-card-200"></div>
@@ -203,22 +203,22 @@ export function InvoicesTableSkeleton() {
             <InvoicesMobileSkeleton />
             <InvoicesMobileSkeleton />
           </div>
-          <table className="hidden min-w-full  md:table">
+          <table className="ufo-table hidden md:table">
             <thead className="rounded-lg text-left font-normal">
               <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                <th scope="col" className="px-4 py-5 sm:pl-6">
                   Customer
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="">
                   Email
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="">
                   Amount
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="">
                   Date
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="">
                   Status
                 </th>
                 <th

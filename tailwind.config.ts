@@ -67,6 +67,7 @@ const config = {
           border: 'hsl(var(--input-border) / <alpha-value>)',
         },
         alpha: 'hsl(var(--alpha) / <alpha-value>)',
+        shadow: 'var(--shadow-color)',
       },
       borderRadius: {
         lg: 'var(--radius)',

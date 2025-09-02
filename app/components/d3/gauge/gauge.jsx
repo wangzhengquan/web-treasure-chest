@@ -1,37 +1,12 @@
-import { Component, createRef } from 'react';
+import { Component, createRef, useRef, useEffect } from 'react';
 import * as d3 from "d3";
 // import from './clock.module.css';
 import { ds_digital, digital7 } from '@app/styles/fonts';
 
-const gaugeRadius = 200,
-    margin = 5,
-    w = (gaugeRadius + margin) * 2,
-    h = (gaugeRadius + margin) * 2,
-    outerRadius = gaugeRadius, 
-    innerRadius = outerRadius - 30,
-    tickStart = -innerRadius,
-    tickLength = 10,
-    radians = Math.PI / 180,
-    labelRadius = innerRadius - tickLength - 13,
-    labelYOffset = 7,
-    valueOffset = labelRadius - 30;
-     
-const pointerWidth = 12.5,
-      pointerHead = labelRadius - 20,
-      pointerTail = 5;
-
-const pointerPath = d3.line()([
-  [pointerWidth / 2, 0],
-  [0, -pointerHead],
-  [-(pointerWidth / 2), 0],
-  [0, pointerTail],
-  [pointerWidth / 2, 0]
-]);
-
+const radians = Math.PI / 180;
+const startAngle = -130 , endAngle = 130;
 const color = d3.scaleOrdinal(d3.schemeCategory10); 
 
-const seg2deg = d3.scaleLinear().domain([0, 8]).range([-130, 130]);
-const tick2deg = d3.scaleLinear().domain([-4, 4]).range([-130, 130]);
 
 const segments = [
   {range: [0, 2], color: "rgb(40,236,175)"},
@@ -39,69 +14,98 @@ const segments = [
   {range: [6, 8], color: "rgb(249,71,138)"}
 ]
 
+const seg2deg = d3.scaleLinear().domain([0, 8]).range([startAngle, endAngle]);
+const tick2deg = d3.scaleLinear().domain([-4, 4]).range([startAngle, endAngle]);
+
 const arcSegments = segments.map(seg => ({
   startAngle: seg2deg(seg.range[0]) * radians,
   endAngle: seg2deg(seg.range[1]) * radians
 }));
 
-class Gauge extends Component {
-  svgRef = createRef();
-  constructor(props) {
-    super(props);
-    this.width = props.width || '100%';
-    this.height = 500;
-    this.value = props.value || 0;
-    this.uom = props.uom || 'Units';
-    this.valueRange = props.valueRange || [0, 100];
-    this.tick2value = d3.scaleLinear().domain([-4, 4]).range(this.valueRange);
-    this.value2deg = d3.scaleLinear().domain(this.valueRange).range([-130, 130]);
-  }
-  componentDidMount() {
-    this.svg = d3.select(this.svgRef.current);
-    this.drawGauge();
-  }
-  componentWillUnmount() {
-    this.svg.selectAll("*").remove();
-  }
-  render() {
-    return <svg ref={this.svgRef}
-      id="clock"
-      className="gauge"
-      width={this.width}
-      height={this.height}
-      viewBox={`0 0 ${w} ${h}`}
-      stroke="currentColor"
-      fill="currentColor"
-      style={{
-        maxWidth: "100%",
-      }}
-    >
-    </svg>;
-  }
 
-  drawGauge(){
-    const svg = this.svg;
+export default function Gauge({
+  width,
+  // ringWidth = 10,
+  value = 0,
+  uom = 'Units',
+  valueRange = [0, 100],
+  title,
+  labelFontSize = 14,
+  uomFontSize = 12,
+  valueFontSize = 30,
+  margin = 10
+}) {
+  const svgRef = useRef();
+
+  const gaugeRadius = width > 0 ? width / 2 - margin : 0,
+    ringWidth = gaugeRadius / 7.866,
+    outerRadius = gaugeRadius, 
+    innerRadius = outerRadius - ringWidth,
+    tickStart = -innerRadius,
+    tickLength = 5,
+    labelRadius = innerRadius - tickLength - 13,
+    labelYOffset = 7,
+    // valueOffset = outerRadius - valueFontSize / 2,
+    valueOffset = innerRadius,
+    // uomOffset = labelRadius - uomFontSize - 5,
+    uomOffset = labelRadius/1.6,
+    pointerHead = labelRadius - labelFontSize,
+    pointerTail = pointerHead / 8.13,
+    pointerWidth = pointerHead / 6.75;
+    
+    // console.log("innerRadius/valueOffset", innerRadius/valueOffset);  
+    // console.log("labelRadius/uomOffset", labelRadius/uomOffset);  
+
+  const pointerPath = d3.line()([
+    [pointerWidth / 2, 0],
+    [0, -pointerHead],
+    [-(pointerWidth / 2), 0],
+    [0, pointerTail],
+    [pointerWidth / 2, 0]
+  ]);
+
+  const tick2value = d3.scaleLinear().domain([-4, 4]).range(valueRange);
+  const value2deg = d3.scaleLinear().domain(valueRange).range([startAngle, endAngle]);
+  useEffect(() => {
+    console.log("gauge useEffect", value, width);
+    if(!svgRef.current) return;
+    if(width <= 0 ) return;
+    draw();
+    return () => {
+      d3.select(svgRef.current).selectAll("*").remove();
+    }
+  }, [value, width]);
+
+  function draw(){
+    const svg = d3.select(svgRef.current);
     const face = svg
       .append("g")
       .attr("id", "gauge-face")
-      .attr("transform", `translate(${[w / 2, h / 2]})`);
+      .attr("transform", `translate(${[gaugeRadius, gaugeRadius]})`);
   
     const arc = d3.arc()
       .innerRadius(innerRadius)
       .outerRadius(outerRadius);
+
+    // face.append("circle")
+    //   .attr("cx", 0)         // 设置圆心的 x 坐标
+    //   .attr("cy", 0)         // 设置圆心的 y 坐标
+    //   .attr("r", innerRadius)           // 设置圆的半径
+    //   .attr("stroke", "hsl(var(--card-body))")
+    //   .attr("fill", "hsl(var(--card-body))");
   
-    const rim = face
+    const ring = face
         .append("g")
-        .attr("class", "gauge-rim");
+        .attr("class", "gauge-ring");
   
-    rim.selectAll(".gauge-rim-segment")
+    ring.selectAll(".gauge-ring-segment")
       .data(arcSegments)
       .join("path")
-      .attr("class", "gauge-rim-segment")
+      .attr("class", "gauge-ring-segment")
       .attr("fill", (d, i) => segments[i].color)
       .attr("stroke", (d, i) => segments[i].color)
-      .attr("d", arc)
-      .each(function(d) { this._current = d; });
+      .attr("d", arc);
+      // .each(function(d) {this._current = d; });
     
     face.selectAll(".gauge-tick")
       .data(d3.range(-4, 5))
@@ -131,36 +135,63 @@ class Gauge extends Component {
         "y",
         d => -labelRadius * Math.cos(tick2deg(d) * radians) + labelYOffset
       )
-      .text(d => this.tick2value(d))
-      .attr("style", "font-size: 16px; letter-spacing: 3px;");
+      .attr("font-size", labelFontSize)
+      .text(d =>tick2value(d))
+      .attr("style", `letter-spacing: 2px;`);
   
-      face.append("path")
-        .attr("class", "gauge-pointer")
-        .attr("d", pointerPath)
-        .attr("fill", "rgb(176, 216, 242")
-        .attr("stroke", "rgb(176, 216, 242)")
-        .attr("transform", `rotate(${this.value2deg(this.value)})`);
+    face.append("path")
+      .attr("class", "gauge-pointer")
+      .attr("d", pointerPath)
+      .attr("fill", "rgb(176, 216, 242")
+      .attr("stroke", "rgb(176, 216, 242)")
+      .attr("transform", `rotate(${value2deg(value)})`);
+    
+    face.append("text")
+      .attr("class", `gauge-uom`)
+      .attr("text-anchor", "middle")
+      .attr("x", 0)
+      .attr("y", uomOffset)
+      .attr("font-size", uomFontSize)
+      .text(uom)
       
-      face.append("text")
-        .attr("class", `gauge-uom`)
-        .attr("text-anchor", "middle")
-        .attr("x", 0)
-        .attr("y", 70)
-        .text(this.uom)
-        .attr("style", "font-size: 23px;");
-      
-      face.append("text")
-        .attr("class", `gauge-value ${digital7.className}`)
-        .attr("text-anchor", "middle")
-        .attr("x", 0)
-        .attr("y", valueOffset)
-        .text(this.value)
-        .attr("style", "font-size: 30px;");
+      // .attr("style", `font-size: ${uomFontSize};`);
+    
+    face.append("text")
+      .attr("class", `gauge-value ${digital7.className}`)
+      .attr("text-anchor", "middle")
+      .attr("x", 0)
+      .attr("y", valueOffset)
+      .attr("font-size", valueFontSize)
+      .text(value)
+      // .attr("style", `font-size: ${uomFontSize};`);
   
   }
+  return (
+  <div className={`bg-card`} style={{padding: `${margin}px`}}>
+    {title && <h2 className="font-bold" style={{
+      // paddingLeft: `15px`,
+      paddingBottom: `${margin/2}px`,
+    }}>{title}</h2>}
+    <svg ref={svgRef}
+      className="gauge"
+      width={gaugeRadius*2}
+      height={gaugeRadius*2}
+      viewBox={`0 0 ${gaugeRadius*2} ${gaugeRadius*2}`}
+      stroke="currentColor"
+      fill="currentColor"
+      style={{
+        maxWidth: "100%",
+      }}
+    >
+    </svg>
+  </div>
+  );
 }
  
-export default Gauge;
+
+  
+ 
+ 
 
   
 

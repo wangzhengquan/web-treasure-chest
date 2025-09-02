@@ -1,5 +1,5 @@
 'use client';
-import { Gauge, useGradient} from '@app/components/d3/gauge';
+import { Gauge} from '@app/components/d3/gauge';
 import { useState, useEffect } from 'react';
 
 export default function MyGauge() {

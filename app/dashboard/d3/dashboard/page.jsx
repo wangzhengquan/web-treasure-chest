@@ -7,7 +7,7 @@ import Dashboard from './dashboard';
 
 export default function Page() {
   return (
-    <Main className="h-full w-full">
+    <Main className="w-full">
       <UpdateBreadcrumbs breadcrumbs={'Dashboard'} />
       <Dashboard/>
     </Main>

@@ -84,6 +84,8 @@ export function ButtonWithTooltip({
         onPointerEnter={() => {
           if (buttonRef.current) {
             const rect = buttonRef.current.getBoundingClientRect();
+            // console.log('Button rect', rect);
+            // console.log("Button offset",buttonRef.current.offsetLeft, buttonRef.current.offsetTop );
             setTargetRect(rect);
           }
         }}

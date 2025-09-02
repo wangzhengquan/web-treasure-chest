@@ -3,7 +3,7 @@
   position: relative;
 }
 .nav-link-item:hover::after {
-  background-color: hsl(var(--hover));
+  background-color: hsl(var(--alpha));
   content: "";
   opacity: .08;
   inset: 0;
