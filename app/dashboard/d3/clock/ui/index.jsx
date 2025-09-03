@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from "react";
-import * as d3 from "d3";
+import {scaleLinear, easeElastic, range, select} from "d3";
 import styles from './clock.module.css';
  
  
@@ -23,13 +23,11 @@ const clockRadius = 200,
   hourLabelYOffset = 7,
   radians = Math.PI / 180;
 
-const twelve = d3
-  .scaleLinear()
+const twelve = scaleLinear()
   .range([0, 360])
   .domain([0, 12]);
 
-const sixty = d3
-  .scaleLinear()
+const sixty = scaleLinear()
   .range([0, 360])
   .domain([0, 60]);
 
@@ -67,7 +65,7 @@ function moveHands(svg) {
     .selectAll("g")
     .data(handData)
     .transition()
-    .ease(d3.easeElastic.period(0.5))
+    .ease(easeElastic.period(0.5))
     .attr("transform", d => `rotate(${d.scale(d.value)})`);
 }
 
@@ -82,7 +80,7 @@ function drawClock(svg) {
   // add marks for seconds
   face
     .selectAll(`.${styles["second-tick"]}`)
-    .data(d3.range(0, 60))
+    .data(range(0, 60))
     .enter()
     .append("line")
     .attr("class", styles["second-tick"])
@@ -95,7 +93,7 @@ function drawClock(svg) {
   // ... and hours
   face
     .selectAll(`.${styles["hour-tick"]}`)
-    .data(d3.range(0, 12))
+    .data(range(0, 12))
     .enter()
     .append("line")
     .attr("class", styles["hour-tick"])
@@ -107,7 +105,7 @@ function drawClock(svg) {
 
   face
     .selectAll(`.${styles["hour-label"]}`)
-    .data(d3.range(1, 13))
+    .data(range(1, 13))
     .enter()
     .append("text")
     .attr("class", styles["hour-label"])
@@ -151,7 +149,7 @@ export default function Clock({width = '100%', height = 500}) {
   useEffect(() => {
     if(!svgRef.current) return;
       
-    const svg = d3.select(svgRef.current);
+    const svg = select(svgRef.current);
     drawClock(svg);
     // Animation
     const interval = setInterval(() => {

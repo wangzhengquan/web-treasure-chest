@@ -2,7 +2,8 @@
 import { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import {LineChart} from '@app/components/d3/line-chart';
 import {PieChart} from '@app/components/d3/pie-chart';
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
+import {scalePoint} from "d3";
 import { useTheme } from 'next-themes';
 import Loading from "@/app/components/loading";
 import { Gauge} from '@app/components/d3/gauge';
@@ -120,7 +121,7 @@ export default function Dashboard() {
             // xDomain= {[1,2,3,4,5,6]}
             yDomain= {[0, 100]}
             // yLabel= "↑ Unemployment (%)"
-            xType={d3.scalePoint}
+            xType={scalePoint}
             width={width}
             height={width * 1 / 2}
             strokeWidth = {2}
@@ -203,7 +204,7 @@ export default function Dashboard() {
               // xDomain= {[1,2,3,4,5,6]}
               yDomain= {[0, 100]}
               // yLabel= "↑ Unemployment (%)"
-              xType={d3.scalePoint}
+              xType={scalePoint}
               width={width}
               height={width * 1 / 2}
               strokeWidth = {2}

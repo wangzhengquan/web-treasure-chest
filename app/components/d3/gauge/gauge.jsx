@@ -1,11 +1,12 @@
 import { Component, createRef, useRef, useEffect } from 'react';
-import * as d3 from "d3";
+// import * as d3 from "d3";
+import {line, scaleLinear, arc, range, scaleOrdinal, schemeCategory10} from "d3";
 // import from './clock.module.css';
 import { ds_digital, digital7 } from '@app/styles/fonts';
 
 const radians = Math.PI / 180;
 const startAngle = -130 , endAngle = 130;
-const color = d3.scaleOrdinal(d3.schemeCategory10); 
+const color = scaleOrdinal(schemeCategory10); 
 
 
 const segments = [
@@ -14,8 +15,8 @@ const segments = [
   {range: [6, 8], color: "rgb(249,71,138)"}
 ]
 
-const seg2deg = d3.scaleLinear().domain([0, 8]).range([startAngle, endAngle]);
-const tick2deg = d3.scaleLinear().domain([-4, 4]).range([startAngle, endAngle]);
+const seg2deg = scaleLinear().domain([0, 8]).range([startAngle, endAngle]);
+const tick2deg = scaleLinear().domain([-4, 4]).range([startAngle, endAngle]);
 
 const arcSegments = segments.map(seg => ({
   startAngle: seg2deg(seg.range[0]) * radians,
@@ -56,7 +57,7 @@ export default function Gauge({
     // console.log("innerRadius/valueOffset", innerRadius/valueOffset);  
     // console.log("labelRadius/uomOffset", labelRadius/uomOffset);  
 
-  const pointerPath = d3.line()([
+  const pointerPath = line()([
     [pointerWidth / 2, 0],
     [0, -pointerHead],
     [-(pointerWidth / 2), 0],
@@ -64,10 +65,10 @@ export default function Gauge({
     [pointerWidth / 2, 0]
   ]);
 
-  const tick2value = d3.scaleLinear().domain([-4, 4]).range(valueRange);
-  const value2deg = d3.scaleLinear().domain(valueRange).range([startAngle, endAngle]);
+  const tick2value = scaleLinear().domain([-4, 4]).range(valueRange);
+  const value2deg = scaleLinear().domain(valueRange).range([startAngle, endAngle]);
 
-  const arc = d3.arc()
+  const genArc = arc()
     .innerRadius(innerRadius)
     .outerRadius(outerRadius);
   
@@ -97,12 +98,12 @@ export default function Gauge({
       {
         // arc segments
         arcSegments.map((d, i) => 
-          <path key={d.startAngle} fill={d.color} stroke={d.color} d={arc(d)}/>
+          <path key={d.startAngle} fill={d.color} stroke={d.color} d={genArc(d)}/>
         )
       }
       
       {
-        d3.range(-4, 5).map((d, i) => 
+        range(-4, 5).map((d, i) => 
         <g key={d}>
           {/* ticks */}
           <line x1="0" x2="0" 

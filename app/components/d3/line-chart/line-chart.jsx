@@ -444,7 +444,7 @@ export function LineChart({
   );
 }
 
-const Tooltip= forwardRef(function ({ 
+export const Tooltip= forwardRef(function ({ 
   title,
   data,
   open,
@@ -477,4 +477,3 @@ const Tooltip= forwardRef(function ({
   );  
 });
 
-export {Tooltip}
