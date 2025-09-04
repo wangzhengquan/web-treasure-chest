@@ -12,44 +12,7 @@ import {
 
 
 } from "d3";
-      
-class LineChart2 {
-  svgRef = createRef();
-  constructor( props ) {
-    // this.data = props.data;
-    // this.width = props.width || "100%";
-    // this.height = props.height || "auto";
-  }
-  componentDidMount() {
-    this.svg = select(this.svgRef.current);
-    this.draw();
-  }
-  componentWillUnmount() {
-    this.svg.selectAll("*").remove();
-  }
-
-  render() {
-    return (
-      <svg ref={this.svgRef}
-        width={this.width}
-        height={this.height}
-        viewBox={`0 0 ${w} ${h}`}
-        style={{
-          maxWidth: "100%",
-          fontFamily: "sans-serif",
-          fontSize: "10px",
-        }}
-      >
-      </svg>
-    );
-  }
-
-  draw() {
-     
-  }
-}
-
-// export {LineChart}
+ 
 
 // 1. Create a mapping from string identifiers to D3 curve functions
 const curveMap = {
@@ -60,8 +23,6 @@ const curveMap = {
   // Add any other curves you want to support
 };
 
-
- 
 
 export function LineChart({
   data,
