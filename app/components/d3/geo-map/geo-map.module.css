@@ -1,0 +1,20 @@
+
+/* 地图样式 */
+.country {
+  /* fill: #2a3a6b; */
+  fill: var(--card-body-color);
+  stroke: #00bfff;
+  stroke-width: 0.5px;
+}
+.hotspot {
+  fill: #00ffea;
+  stroke: white;
+  stroke-width: 1px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { r: 4px; opacity: 1; }
+  50% { r: 10px; opacity: 0.5; }
+  100% { r: 4px; opacity: 1; }
+}

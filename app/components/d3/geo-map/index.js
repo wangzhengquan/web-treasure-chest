@@ -1,0 +1,1 @@
+export {default as GeoMap} from './geo-map.jsx'

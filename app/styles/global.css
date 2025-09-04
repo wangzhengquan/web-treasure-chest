@@ -6,6 +6,11 @@
   :root {
     --shadow: var(--alpha);
     --shadow-color: hsl(var(--shadow) / var(--shadow-opacity));
+
+    --background-color: hsl(var(--background) / 1);
+    
+    --card-color: hsl(var(--card) / 1);
+    --card-body-color: hsl(var(--card-body) / 1);
     --radius: 0.5rem;
   }
 

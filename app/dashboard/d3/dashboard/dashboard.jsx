@@ -7,6 +7,8 @@ import {scalePoint} from "d3";
 import { useTheme } from 'next-themes';
 import Loading from "@/app/components/loading";
 import { Gauge} from '@app/components/d3/gauge';
+import { GeoMap} from '@app/components/d3/geo-map';
+import MoldStatusTable from './table';
 // import DonutControls from './donut';
 const DARK_COLORS = {
   blue: '#00eaff',
@@ -50,7 +52,7 @@ const partTrendData = [ // Just duplicating for example
 
 export default function Dashboard() {
   const columnRef = useRef(null), blockRef = useRef(null);
-  const [width, setWidth] = useState(0);
+  const [columnWidth, setColumnWidth] = useState(0);
   const [blockWidth, setBlockWidth] = useState(0);
   const { theme, setTheme } = useTheme();
   const [visibility, setVisibility] = useState(false);
@@ -79,12 +81,12 @@ export default function Dashboard() {
 
     const column = columnRef.current;
     const {width} = column.getBoundingClientRect();
-    setWidth(width);
+    setColumnWidth(width);
     setBlockWidth(blockRef.current.getBoundingClientRect().width);
     setVisibility(true);
     const observer = new ResizeObserver((observedItems) => {
       const { borderBoxSize } = observedItems[0];
-      setWidth(borderBoxSize[0].inlineSize);
+      setColumnWidth(borderBoxSize[0].inlineSize);
       // widthLabel.innerText = `${Math.round(borderBoxSize[0].inlineSize)}px`;
       // heightLabel.innerText = `${Math.round(borderBoxSize[0].blockSize)}px`;
     });
@@ -122,8 +124,8 @@ export default function Dashboard() {
             yDomain= {[0, 100]}
             // yLabel= "↑ Unemployment (%)"
             xType={scalePoint}
-            width={width}
-            height={width * 1 / 2}
+            width={columnWidth}
+            height={columnWidth * 1 / 2}
             strokeWidth = {2}
             color= { (z) => moldTrendColorMap[z]}
             legendRectWidth = {15}
@@ -142,6 +144,7 @@ export default function Dashboard() {
             data={moldStatusData} 
             name={d => d.label}
             value={d => d.value}
+            margin = "10"
             />
           </div>
           <div >
@@ -149,47 +152,7 @@ export default function Dashboard() {
           </div>
            
         </div>
-        <div className="bg-card px-4 pb-4">
-          <h2 className='py-[10px] font-bold'>模具进度</h2>
-          <table className="component-table" style={{height: "300px"}}>
-            <thead>
-              <tr style={{color: "rgb(30,138,136)"}}>
-                <th>序号</th>
-                <th>模具编号</th>
-                <th>版本号</th>
-                <th>类型</th>
-                <th style={{textAlign: 'center'}}>进度</th>
-              </tr>
-            </thead>
-            <tbody className='bg-card-body'>
-              {
-                Array.from({ length: 9 }, (_, i) => i ).map(i => 
-                  <tr key={i}>
-                    <td>{i+1}</td>
-                    <td>FK{i+1}</td>
-                    <td>V{i+1}</td>
-                    <td>修模</td>
-                    <td>
-                      
-                      <div style={{ float: "right", paddingLeft: 2, width: "50px" }}>
-                        
-                        <div style={{ width: "100%", float: "left" }}>
-                          <div
-                            className=""
-                            style={{ width: `${100 - i*10}%`, backgroundColor: "rgb(66, 133, 244)" }}
-                          >
-                            <br />
-                          </div>
-                        </div>
-                      </div>
-                      <span className="float-right">{100 - i*10}%</span>
-                    </td>
-                  </tr>
-                )
-              }
-            </tbody>
-          </table>
-        </div>
+        <MoldStatusTable />
         <div className="bg-card">
           {/* <h2 style={{ paddingTop: `10px`, paddingLeft: `15px`, }}>每月零件产量趋势图</h2> */}
           <LineChart data={partTrendData} 
@@ -205,8 +168,8 @@ export default function Dashboard() {
               yDomain= {[0, 100]}
               // yLabel= "↑ Unemployment (%)"
               xType={scalePoint}
-              width={width}
-              height={width * 1 / 2}
+              width={columnWidth}
+              height={columnWidth * 1 / 2}
               strokeWidth = {2}
               color= { (z) => partTrendColorMap[z]}
               legendRectWidth = {15}
@@ -219,8 +182,9 @@ export default function Dashboard() {
         </div>
         
       </div>
+     
       <div>
-        2
+        <GeoMap title="模具客户分布图" width={columnWidth} height={columnWidth * 2 / 3} margin={10}/>
       </div>
       <div>
         3
