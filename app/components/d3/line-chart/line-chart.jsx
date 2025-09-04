@@ -1,7 +1,17 @@
 'use client';
 
 import { useEffect, useLayoutEffect, useRef, useState, forwardRef} from "react";
-import * as d3 from "d3";
+import {
+  select, 
+  curveLinear, curveNatural, curveMonotoneX, curveStep, 
+  scaleUtc, scaleLinear, scalePoint, scaleQuantize,
+  map, InternSet, InternMap, range,
+  extent, max, line, axisBottom, axisLeft, 
+  sort,
+  Delaunay, group, pointer, least, interpolateRound, easeBounce
+
+
+} from "d3";
       
 class LineChart2 {
   svgRef = createRef();
@@ -11,7 +21,7 @@ class LineChart2 {
     // this.height = props.height || "auto";
   }
   componentDidMount() {
-    this.svg = d3.select(this.svgRef.current);
+    this.svg = select(this.svgRef.current);
     this.draw();
   }
   componentWillUnmount() {
@@ -43,10 +53,10 @@ class LineChart2 {
 
 // 1. Create a mapping from string identifiers to D3 curve functions
 const curveMap = {
-  linear: d3.curveLinear,
-  natural: d3.curveNatural,
-  monotoneX: d3.curveMonotoneX,
-  step: d3.curveStep,
+  linear: curveLinear,
+  natural: curveNatural,
+  monotoneX: curveMonotoneX,
+  step: curveStep,
   // Add any other curves you want to support
 };
 
@@ -68,9 +78,9 @@ export function LineChart({
   marginLeft = 40, // left margin, in pixels
   width = 800, // outer width, in pixels
   height = 600, // outer height, in pixels
-  xType = d3.scaleUtc, // type of x-scale
+  xType = scaleUtc, // type of x-scale
   xDomain, // [xmin, xmax]
-  yType = d3.scaleLinear, // type of y-scale
+  yType = scaleLinear, // type of y-scale
   yDomain, // [ymin, ymax]
   yFormat, // a format specifier string for the y-axis
   yLabel, // a label for the y-axis
@@ -103,55 +113,55 @@ export function LineChart({
     draw();
     return () => {
       // 移除所有由 D3 创建的子元素，防止重复渲染
-      d3.select(svgRef.current).selectAll("*").remove();
+      select(svgRef.current).selectAll("*").remove();
     };
     
   }, [data, width, height]);
 
   function draw() {
-    const svg = d3.select(svgRef.current);
-    const tooltip = d3.select(tooltipRef.current);
+    const svg = select(svgRef.current);
+    const tooltip = select(tooltipRef.current);
     const svgRect = svg.node().getBoundingClientRect();
     const visHeight = height - marginTop - marginBottom;
     const visWidth = width - marginLeft - marginRight; //width is basically max-width
     const xRange = [0, visWidth]; // [left, right]
     const yRange = [visHeight, 0]; // [bottom, top]
-    const X = d3.map(data, x);
-    const Y = d3.map(data, y);
-    const Z = d3.map(data, z);
-    const O = d3.map(data, d => d);
+    const X = map(data, x);
+    const Y = map(data, y);
+    const Z = map(data, z);
+    const O = map(data, d => d);
     if (defined === undefined) defined = (d, i) => X[i] && Y[i];
-    const D = d3.map(data, defined);
+    const D = map(data, defined);
   
     // Compute default domains, and unique the z-domain.
     if (xDomain === undefined) {
-      if (xType === d3.scalePoint){
+      if (xType === scalePoint){
         xDomain = X.filter((d, i, a) => a.indexOf(d) === i);
         xDomain.sort();
         // console.log("xDomain", xDomain)
       } else {
-        xDomain = d3.extent(X);
+        xDomain = extent(X);
       }
       
     }
-    if (yDomain === undefined) yDomain = [0, d3.max(Y, d => typeof d === "string" ? +d : d)];
+    if (yDomain === undefined) yDomain = [0, max(Y, d => typeof d === "string" ? +d : d)];
     if (zDomain === undefined) zDomain = Z;
-    zDomain = new d3.InternSet(zDomain);
+    zDomain = new InternSet(zDomain);
     
     // Omit any data not present in the z-domain.
-    const I = d3.range(X.length).filter(i => zDomain.has(Z[i]));
+    const I = range(X.length).filter(i => zDomain.has(Z[i]));
   // console.log("I", I)
     // Construct scales and axes.
     const xScale = xType(xDomain, xRange);
     const yScale = yType(yDomain, yRange);
-    const xAxis = d3.axisBottom(xScale).ticks(width / 80).tickSizeOuter(0);
-    const yAxis = d3.axisLeft(yScale).ticks(height / 60, yFormat);
+    const xAxis = axisBottom(xScale).ticks(width / 80).tickSizeOuter(0);
+    const yAxis = axisLeft(yScale).ticks(height / 60, yFormat);
   
     // Compute names.
-    const T = name === undefined ? Z : name === null ? null : d3.map(data, name);
-    const nameByZ = d3.sort(new d3.InternMap(d3.map(I, (i) => [Z[i], T[i]])), ([key])=> key);
+    const T = name === undefined ? Z : name === null ? null : map(data, name);
+    const nameByZ = sort(new InternMap(map(I, (i) => [Z[i], T[i]])), ([key])=> key);
     // Construct a line generator.
-    const line = d3.line()
+    const genLine = line()
         .defined(i => D[i])
         .curve(curveMap[curve])
         .x(i => xScale(X[i]))
@@ -179,7 +189,7 @@ export function LineChart({
     if (voronoi) vis.append("path")
         .attr("fill", "none")
         .attr("stroke", "#ccc")
-        .attr("d", d3.Delaunay
+        .attr("d", Delaunay
           .from(I, i => xScale(X[i]), i => yScale(Y[i]))
           .voronoi([0, 0, visWidth, visHeight])
           .render());
@@ -213,16 +223,16 @@ export function LineChart({
         .attr("stroke-linejoin", strokeLinejoin)
         .attr("stroke-width", strokeWidth)
         .attr("stroke-opacity", strokeOpacity)
-        // .datum(d3.group(I, i => Z[i]));
+        // .datum(group(I, i => Z[i]));
    
   
     const path = pathGroup.selectAll("path")
-      .data(d3.group(I, i => Z[i]))
+      .data(group(I, i => Z[i]))
       // .data(d => d)
       .join("path")
         .style("mix-blend-mode", mixBlendMode)
         .attr("stroke", typeof color === "function" ? ([z]) => color(z) : null)
-        .attr("d", ([, d]) => line(d3.sort(d, i => X[i])));
+        .attr("d", ([, d]) => genLine(sort(d, i => X[i])));
     
     var verticesCircle;    
     if(showVertices){
@@ -272,7 +282,7 @@ export function LineChart({
         .text(([_, t]) => t);
   
       legendItems.each(function() {
-        const item = d3.select(this);
+        const item = select(this);
         const bbox = this.getBBox(); // 获取 <g> 元素的边界框 (包含 rect 和 text)
         // console.log("========", this.getBoundingClientRect(), bbox);
         
@@ -344,20 +354,20 @@ export function LineChart({
       .style("transition", "transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)");
   
     if(!xScale.invert) {
-      xScale.invert = d3.scaleQuantize(xRange, xDomain);
-      // const invert = d3.scaleLinear().domain([0, visWidth]).range([0, xDomain.length-1]).interpolate(d3.interpolateRound).clamp(true);
+      xScale.invert = scaleQuantize(xRange, xDomain);
+      // const invert = scaleLinear().domain([0, visWidth]).range([0, xDomain.length-1]).interpolate(interpolateRound).clamp(true);
       // xScale.invert = xm => xDomain[invert(xm)]; 
     }
      
     function moveTooltip(event) {
-      const [xm, ym] = d3.pointer(event);
+      const [xm, ym] = pointer(event);
       const xValue = xScale.invert(xm);
       console.log('xValue', xValue)
-      const xI = d3.sort(I.filter((i) => X[i] === xValue), i => Z[i]);
+      const xI = sort(I.filter((i) => X[i] === xValue), i => Z[i]);
       // dashline
       // .transition()           
       // .duration(200) 
-      // .ease(d3.easeBounce)
+      // .ease(easeBounce)
       // .attr("x1", xScale(xValue))
       // .attr("x2", xScale(xValue));
       dashline.attr("transform",  `translate(${xScale(xValue)}, 0)`);
@@ -388,7 +398,7 @@ export function LineChart({
       }
       
       // console.log(xm, ym, event);
-      // const c = d3.least(I, i => Math.hypot(xScale(X[i]) - xm, yScale(Y[i]) - ym)); // closest point
+      // const c = least(I, i => Math.hypot(xScale(X[i]) - xm, yScale(Y[i]) - ym)); // closest point
       // path.style("stroke", ([z]) => Z[c] === z ? (typeof color === "function" ? color(z) : null) : "#ddd").filter(([z]) => Z[c] === z).raise();
       // if(showVertices) verticesCircle.style("stroke", i => Z[i] === Z[c] ? (typeof color === "function" ? color(Z[i]) : null) : "#ddd").filter(i => Z[i] === Z[c]).raise();
       // dot.attr("transform", `translate(${xScale(X[c])},${yScale(Y[c])})`);
