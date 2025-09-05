@@ -2,17 +2,16 @@
 
 import { useEffect, useLayoutEffect, useRef, useState, forwardRef} from "react";
 import {
-  select, 
   curveLinear, curveNatural, curveMonotoneX, curveStep, 
   scaleUtc, scaleLinear, scalePoint, scaleQuantize,
   map, InternSet, InternMap, range,
-  extent, max, line, axisBottom, axisLeft, 
+  extent, max, line,  
   sort,
-  Delaunay, group, pointer, least, interpolateRound, easeBounce
-
-
+  group, pointer, least, interpolateRound, easeBounce
 } from "d3";
- 
+
+import {  AxisBottom, AxisLeft } from "../axis";
+import { cn } from "@app/lib/utils";
 
 // 1. Create a mapping from string identifiers to D3 curve functions
 const curveMap = {
@@ -23,6 +22,8 @@ const curveMap = {
   // Add any other curves you want to support
 };
 
+
+ 
 
 export function LineChart({
   data,
@@ -41,9 +42,10 @@ export function LineChart({
   height = 600, // outer height, in pixels
   xType = scaleUtc, // type of x-scale
   xDomain, // [xmin, xmax]
+  xFormat = d => d, // a format function for the x-axis
   yType = scaleLinear, // type of y-scale
   yDomain, // [ymin, ymax]
-  yFormat, // a format specifier string for the y-axis
+  yFormat = d => d, // a format function for the y-axis
   yLabel, // a label for the y-axis
   zDomain, // array of z-values
   color = "currentColor", // stroke color of line, as a constant or a function of *z*
@@ -54,345 +56,172 @@ export function LineChart({
   mixBlendMode = "normal", // blend mode of lines
   // 定义色块和间距的尺寸
   legend=true, // 是否显示图例
-  legendRectWidth = 20,
-  legendRectHeight = 20,
-  legendRectCornerRadius = 6, // 圆角半径
-  legendTextSpacing = 5,     // 色块与文字的间距
-  legendItemSpacing = 10,     // 每个项目之间的间距
   showVertices = true, // show showV(points) on the line?
   showTooltip = true, // show tooltip on hover?
-  voronoi // show a Voronoi overlay? (for debugging)
+  className,
+  style,
 }) {
+  const containerRef = useRef(null);
   const svgRef = useRef(null);
   const tooltipRef = useRef(null);
-  const [tooltipData, setTooltipData] = useState([]);
-  const [tooltipTitle, setTooltipTitle] = useState("");
-  useEffect(() => {
-    if(!svgRef.current) return;
-    if(width == 0 || height == 0) return;
+  const dashlineRef = useRef(null);
+  const [tooltipProps, setTooltipProps] = useState({
+    title: "",
+    data: [],
+    open: false,
+    x: 0,
+    y: 0,
+  });
+  // const [tooltipData, setTooltipData] = useState([]);
+  // const [tooltipTitle, setTooltipTitle] = useState("");
+  
+  let visHeight = height - marginTop - marginBottom,
+      visWidth = width - marginLeft - marginRight; //width is basically max-width
+  visHeight = visHeight < 0 ? 0 : visHeight;
+  visWidth = visWidth < 0 ? 0 : visWidth;
 
-    draw();
-    return () => {
-      // 移除所有由 D3 创建的子元素，防止重复渲染
-      select(svgRef.current).selectAll("*").remove();
-    };
-    
-  }, [data, width, height]);
+  const xRange = [0, visWidth]; // [left, right]
+  const yRange = [visHeight, 0]; // [bottom, top]
+  const X = map(data, x);
+  const Y = map(data, y);
+  const Z = map(data, z);
+  const O = map(data, d => d);
+  if (defined === undefined) defined = (d, i) => X[i] && Y[i];
+  const D = map(data, defined);
 
-  function draw() {
-    const svg = select(svgRef.current);
-    const tooltip = select(tooltipRef.current);
-    const svgRect = svg.node().getBoundingClientRect();
-    const visHeight = height - marginTop - marginBottom;
-    const visWidth = width - marginLeft - marginRight; //width is basically max-width
-    const xRange = [0, visWidth]; // [left, right]
-    const yRange = [visHeight, 0]; // [bottom, top]
-    const X = map(data, x);
-    const Y = map(data, y);
-    const Z = map(data, z);
-    const O = map(data, d => d);
-    if (defined === undefined) defined = (d, i) => X[i] && Y[i];
-    const D = map(data, defined);
-  
-    // Compute default domains, and unique the z-domain.
-    if (xDomain === undefined) {
-      if (xType === scalePoint){
-        xDomain = X.filter((d, i, a) => a.indexOf(d) === i);
-        xDomain.sort();
-        // console.log("xDomain", xDomain)
-      } else {
-        xDomain = extent(X);
-      }
-      
-    }
-    if (yDomain === undefined) yDomain = [0, max(Y, d => typeof d === "string" ? +d : d)];
-    if (zDomain === undefined) zDomain = Z;
-    zDomain = new InternSet(zDomain);
-    
-    // Omit any data not present in the z-domain.
-    const I = range(X.length).filter(i => zDomain.has(Z[i]));
-  // console.log("I", I)
-    // Construct scales and axes.
-    const xScale = xType(xDomain, xRange);
-    const yScale = yType(yDomain, yRange);
-    const xAxis = axisBottom(xScale).ticks(width / 80).tickSizeOuter(0);
-    const yAxis = axisLeft(yScale).ticks(height / 60, yFormat);
-  
-    // Compute names.
-    const T = name === undefined ? Z : name === null ? null : map(data, name);
-    const nameByZ = sort(new InternMap(map(I, (i) => [Z[i], T[i]])), ([key])=> key);
-    // Construct a line generator.
-    const genLine = line()
-        .defined(i => D[i])
-        .curve(curveMap[curve])
-        .x(i => xScale(X[i]))
-        .y(i => yScale(Y[i]));
-  
-    const vis = svg.append('g')
-      .attr('transform', `translate(${marginLeft}, ${marginTop})`);
-  
-   
-    const interactionArea = vis.append("rect")
-      .attr('class', 'bg-card-body')
-      .attr("x", 0)
-      .attr("y", 0)
-      .attr("width", visWidth)
-      .attr("height", visHeight)
-      .attr("fill", "hsl(var(--card-body))");
-      // .style("cursor", "pointer");
-  
-    vis.on("pointerenter", pointerentered)
-      .on("pointermove", pointermoved)
-      .on("pointerleave", pointerleft)
-      .on("touchstart", event => event.preventDefault());
-  
-    // An optional Voronoi display (for fun).
-    if (voronoi) vis.append("path")
-        .attr("fill", "none")
-        .attr("stroke", "#ccc")
-        .attr("d", Delaunay
-          .from(I, i => xScale(X[i]), i => yScale(Y[i]))
-          .voronoi([0, 0, visWidth, visHeight])
-          .render());
-  
-    vis.append("g")
-        .attr("transform", `translate(0, ${visHeight})`)
-        .call(xAxis)
-        .call(voronoi ? () => {} : g => g.selectAll(".tick line").clone()
-          .attr("y2", -visHeight )
-          .attr("stroke-opacity", 0.1));
-  
-    vis.append("g")
-        // .attr("transform", `translate(${marginLeft},0)`)
-        .call(yAxis)
-        // .call(g => g.select(".domain").remove())
-        .call(voronoi ? () => {} : g => g.selectAll(".tick line").clone()
-            .attr("x2", visWidth)
-            .attr("stroke-opacity", 0.1))
-        .call(g => g.append("text")
-            .attr("x", -marginLeft)
-            .attr("y", 10)
-            .attr("fill", "currentColor")
-            .attr("text-anchor", "start")
-            .text(yLabel));
-   
-  
-    const pathGroup = vis.append("g")
-        .attr("fill", "none")
-        .attr("stroke", typeof color === "string" ? color : null)
-        .attr("stroke-linecap", strokeLinecap)
-        .attr("stroke-linejoin", strokeLinejoin)
-        .attr("stroke-width", strokeWidth)
-        .attr("stroke-opacity", strokeOpacity)
-        // .datum(group(I, i => Z[i]));
-   
-  
-    const path = pathGroup.selectAll("path")
-      .data(group(I, i => Z[i]))
-      // .data(d => d)
-      .join("path")
-        .style("mix-blend-mode", mixBlendMode)
-        .attr("stroke", typeof color === "function" ? ([z]) => color(z) : null)
-        .attr("d", ([, d]) => genLine(sort(d, i => X[i])));
-    
-    var verticesCircle;    
-    if(showVertices){
-      verticesCircle = pathGroup.selectAll('circle')
-        .data(I)
-        .join("circle")
-        .attr("cx", i => xScale(X[i]))
-        .attr("cy", i => yScale(Y[i]))
-        .attr("r", 4)
-        .attr("fill", "white")
-        .attr("stroke", typeof color === "function" ? i => color(Z[i])  : null);
+  // Compute default domains, and unique the z-domain.
+  if (xDomain === undefined) {
+    if (xType === scalePoint){
+      xDomain = X.filter((d, i, a) => a.indexOf(d) === i);
+      xDomain.sort();
+      // console.log("xDomain", xDomain)
+    } else {
+      xDomain = extent(X);
     }
     
+  }
+  if (yDomain === undefined) yDomain = [0, max(Y, d => typeof d === "string" ? +d : d)];
+  if (zDomain === undefined) zDomain = Z;
+  zDomain = new InternSet(zDomain);
   
-    //==================== legend start =======
-    if (legend && zDomain.size > 1) {
-      // 创建一个总的 <g> 容器来包裹所有色块项，方便整体移动
-      const legendGroup = svg.append("g")
-        .attr("class", "legend-group");
-  
-      // 使用 D3 的数据绑定来创建每个色块项 (色块 + 文字)
-      const legendItems = legendGroup.selectAll(".legend-item")
-        .data(nameByZ)
-        .enter()
-        .append("g")
-        .attr("class", "legend-item")
-        .style("cursor", "pointer")
-        .on("pointerenter", pointerEnteredLegend)
-        .on("pointerleave", pointerLeaveLegend)
-        .on("touchstart", event => event.preventDefault());
-  
-      // 在每个项中添加圆角矩形
-      legendItems.append("rect")
-        .attr("width", legendRectWidth)
-        .attr("height", legendRectHeight)
-        .attr("rx", legendRectCornerRadius) // 设置 x 方向的圆角
-        .attr("ry", legendRectCornerRadius) // 设置 y 方向的圆角
-        .attr("fill", ([z]) => color(z));
-  
-      // 在每个项中添加文字
-      legendItems.append("text")
-        .attr("x", legendRectWidth + legendTextSpacing)
-        .attr("y", legendRectHeight / 2) // 垂直居中于色块
-        .attr("dy", "0.35em") // 微调垂直对齐
-        // .style("font-size", "16px")
-        .attr("fill", "currentColor")
-        .text(([_, t]) => t);
-  
-      legendItems.each(function() {
-        const item = select(this);
-        const bbox = this.getBBox(); // 获取 <g> 元素的边界框 (包含 rect 和 text)
-        // console.log("========", this.getBoundingClientRect(), bbox);
-        
-        // 使用 .insert() 将背景矩形作为第一个子元素插入
-        // 这样它就不会覆盖掉可见的 rect 和 text
-        item.insert("rect", ":first-child")
-            .attr("class", "hitbox") // 通常称之为"点击区域"
-            .attr("x", bbox.x)
-            .attr("y", bbox.y)
-            .attr("width", bbox.width)
-            .attr("height", bbox.height)
-            .attr("fill", "transparent"); // 设置为透明
-    });
-      // 4. 定位与居中
-      let currentX = 0;
-      legendItems.attr("transform", function(d) {
-        // 'this' 指向当前的 <g> 元素 (legend-item)
-        const transform = `translate(${currentX}, 0)`;
-        // 计算当前元素的宽度 (getBBox() 可以获取元素的边界框)
-        const itemWidth = this.getBBox().width;
-        // 更新下一个元素开始的 x 坐标
-        currentX += itemWidth + legendItemSpacing;
-        return transform;
-      });
-  
-      // 9. 将整个图例容器居中和底部对齐
-      const legendBBox = legendGroup.node().getBBox();
-      const legendX = (width - legendBBox.width) / 2;
-      const legendY = height - legendBBox.height - 10; // 距离底部20px
-  
-      legendGroup.attr("transform", `translate(${legendX}, ${legendY})`);
-  
-      
-      function pointerEnteredLegend(event, [z, t]) {
-        path.style("opacity", ([key]) => key === z ?  "1": "0.3");
-        if(showVertices) verticesCircle.style("opacity", i => Z[i] === z ? "1" : "0.3");
-      }
-    
-      function pointerLeaveLegend() {
-        path.style("mix-blend-mode", mixBlendMode).style("opacity", null);
-        if(showVertices) verticesCircle.style("mix-blend-mode", mixBlendMode).style("opacity", null);
-      }
-    }
-    // =========================== legend end ==========================
-  
-    const dot = vis.append("g")
-        .attr("stroke", "currentColor")
-        .attr("fill", "currentColor")
-        .attr("display", "none");
-  
-    dot.append("circle")
-        .attr("r", 2.5);
-  
-    dot.append("text")
-        .attr("font-family", "sans-serif")
-        .attr("font-size", 10)
-        .attr("text-anchor", "middle")
-        .attr("y", -8);
-  // 4. 在 SVG 中添加 <line> 元素
-    const dashline = vis.append("line")
-      .attr("x1", 0)  // 起始点 x
-      .attr("y1", 0)         // 起始点 y
-      .attr("x2", 0)  // 结束点 x (与 x1 相同，确保是垂直线)
-      .attr("y2", visHeight)         // 结束点 y
-      .attr("stroke", "currentColor") // 线条颜色
-      .attr("stroke-width", 1)   // 线条宽度
-      .attr("stroke-dasharray", "5, 5") // 设置虚线样式：5px实线，5px空白 
-      .attr("display", "none")
-      .style("transition", "transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)");
-  
-    if(!xScale.invert) {
-      xScale.invert = scaleQuantize(xRange, xDomain);
-      // const invert = scaleLinear().domain([0, visWidth]).range([0, xDomain.length-1]).interpolate(interpolateRound).clamp(true);
-      // xScale.invert = xm => xDomain[invert(xm)]; 
-    }
-     
-    function moveTooltip(event) {
-      const [xm, ym] = pointer(event);
-      const xValue = xScale.invert(xm);
-      console.log('xValue', xValue)
-      const xI = sort(I.filter((i) => X[i] === xValue), i => Z[i]);
-      // dashline
-      // .transition()           
-      // .duration(200) 
-      // .ease(easeBounce)
-      // .attr("x1", xScale(xValue))
-      // .attr("x2", xScale(xValue));
-      dashline.attr("transform",  `translate(${xScale(xValue)}, 0)`);
+  // Omit any data not present in the z-domain.
+  const I = range(X.length).filter(i => zDomain.has(Z[i]));
+// console.log("I", I)
+  // Construct scales and axes.
+  const xScale = xType(xDomain, xRange);
+  const yScale = yType(yDomain, yRange);
 
-      setTooltipData(xI.map(i => ({
+  if(!xScale.invert) {
+    xScale.invert = scaleQuantize(xRange, xDomain);
+    // const invert = scaleLinear().domain([0, visWidth]).range([0, xDomain.length-1]).interpolate(interpolateRound).clamp(true);
+    // xScale.invert = xm => xDomain[invert(xm)]; 
+  }
+
+  // Compute names.
+  const T = name === undefined ? Z : name === null ? null : map(data, name);
+  const nameByZ = sort(new InternMap(map(I, (i) => [Z[i], T[i]])), ([key])=> key);
+  // Construct a line generator.
+  const genLine = line()
+      .defined(i => D[i])
+      .curve(curveMap[curve])
+      .x(i => xScale(X[i]))
+      .y(i => yScale(Y[i]));
+
+  const goupI= Array.from(group(I, i => Z[i]));
+  
+  function moveTooltip(event) {
+    const dashline = dashlineRef.current;
+    const tooltip = tooltipRef.current;
+    const container = containerRef.current;
+    const [xm, ym] = pointer(event);
+    const [offsetX, offsetY] = pointer(event, container);
+    const xValue = xScale.invert(xm);
+    const containrRect = container.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+    
+    const xI = sort(I.filter((i) => X[i] === xValue), i => Z[i]);
+    // dashline
+    // .transition()           
+    // .duration(200) 
+    // .ease(easeBounce)
+    // .attr("x1", xScale(xValue))
+    // .attr("x2", xScale(xValue));
+    dashline.setAttribute("transform",  `translate(${xScale(xValue)}, 0)`);
+    
+    const offset = 20;
+    let tooltipX = offsetX + offset, tooltipY = offsetY + offset;
+    if (tooltipX + tooltipRect.width > containrRect.width) {
+      tooltipX = offsetX - tooltipRect.width - offset; 
+    }
+    if (tooltipY + tooltipRect.height > containrRect.height) {
+      tooltipY = offsetY - tooltipRect.height - offset;
+    }
+    setTooltipProps({
+      open: true,
+      title: xFormat(xValue),
+      data: xI.map(i => ({
         name: T[i],
         value: Y[i],
         color: typeof color === "function" ? color(Z[i]) : color,
-      })));
-      setTooltipTitle(xValue);
+      })),
+      x: tooltipX,
+      y: tooltipY,
+    });
+    // tooltip.style.setProperty("transform",  `translate(${tooltipX}px, ${tooltipY}px)`);
+  }
 
-      const tooltipRect = tooltip.node().getBoundingClientRect();
-      // console.log("tooltipRect", tooltipRect);
-      const offset = 20;
-      let tooltipX = event.offsetX + offset, tooltipY = event.offsetY + offset;
-      if (tooltipX + tooltipRect.width > svgRect.width) {
-        tooltipX = event.offsetX - tooltipRect.width - offset; 
-      }
-      if (tooltipY + tooltipRect.height > svgRect.height) {
-        tooltipY = event.offsetY - tooltipRect.height - offset;
-      }
-      tooltip.style("transform",  `translate(${tooltipX}px, ${tooltipY}px)`);
+  function pointermoved(event) {
+    if (showTooltip) {
+      moveTooltip(event); 
     }
+  }
 
-    function pointermoved(event) {
-      if (showTooltip) {
-        moveTooltip(event); 
-      }
-      
-      // console.log(xm, ym, event);
-      // const c = least(I, i => Math.hypot(xScale(X[i]) - xm, yScale(Y[i]) - ym)); // closest point
-      // path.style("stroke", ([z]) => Z[c] === z ? (typeof color === "function" ? color(z) : null) : "#ddd").filter(([z]) => Z[c] === z).raise();
-      // if(showVertices) verticesCircle.style("stroke", i => Z[i] === Z[c] ? (typeof color === "function" ? color(Z[i]) : null) : "#ddd").filter(i => Z[i] === Z[c]).raise();
-      // dot.attr("transform", `translate(${xScale(X[c])},${yScale(Y[c])})`);
-      // if (T) dot.select("text").text(T[c]);
-      // svg.property("value", O[c]).dispatch("input", {bubbles: true});
+  function pointerentered(event) {
+    if (showTooltip) {
+      moveTooltip(event);
+      dashlineRef.current.setAttribute("display", null);
     }
-  
-    function pointerentered(event) {
-      if (showTooltip) {
-        moveTooltip(event);
-        dashline.attr("display", null);
-      }
+  }
 
-      // path.style("mix-blend-mode", null).style("stroke", "#ddd");
-      // if(showVertices) verticesCircle.style("mix-blend-mode", null).style("stroke", "#ddd");
-      // dot.attr("display", null);
+  function pointerleft() {
+    dashlineRef.current.setAttribute("display", "none");
+    setTooltipProps({open: false, title: "", data: [], x: 0, y: 0});
+  }
+
+  function pointerEnterLegend(event, [z]) {
+    const paths = svgRef.current.querySelectorAll(".path");
+    for (const path of paths) {
+      const pathZ = path.getAttribute("data-z");
+      path.style.opacity = pathZ === z ? "1" : "0.3";
     }
-  
-    function pointerleft() {
-      dashline.attr("display", "none");
-      setTooltipData([]);
-      setTooltipTitle("");
-      // path.style("mix-blend-mode", mixBlendMode).style("stroke", null);
-      // if(showVertices) verticesCircle.style("mix-blend-mode", mixBlendMode).style("stroke", null);
-      // dot.attr("display", "none");
-      // svg.node().value = null;
-      // svg.dispatch("input", {bubbles: true});
+    const vertices = svgRef.current.querySelectorAll(".vertex");
+    for (const vertex of vertices) {
+      const i = vertex.getAttribute("data-i");
+      vertex.style.opacity = Z[i] === z ? "1" : "0.3";
     }
-  
+    // console.log('pointerEnterLegend', select(svgRef.current).selectAll(".path").datum(function() { return this.dataset; }).data());
+    // select(svgRef.current).selectAll(".path").style("opacity", ({key}) => {
+    //   console.log("key, z", key, z);
+    //   return key === z ?  "1": "0.3"
+    // });
+    // select(svgRef.current).selectAll(".path").style("opacity", ({key}) => key === z ?  "1": "0.3");
+    // if(showVertices) select(".vertex").style("opacity", i => Z[i] === z ? "1" : "0.3");
+  }
+
+  function pointerLeaveLegend() {
+    const paths = svgRef.current.querySelectorAll(".path");
+    for (const path of paths) {
+      path.style.opacity = "1";
+    }
+    const vertices = svgRef.current.querySelectorAll(".vertex");
+    for (const vertex of vertices) {
+      vertex.style.opacity = "1";
+    }
   }
 
   return (
-  <div className="relative bg-card">
+  (width <= 0 ) ? "" :
+  <div ref={containerRef} className={cn("relative bg-card pb-[10px]", className)} style={style}>
     {title && <h2 className="font-bold" style={{
       paddingTop: `${marginTop}px`,
       paddingLeft: `15px`,
@@ -402,15 +231,87 @@ export function LineChart({
       width={width}
       height={height}
       viewBox={`0 0 ${width} ${height}`}
+      stroke= "currentColor"
       style={{
         maxWidth: "100%",
-        // height: "auto",
         WebkitTapHighlightColor: "transparent",
       }}
     >
+       
+      <g transform={`translate(${marginLeft}, ${marginTop})`}
+        onPointerEnter={pointerentered}
+        onPointerLeave={pointerleft}
+        onPointerMove={pointermoved}
+      >
+        <rect width={visWidth} height={visHeight} stroke="none" fill="var(--card-body-color)"/>
+        
+        <AxisBottom scale={xScale} ticks={[visWidth / 80]} tickFormat={xFormat} tickSizeOuter={0} transform={`translate(0, ${visHeight})`} backgroundLine={-visHeight}/>
+        <AxisLeft scale={yScale} ticks={[visHeight / 30]} tickFormat={yFormat} tickSizeOuter={0} backgroundLine={visWidth}>
+          <text fill="currentColor" textAnchor="start">{yLabel}</text>
+        </AxisLeft>
+        {/* pathGroup */}
+        <g fill="none" 
+          stroke={typeof color === "string" ? color : null}>
+          strokeLinecap={strokeLinecap} 
+          strokeLinejoin={strokeLinejoin} 
+          strokeWidth={strokeWidth}
+          strokeOpacity={strokeOpacity}
+          {
+            // paths
+            goupI.map(([z, d]) => 
+              <path key={z} 
+                data-z={z}
+                data-d={d}
+                className="path"
+                stroke={typeof color === "function" ? color(z) : color}
+                style={{mixBlendMode: mixBlendMode}}
+                d={genLine(sort(d, i => X[i]))}
+                />
+            )
+          }
+          {
+            showVertices && I.map(i => 
+              <circle key={i}
+                data-i={i}
+                className="vertex"
+                cx={xScale(X[i])}
+                cy={yScale(Y[i])}
+                r={3}
+                fill="white"
+                stroke={typeof color === "function" ? color(Z[i]) : color}
+              />
+            )
+          }
+        </g>
+        {/* dashline */}
+        <line ref={dashlineRef} y2={visHeight} strokeWidth="1" strokeDasharray="5, 5" display="none"
+          style={{
+            transition: "transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)"
+          }}/> 
+      </g>
     </svg>
+    { (legend && zDomain.size > 1) &&
+    <div className="flex justify-center items-center gap-[5px]">
+    { 
+      Array.from(nameByZ).map(([z, t], i) => (
+      <div key={z} className="flex justify-center items-center"
+        onPointerEnter={(e) => pointerEnterLegend(e, [z, t])}
+        onPointerLeave={(e) => pointerLeaveLegend(e, [z, t])}
+      >
+        <div style={{
+          width: '12px',
+          height: '12px',
+          backgroundColor: typeof color === "function" ? color(z) : color,
+        }}></div>
+        <div style={{marginLeft: "3px"}}>
+          <span>{t}</span>
+        </div>
+      </div>
+      ))
+    }
+    </div> }
 
-    <Tooltip ref={tooltipRef} title={tooltipTitle} data={tooltipData} open={tooltipData && tooltipData.length > 0}/>
+    <Tooltip ref={tooltipRef} {...tooltipProps}/>
   </div>
   );
 }
@@ -419,6 +320,7 @@ export const Tooltip= forwardRef(function ({
   title,
   data,
   open,
+  x, y,
 }, ref) {
   return (
     <div ref={ref} className="p-[10px] bg-card-body border border-border rounded shadow shadow-shadow"
@@ -428,7 +330,8 @@ export const Tooltip= forwardRef(function ({
         zIndex: 999,
         left: 0,
         top: 0,
-        transition: "opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1),  transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
+        transform:  `translate(${x}px, ${y}px)`,
+        transition: "opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1), transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
         opacity: open ? 1 : 0,
         display: open ? "block" : "none",
       }}>

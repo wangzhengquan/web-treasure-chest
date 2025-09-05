@@ -179,7 +179,6 @@ export default function CanvasPanel() {
         {/* <MiniMap /> */}
         <Controls />
         <DevTools />
-        <Background />
       </ReactFlow>
     </div>
   );

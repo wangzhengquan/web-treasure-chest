@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 
 const top = 1,
   right = 2,
@@ -37,6 +37,7 @@ function Axis({
   tickSizeOuter = 0,
   tickPadding = 3,
   offset = typeof window !== "undefined" && window.devicePixelRatio > 1 ? 0 : 0.5,
+  domainLine=true,
   backgroundLine = 0,
   children,
   ...attrs
@@ -60,15 +61,17 @@ function Axis({
       stroke: "currentColor",
       fill: "currentColor",
       fontSize: 10,
-      fontFamily: "sans-serif",
       
     }, attrs)}>
-      <path className="domain" 
-        d={orient === left || orient === right
-            ? (tickSizeOuter ? "M" + k * tickSizeOuter + "," + range0 + "H" + offset + "V" + range1 + "H" + k * tickSizeOuter : "M" + offset + "," + range0 + "V" + range1)
-            : (tickSizeOuter ? "M" + range0 + "," + k * tickSizeOuter + "V" + offset + "H" + range1 + "V" + k * tickSizeOuter : "M" + range0 + "," + offset + "H" + range1)
-          }
-      />
+      {
+        domainLine &&
+        <path className="domain" 
+          d={orient === left || orient === right
+              ? (tickSizeOuter ? "M" + k * tickSizeOuter + "," + range0 + "H" + offset + "V" + range1 + "H" + k * tickSizeOuter : "M" + offset + "," + range0 + "V" + range1)
+              : (tickSizeOuter ? "M" + range0 + "," + k * tickSizeOuter + "V" + offset + "H" + range1 + "V" + k * tickSizeOuter : "M" + range0 + "," + offset + "H" + range1)
+            }
+        />
+      }
       {values.map((d, i) => (
         <g key={i} className="tick" 
           opacity="1"

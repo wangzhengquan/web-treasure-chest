@@ -30,10 +30,10 @@ const LIGHT_COLORS = {
 // const colors = d3.scaleOrdinal(d3.schemeCategory10); 
 // const colors =  d3.scaleOrdinal(["rgb(18, 102, 194)", "rgb(28, 173, 179)", "rgb(244,185,43)", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"]);
 const moldTrendData = [
-  {name: '设变', month: "1月", value: 80},{name: '设变', month: "4月", value: 40},{name: '设变', month: "5月", value: 50},{name: '设变', month: "6月", value: 65},
-  {name: '修模', month: "1月", value: 45},{name: '修模', month: "2月", value: 75},{name: '修模', month: "3月", value: 50},{name: '修模', month: "4月", value: 25},{name: '修模', month: "5月", value: 45},{name: '修模', month: "6月", value: 80},
-  {name: '新模', month: "1月", value: 60},{name: '新模', month: "2月", value: 30},{name: '新模', month: "3月", value: 35},{name: '新模', month: "4月", value: 55},{name: '新模', month: "5月", value: 30},{name: '新模', month: "6月", value: 25},
-  {name: '设变', month: "2月", value: 60},{name: '设变', month: "3月", value: 90},
+  {name: '设变', month: 1, value: 80},{name: '设变', month: 4, value: 40},{name: '设变', month: 5, value: 50},{name: '设变', month: 6, value: 65},
+  {name: '修模', month: 1, value: 45},{name: '修模', month: 2, value: 75},{name: '修模', month: 3, value: 50},{name: '修模', month: 4, value: 25},{name: '修模', month: 5, value: 45},{name: '修模', month: 6, value: 80},
+  {name: '新模', month: 1, value: 60},{name: '新模', month: 2, value: 30},{name: '新模', month: 3, value: 35},{name: '新模', month: 4, value: 55},{name: '新模', month: 5, value: 30},{name: '新模', month: 6, value: 25},
+  {name: '设变', month: 2, value: 60},{name: '设变', month: 3, value: 90},
 ];
 
 const moldStatusData = [
@@ -117,23 +117,20 @@ export default function Dashboard() {
             z={d => d.name}
             title="每月模具产量趋势图"
             marginLeft={40}
-            marginRight={16}
+            marginRight={10}
             marginTop={10}
-            marginBottom={50}
+            marginBottom={30}
+            xType={scalePoint}
+            xFormat={d => d + "月"}
             // xDomain= {[1,2,3,4,5,6]}
             yDomain= {[0, 100]}
             // yLabel= "↑ Unemployment (%)"
-            xType={scalePoint}
+            
             width={columnWidth}
             height={columnWidth * 1 / 2}
             strokeWidth = {2}
             color= { (z) => moldTrendColorMap[z]}
-            legendRectWidth = {15}
-            legendRectHeight = {15}
-            legendRectCornerRadius = {2} // 圆角半径
-            legendTextSpacing = {3}     // 色块与文字的间距
-            legendItemSpacing = {5}     // 每个项目之间的间距
-            voronoi={false} // if true, show Voronoi overlay
+           
           />
         </div>
         <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
@@ -161,9 +158,9 @@ export default function Dashboard() {
               z={d => d.name}
               title="每月零件产量趋势图"
               marginLeft={40}
-              marginRight={16}
+              marginRight={10}
               marginTop={10}
-              marginBottom={50}
+              marginBottom={30}
               // xDomain= {[1,2,3,4,5,6]}
               yDomain= {[0, 100]}
               // yLabel= "↑ Unemployment (%)"
