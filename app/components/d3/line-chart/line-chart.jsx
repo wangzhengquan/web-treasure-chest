@@ -3,13 +3,13 @@
 import { useEffect, useLayoutEffect, useRef, useState, forwardRef} from "react";
 import {
   curveLinear, curveNatural, curveMonotoneX, curveStep, 
-  scaleUtc, scaleLinear, scalePoint, scaleQuantize,
+  scaleUtc, scaleLinear, scalePoint, scaleQuantize, scaleOrdinal,
   map, InternSet, InternMap, range,
   extent, max, line,  
   sort,
   group, pointer, least, interpolateRound, easeBounce
 } from "d3";
-
+import {RectLegend as Legend} from '../legend';
 import {  AxisBottom, AxisLeft } from "../axis";
 import { cn } from "@app/lib/utils";
 
@@ -30,7 +30,6 @@ export function LineChart({
   x = ([x]) => x, // given d in data, returns the (temporal) x-value
   y = ([, y]) => y, // given d in data, returns the (quantitative) y-value
   z = () => 1, // given d in data, returns the (categorical) z-value
-  name, // given d in data, returns the name text
   title, // title of the chart
   defined, // for gaps in data
   curve = "linear", // method of interpolation between points
@@ -48,7 +47,7 @@ export function LineChart({
   yFormat = d => d, // a format function for the y-axis
   yLabel, // a label for the y-axis
   zDomain, // array of z-values
-  color = "currentColor", // stroke color of line, as a constant or a function of *z*
+  colors , // stroke color of line, as a constant or a function of *z*
   strokeLinecap, // stroke line cap of line
   strokeLinejoin, // stroke line join of line
   strokeWidth = 1.5, // stroke width of line
@@ -117,9 +116,11 @@ export function LineChart({
     // xScale.invert = xm => xDomain[invert(xm)]; 
   }
 
+  if (!colors) colors = schemeSpectral[zDomain.size];
+  const color = scaleOrdinal(zDomain, colors);
+
   // Compute names.
-  const T = name === undefined ? Z : name === null ? null : map(data, name);
-  const nameByZ = sort(new InternMap(map(I, (i) => [Z[i], T[i]])), ([key])=> key);
+  const T = Z;
   // Construct a line generator.
   const genLine = line()
       .defined(i => D[i])
@@ -188,7 +189,7 @@ export function LineChart({
     setTooltipProps({open: false, title: "", data: [], x: 0, y: 0});
   }
 
-  function pointerEnterLegend(event, [z]) {
+  function pointerEnterLegend(event, z) {
     const paths = svgRef.current.querySelectorAll(".path");
     for (const path of paths) {
       const pathZ = path.getAttribute("data-z");
@@ -221,7 +222,7 @@ export function LineChart({
 
   return (
   (width <= 0 ) ? "" :
-  <div ref={containerRef} className={cn("relative bg-card pb-[10px]", className)} style={style}>
+  <figure ref={containerRef} className={cn("relative bg-card pb-[10px]", className)} style={style}>
     {title && <h2 className="font-bold" style={{
       paddingTop: `${marginTop}px`,
       paddingLeft: `15px`,
@@ -290,31 +291,20 @@ export function LineChart({
           }}/> 
       </g>
     </svg>
-    { (legend && zDomain.size > 1) &&
-    <div className="flex justify-center items-center gap-[5px]">
-    { 
-      Array.from(nameByZ).map(([z, t], i) => (
-      <div key={z} className="flex justify-center items-center"
-        onPointerEnter={(e) => pointerEnterLegend(e, [z, t])}
-        onPointerLeave={(e) => pointerLeaveLegend(e, [z, t])}
-      >
-        <div style={{
-          width: '12px',
-          height: '12px',
-          backgroundColor: typeof color === "function" ? color(z) : color,
-        }}></div>
-        <div style={{marginLeft: "3px"}}>
-          <span>{t}</span>
-        </div>
-      </div>
-      ))
+    { (legend && zDomain.size > 1) && 
+      <Legend 
+        data={Array.from(zDomain)}
+        color={color}
+        onPointerEnter={pointerEnterLegend}
+        onPointerLeave={pointerLeaveLegend}
+      />
     }
-    </div> }
 
     <Tooltip ref={tooltipRef} {...tooltipProps}/>
-  </div>
+  </figure>
   );
 }
+
 
 export const Tooltip= forwardRef(function ({ 
   title,

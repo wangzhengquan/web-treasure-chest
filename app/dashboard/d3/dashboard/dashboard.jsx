@@ -2,6 +2,7 @@
 import { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import {LineChart} from '@app/components/d3/line-chart';
 import {PieChart} from '@app/components/d3/pie-chart';
+import {StackedBarChart, BarChart, GroupedBarChart} from '@app/components/d3/bar-chart';
 // import * as d3 from 'd3';
 import {scalePoint} from "d3";
 import { useTheme } from 'next-themes';
@@ -11,21 +12,23 @@ import { GeoMap} from '@app/components/d3/geo-map';
 import MoldStatusTable from './table';
 // import DonutControls from './donut';
 const DARK_COLORS = {
-  blue: '#00eaff',
-  green: '#2dff71',
-  yellow: '#ffdd00',
   red: '#ff4d4d',
+  yellow: '#ffdd00',
+  blue: '#00eaff',
   purple: '#9b59b6',
   orange: '#e67e22',
+  green: '#2dff71',
+  
 };
 
 const LIGHT_COLORS = {
-  blue: 'rgb(98, 182, 238)',
-  green: 'rgb(115, 205, 205)',
-  yellow: 'rgb(244,185,43)',
   red: 'rgb(252, 131, 157)',
+  yellow: 'rgb(244,185,43)',
+  blue: 'rgb(98, 182, 238)',
   purple: 'rgb(174, 136, 252)',
   orange: 'rgb(254, 216, 126)',
+  green: 'rgb(115, 205, 205)',
+  
 };
 // const colors = d3.scaleOrdinal(d3.schemeCategory10); 
 // const colors =  d3.scaleOrdinal(["rgb(18, 102, 194)", "rgb(28, 173, 179)", "rgb(244,185,43)", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"]);
@@ -48,6 +51,38 @@ const partTrendData = [ // Just duplicating for example
     {name: '其他', month: '1月', value: 50},{name: '其他', month: '2月', value: 40},{name: '其他', month: '3月', value: 55},{name: '其他', month: '4月', value: 10},{name: '其他', month: '5月', value: 45},{name: '其他', month: '6月', value: 70},
 ];
 
+const dailyProcessAchievementData_ = [
+  {day: 1, 模仁: 10, 电极: 30, 铜件: 20},
+  {day: 2, 模仁: 10, 电极: 5, 铜件: 3},
+  {day: 3, 模仁: 30, 电极: 40, 铜件: 20},
+  {day: 4, 模仁: 20, 电极: 30, 铜件: 10},
+  {day: 5, 模仁: 40, 电极: 20, 铜件: 10},
+  {day: 6, 模仁: 33, 电极: 10, 铜件: 10},
+  {day: 7, 模仁: 30, 电极: 5, 铜件: 5},
+  {day: 8, 模仁: 20, 电极: 10, 铜件: 20},
+  {day: 9, 模仁: 20, 电极: 10, 铜件: 20},
+  {day: 10, 模仁: 20, 电极: 20, 铜件: 20},
+  {day: 11, 模仁: 30, 电极: 15, 铜件: 20},
+  {day: 12, 模仁: 20, 电极: 40, 铜件: 20},
+  {day: 13, 模仁: 10, 电极: 30, 铜件: 20},
+  {day: 14, 模仁: 20, 电极: 40, 铜件: 20},
+  {day: 15, 模仁: 30, 电极: 50, 铜件: 20},
+  {day: 16, 模仁: 10, 电极: 10, 铜件: 20},
+  {day: 17, 模仁: 30, 电极: 40, 铜件: 20},
+  {day: 18, 模仁: 22, 电极: 10, 铜件: 20},
+  {day: 19, 模仁: 40, 电极: 10, 铜件: 20},
+  {day: 20, 模仁: 30, 电极: 5, 铜件: 15},
+];
+const dailyProcessAchievementData2_ = dailyProcessAchievementData_.slice(0, 7);
+const processes = ['模仁', '电极', '铜件'];
+const dailyProcessAchievementData = processes.flatMap(processe => dailyProcessAchievementData_.map(d => ({day: d.day, processe, achievement: d[processe]})));
+const dailyProcessAchievementData2 = processes.flatMap(processe => dailyProcessAchievementData2_.map(d => ({day: d.day, processe, achievement: d[processe]})));
+
+
+const teamPassRateData = [
+  { label: 'CNC', value: .30 }, { label: 'EDM', value: .90 }, { label: '线割', value: .41 }, 
+  { label: '磨床', value: .74 }, { label: '铣床', value: .30 }, { label: '外协', value: .55 }
+];
 
 
 export default function Dashboard() {
@@ -56,25 +91,9 @@ export default function Dashboard() {
   const [blockWidth, setBlockWidth] = useState(0);
   const { theme, setTheme } = useTheme();
   const [visibility, setVisibility] = useState(false);
-  const moldTrendColorMap = theme == 'light' ? {
-    '设变':  LIGHT_COLORS.red,
-    '修模': LIGHT_COLORS.yellow,
-    '新模': LIGHT_COLORS.blue,
-  } : {
-    '设变':  DARK_COLORS.red,
-    '修模': DARK_COLORS.yellow,
-    '新模': DARK_COLORS.blue,
-  };
-
-  const partTrendColorMap = theme == 'light' ? {
-    '电极':  LIGHT_COLORS.red,
-    '铜件': LIGHT_COLORS.yellow,
-    '其他': LIGHT_COLORS.blue,
-  } : {
-    '电极':  DARK_COLORS.red,
-    '铜件': DARK_COLORS.yellow,
-    '其他': DARK_COLORS.blue,
-  };
+  const colors = theme == 'light' ? LIGHT_COLORS :DARK_COLORS;
+  const colorsArray = Object.values(colors);
+   
   // ref.current.getBoundingClientRect()
   useEffect(() => {
     if(!columnRef.current || !blockRef.current) return;
@@ -129,7 +148,7 @@ export default function Dashboard() {
             width={columnWidth}
             height={columnWidth * 1 / 2}
             strokeWidth = {2}
-            color= { (z) => moldTrendColorMap[z]}
+            colors= {colorsArray}
            
           />
         </div>
@@ -144,10 +163,7 @@ export default function Dashboard() {
             margin = "10"
             />
           </div>
-          <div >
-            <Gauge title="加工中模具数量" width={blockWidth} uom="模具数" value={45} valueRange={[0, 120]} />
-          </div>
-           
+          <Gauge title="加工中模具数量" width={blockWidth} uom="模具数" value={45} valueRange={[0, 120]} />
         </div>
         <MoldStatusTable />
         <div className="bg-card">
@@ -168,7 +184,7 @@ export default function Dashboard() {
               width={columnWidth}
               height={columnWidth * 1 / 2}
               strokeWidth = {2}
-              color= { (z) => partTrendColorMap[z]}
+              colors= { colorsArray}
               legendRectWidth = {15}
               legendRectHeight = {15}
               legendRectCornerRadius = {2} // 圆角半径
@@ -180,11 +196,67 @@ export default function Dashboard() {
         
       </div>
      
-      <div>
+      <div className='space-y-2 md:space-y-4'>
         <GeoMap title="模具客户分布图" width={columnWidth} height={columnWidth * 2 / 3} margin={10}/>
+        
+        <StackedBarChart data={dailyProcessAchievementData} 
+            x={d => d.day}
+            y={d => d.achievement} 
+            z={d => d.processe}
+            title="每日工序达成数"
+            marginLeft={40}
+            marginRight={10}
+            marginTop={10}
+            marginBottom={30}
+            xPadding = {0.3}
+            colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
+            width={columnWidth}
+            height={columnWidth * 1 / 2}
+            />
+          <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
+            <PieChart 
+              title="模具状态统计" 
+              width={blockWidth} 
+              data={moldStatusData} 
+              name={d => d.label}
+              value={d => d.value}
+              margin = "10"
+              />
+            <Gauge title="零件数" width={blockWidth} uom="零件数" value={442} valueRange={[0, 450]} />
+          </div>
+
+          <GroupedBarChart data={dailyProcessAchievementData2} 
+            x={d => d.day}
+            y={d => d.achievement} 
+            z={d => d.processe}
+            title="7日工序达成数"
+            marginLeft={40}
+            marginRight={10}
+            marginTop={10}
+            marginBottom={30}
+            xPadding = {0.3}
+            colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
+            width={columnWidth}
+            height={columnWidth * 1 / 2}
+            />
       </div>
       <div>
-        3
+      <BarChart data={teamPassRateData} 
+            x={d => d.label}
+            y={d => d.value} 
+            // yDomain={[0, 1]}
+            yFormat={".0%"}
+            title="班组合格率"
+            marginLeft={40}
+            marginRight={10}
+            marginTop={10}
+            marginBottom={30}
+            xPadding = {0.3}
+            colors = {colorsArray}
+            width={columnWidth}
+            height={columnWidth * 1 / 2}
+            />
+      
       </div>
       {/* <DonutControls/> */}
     </div> 

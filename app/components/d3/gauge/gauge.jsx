@@ -94,7 +94,6 @@ export default function Gauge({
         maxWidth: "100%",
       }}
     >
-      
       {
         // arc segments
         arcSegments.map((d, i) => 
@@ -120,7 +119,7 @@ export default function Gauge({
             fontSize={labelFontSize}
             letterSpacing="2"
             >
-            {tick2value(d)}
+            {Math.round(tick2value(d))}
           </text>
         </g>
         )
