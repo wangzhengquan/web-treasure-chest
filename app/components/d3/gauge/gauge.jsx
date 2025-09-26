@@ -29,7 +29,6 @@ export default function Gauge({
   value = 0,
   uom = 'Units',
   valueRange = [0, 100],
-  title,
   labelFontSize = 14,
   uomFontSize = 12,
   valueFontSize = 30,
@@ -73,16 +72,6 @@ export default function Gauge({
     .outerRadius(outerRadius);
   
   return (
-  <div className={`bg-card`}>
-    {
-      title && 
-      <h2 className="font-bold" 
-        style={{
-        padding: `${margin}px ${margin}px 0px`,
-        }}>
-        {title}
-      </h2>
-    }
     <svg ref={svgRef}
       className="gauge"
       width={width}
@@ -137,7 +126,6 @@ export default function Gauge({
         {value} 
       </text>
     </svg>
-  </div>
   );
 }
  

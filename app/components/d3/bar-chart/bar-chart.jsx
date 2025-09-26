@@ -19,23 +19,13 @@ import {
 import {RectLegend as Legend} from "../legend";
 import {  AxisBottom, AxisLeft } from "../axis";
 import { cn } from "@app/lib/utils";
-
-// 1. Create a mapping from string identifiers to D3 curve functions
-const curveMap = {
-  linear: curveLinear,
-  natural: curveNatural,
-  monotoneX: curveMonotoneX,
-  step: curveStep,
-  // Add any other curves you want to support
-};
-
+ 
 
 export function BarChart({
   data,
   x = (d, i) => i, // given d in data, returns the (ordinal) x-value
   y = d => d, // given d in data, returns the (quantitative) y-value
-  title, // chart title
-  tooltip, // given d in data, returns the tooltip text
+  tooltipFormat, // given d in data, returns the tooltipFormat text
   marginTop = 30, // top margin, in pixels
   marginRight = 0, // right margin, in pixels
   marginBottom = 30, // bottom margin, in pixels
@@ -51,7 +41,7 @@ export function BarChart({
   yLabel, // a label for the y-axis
   colors=["currentColor"], // array of colors
   // 定义色块和间距的尺寸
-  legend=true, // 是否显示图例
+  legend = false, // 是否显示图例
   className,
   style,
 }) {
@@ -81,31 +71,20 @@ export function BarChart({
   if (!colors) colors = schemeSpectral[xDomain.size];
   const color = scaleOrdinal(xDomain, colors);
 
-  // Compute tooltip.
-  if (tooltip === undefined) {
-    const format = typeof yFormat === 'string' ? yScale.tickFormat(100, yFormat) : yFormat;
-    tooltip = i => `${X[i]}: ${format(Y[i])}`;
+  yFormat = typeof yFormat === 'string' ? yScale.tickFormat(100, yFormat) : yFormat;
+  // Compute tooltipFormat.
+  if (tooltipFormat === undefined) {
+    tooltipFormat = i => `${X[i]}: ${yFormat(Y[i])}`;
   } else {
     const O = map(data, d => d);
     const T = title;
-    tooltip = i => T(O[i], i, data);
+    tooltipFormat = i => T(O[i], i, data);
   }
  
 
   return (
   (width <= 0 ) ? "" :
   <figure ref={containerRef} className={cn("relative bg-card pb-[10px]", className)} style={style}>
-    { title && 
-      <h2 className="font-bold" 
-        style={{
-          paddingTop: `${marginTop}px`,
-          paddingLeft: `15px`,
-          paddingRight: `${marginRight}px`,
-        }}
-      >
-        {title}
-      </h2>
-    }
     <svg ref={svgRef}
       width={width}
       height={height}
@@ -126,16 +105,29 @@ export function BarChart({
         </AxisLeft>
         {
           I.map(i => (
-            <rect key={i}
-              x={xScale(X[i])}
-              y={yScale(Y[i])}
-              height={yScale(0) - yScale(Y[i])}
-              width={xScale.bandwidth()}
-              fill={color(X[i])}  
-              stroke={color(X[i])}
-            >
-              { tooltip && <title>{tooltip(i)}</title> }
-            </rect>
+            <g key={i}>
+              <rect 
+                x={xScale(X[i])}
+                y={yScale(Y[i])}
+                height={yScale(0) - yScale(Y[i])}
+                width={xScale.bandwidth()}
+                fill={color(X[i])}  
+                stroke={color(X[i])}
+              >
+                
+                { <title>{tooltipFormat(i)}</title> }
+              </rect>
+              <text 
+                x={xScale(X[i])}
+                y={yScale(Y[i])}
+                dy="-0.5em"
+                dx="0.5em"
+                fill="currentColor"
+                // alignmentBaseline="bottom"  
+                textAnchor="start">
+                  {yFormat(Y[i])}
+              </text>
+            </g>
           ))
         }  
       </g>
@@ -154,8 +146,7 @@ export function StackedBarChart({
   x = (d, i) => i, // given d in data, returns the (ordinal) x-value
   y = d => d, // given d in data, returns the (quantitative) y-value
   z = () => 1, // given d in data, returns the (categorical) z-value
-  title, // chart title
-  tooltip, // given d in data, returns the tooltip text
+  tooltipFormat, // given d in data, returns the tooltipFormat text
   marginTop = 30, // top margin, in pixels
   marginRight = 0, // right margin, in pixels
   marginBottom = 30, // bottom margin, in pixels
@@ -220,31 +211,21 @@ export function StackedBarChart({
   if (!colors) colors = schemeSpectral[zDomain.size];
   const color = scaleOrdinal(zDomain, colors);
 
-  // Compute tooltip.
-  if (tooltip === undefined) {
+  // Compute tooltipFormat.
+  if (tooltipFormat === undefined) {
     const format = typeof yFormat === 'string' ? yScale.tickFormat(100, yFormat) : yFormat;
-    tooltip = i => `${X[i]}\n${Z[i]}: ${format(Y[i])}`;
+    tooltipFormat = i => `${X[i]}\n${Z[i]}: ${format(Y[i])}`;
   } else {
     const O = map(data, d => d);
-    const T = tooltip;
-    tooltip = i => T(O[i], i, data);
+    const T = tooltipFormat;
+    tooltipFormat = i => T(O[i], i, data);
   }
  
 
   return (
   (width <= 0 ) ? "" :
   <figure ref={containerRef} className={cn("relative bg-card pb-[10px]", className)} style={style}>
-    { title && 
-      <h2 className="font-bold" 
-        style={{
-          paddingTop: `${marginTop}px`,
-          paddingLeft: `15px`,
-          paddingRight: `${marginRight}px`,
-        }}
-      >
-        {title}
-      </h2>
-    }
+     
     <svg ref={svgRef}
       width={width}
       height={height}
@@ -278,7 +259,7 @@ export function StackedBarChart({
                     width={xScale.bandwidth()}
                      
                   >
-                    { tooltip && <title>{tooltip(i)}</title> }
+                    { tooltipFormat && <title>{tooltipFormat(i)}</title> }
                   </rect>
                   )
                 })
@@ -286,7 +267,6 @@ export function StackedBarChart({
             </g>
           ))
         }
-         
       </g>
     </svg>
     { (legend && zDomain.size > 1) && 
@@ -303,8 +283,6 @@ export function GroupedBarChart({
   x = (d, i) => i, // given d in data, returns the (ordinal) x-value
   y = d => d, // given d in data, returns the (quantitative) y-value
   z = () => 1, // given d in data, returns the (categorical) z-value
-  title, // chart title
-  tooltip, // given d in data, returns the tooltip text
   marginTop = 30, // top margin, in pixels
   marginRight = 0, // right margin, in pixels
   marginBottom = 30, // bottom margin, in pixels
@@ -320,11 +298,11 @@ export function GroupedBarChart({
   yLabel, // a label for the y-axis
   zDomain, // array of z-values
   zPadding = 0.05, // amount of x-range to reserve to separate bars
-  offset = stackOffsetDiverging, // stack offset method
-  order = stackOrderNone, // stack order method
   colors, // array of colors
+  tooltipFormat, // given d in data, returns the tooltipFormat text
   // 定义色块和间距的尺寸
   legend=true, // 是否显示图例
+  label=false, // 是否显示数值标签
   className,
   style,
 }) {
@@ -359,31 +337,20 @@ export function GroupedBarChart({
   if (!colors) colors = schemeSpectral[zDomain.size];
   const color = scaleOrdinal(zDomain, colors);
 
-  // Compute tooltip.
-  if (tooltip === undefined) {
+  // Compute tooltipFormat.
+  if (tooltipFormat === undefined) {
     const format = typeof yFormat === 'string' ? yScale.tickFormat(100, yFormat) : yFormat;
-    tooltip = i => `${X[i]}\n${Z[i]}: ${format(Y[i])}`;
+    tooltipFormat = i => `${X[i]}\n${Z[i]}: ${format(Y[i])}`;
   } else {
     const O = map(data, d => d);
-    const T = tooltip;
-    tooltip = i => T(O[i], i, data);
+    const T = tooltipFormat;
+    tooltipFormat = i => T(O[i], i, data);
   }
  
 
   return (
   (width <= 0 ) ? "" :
   <figure ref={containerRef} className={cn("relative bg-card pb-[10px]", className)} style={style}>
-    { title && 
-      <h2 className="font-bold" 
-        style={{
-          paddingTop: `${marginTop}px`,
-          paddingLeft: `15px`,
-          paddingRight: `${marginRight}px`,
-        }}
-      >
-        {title}
-      </h2>
-    }
     <svg ref={svgRef}
       width={width}
       height={height}
@@ -404,16 +371,31 @@ export function GroupedBarChart({
         </AxisLeft>
         {
           I.map(i => (
-            <rect key={i}
-              x={xScale(X[i]) + zScale(Z[i])}
-              y={yScale(Y[i])}
-              height={yScale(0) - yScale(Y[i])}
-              width={zScale.bandwidth()}
-              fill={color(Z[i])}
-              stroke={color(Z[i])}
-            >
-              { tooltip && <title>{tooltip(i)}</title> }
-            </rect>
+            <g key={i}>
+              <rect 
+                x={xScale(X[i]) + zScale(Z[i])}
+                y={yScale(Y[i])}
+                height={yScale(0) - yScale(Y[i])}
+                width={zScale.bandwidth()}
+                fill={color(Z[i])}
+                stroke={color(Z[i])}
+              >
+                <title>{tooltipFormat(i)}</title> 
+              </rect>
+              {
+                label &&
+                <text 
+                  x={xScale(X[i]) + zScale(Z[i])}
+                  y={yScale(Y[i])}
+                  dy="-0.5em"
+                  fill="currentColor"
+                  // alignmentBaseline="bottom"  
+                  textAnchor="start">
+                    {yFormat(Y[i])}
+                </text>
+              }
+              
+            </g>
           ))
         }
       </g>

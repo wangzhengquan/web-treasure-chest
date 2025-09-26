@@ -30,7 +30,7 @@ export function LineChart({
   x = ([x]) => x, // given d in data, returns the (temporal) x-value
   y = ([, y]) => y, // given d in data, returns the (quantitative) y-value
   z = () => 1, // given d in data, returns the (categorical) z-value
-  title, // title of the chart
+  // title, // title of the chart
   defined, // for gaps in data
   curve = "linear", // method of interpolation between points
   marginTop = 20, // top margin, in pixels
@@ -220,11 +220,6 @@ export function LineChart({
   return (
   (width <= 0 ) ? "" :
   <figure ref={containerRef} className={cn("relative bg-card pb-[10px]", className)} style={style}>
-    {title && <h2 className="font-bold" style={{
-      paddingTop: `${marginTop}px`,
-      paddingLeft: `15px`,
-      paddingRight: `${marginRight}px`,
-    }}>{title}</h2>}
     <svg ref={svgRef}
       width={width}
       height={height}

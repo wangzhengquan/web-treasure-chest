@@ -14,7 +14,6 @@ const projection = geoMercator();
 const path = geoPath().projection(projection);
 
 export default function GeoMap({
-  title = '',
   width = 600,
   height = 400,
   margin = 10,
@@ -24,41 +23,30 @@ export default function GeoMap({
   path.projection(projection);
   
   return (
-    <div className={`bg-card`} >
-      {
-      title && 
-      <h2 className="font-bold" 
-        style={{
-        padding: `${margin}px ${margin}px 0px`,
-        }}>
-        {title}
-      </h2>
-      }
-      <svg 
-        width={width}
-        height={height}
-        stroke="currentColor"
-        fill="currentColor"
-        style={{
-          maxWidth: "100%",
-        }}
-      >
-      {
-        chinaJson.features.map((d, i) => <path key={d.properties.id} className={styles.country} d={path(d)}/>)
-      }
-      {
-        hotspots.map((d, i) => {
-          const [x, y] = projection(d.coordinates);
-          return (
-            <g key={d.name}>
-              <circle className={styles.hotspot} cx={x} cy={y}/>
-              <text  x={x + 5} y={y - 5} fontSize='0.8em' >{d.name}</text>
-            </g>
-          )
-        })
-      }
+    <svg 
+      width={width}
+      height={height}
+      stroke="currentColor"
+      fill="currentColor"
+      style={{
+        maxWidth: "100%",
+      }}
+    >
+    {
+      chinaJson.features.map((d, i) => <path key={d.properties.id} className={styles.country} d={path(d)}/>)
+    }
+    {
+      hotspots.map((d, i) => {
+        const [x, y] = projection(d.coordinates);
+        return (
+          <g key={d.name}>
+            <circle className={styles.hotspot} cx={x} cy={y}/>
+            <text  x={x + 5} y={y - 5} fontSize='0.8em' >{d.name}</text>
+          </g>
+        )
+      })
+    }
 
-      </svg>
-    </div>
+    </svg>
   )
 }
