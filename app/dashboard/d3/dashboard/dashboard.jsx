@@ -137,7 +137,7 @@ export default function Dashboard() {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 text-[12px]" style={{visibility: visibility ? 'visible': 'hidden'}}>
       <div ref={columnRef} className="space-y-2 md:space-y-4">
         <div className="bg-card">
-          <h2 className="font-bold p-[10px_10px_0]" >每月模具产量趋势图</h2>
+          <h2 className="text-sm font-bold p-[10px_10px_0]" >每月模具产量趋势图</h2>
           <LineChart data={moldTrendData} 
             x={d => d.month}
             y={d => d.value} 
@@ -161,7 +161,7 @@ export default function Dashboard() {
         </div>
         <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
           <div className={`bg-card`} ref={blockRef}>
-            <h2 className="font-bold p-[10px_10px_0px]"> 模具状态统计 </h2>
+            <h2 className="text-sm font-bold p-[10px_10px_0px]"> 模具状态统计 </h2>
             <PieChart 
               width={blockWidth} 
               data={moldStatusData} 
@@ -171,13 +171,16 @@ export default function Dashboard() {
               />
           </div>
           <div className={`bg-card`}>
-            <h2 className="font-bold p-[10px_10px_0px]"> 加工中模具数量 </h2>
+            <h2 className="text-sm font-bold p-[10px_10px_0px]"> 加工中模具数量 </h2>
             <Gauge width={blockWidth} uom="模具数" value={45} valueRange={[0, 120]} />
           </div>
         </div>
-        <MoldStatusTable />
+        <div className="bg-card p-[10px]">
+          <h3 className='text-sm font-bold pb-[10px]'>模具进度表</h3>
+          <MoldStatusTable />
+        </div>
         <div className="bg-card">
-          <h2 className="font-bold p-[10px_10px_0]" >每月零件产量趋势图</h2>
+          <h2 className="text-sm font-bold p-[10px_10px_0]" >每月零件产量趋势图</h2>
           <LineChart data={partTrendData} 
               x={d => d.month}
               y={d => d.value} 
@@ -207,11 +210,11 @@ export default function Dashboard() {
      
       <div className='space-y-2 md:space-y-4'>
         <div className="bg-card">
-          <h2 className="font-bold p-[10px_10px_0]" >模具客户分布图</h2>
+          <h2 className="text-sm font-bold p-[10px_10px_0]" >模具客户分布图</h2>
           <GeoMap width={columnWidth} height={columnWidth * 2 / 3} margin={10}/>
         </div>
         <div className="bg-card">
-          <h2 className="font-bold p-[10px_10px_0]" >每日工序达成数</h2>
+          <h2 className="text-sm font-bold p-[10px_10px_0]" >每日工序达成数</h2>
           <StackedBarChart data={dailyProcessAchievementData} 
               x={d => d.day}
               y={d => d.achievement} 
@@ -228,16 +231,16 @@ export default function Dashboard() {
           </div>
           <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
             <div className='bg-card'>
-              <h2 className="font-bold p-[10px_10px_0px]"> 模具达成率 </h2>
+              <h2 className="text-sm font-bold p-[10px_10px_0px]"> 模具达成率 </h2>
               <ProgressRingChart width={blockWidth} value='0.62' />
             </div>
             <div className={`bg-card`}>
-              <h2 className="font-bold p-[10px_10px_0px]"> 零件数 </h2>
+              <h2 className="text-sm font-bold p-[10px_10px_0px]"> 零件数 </h2>
               <Gauge title="零件数" width={blockWidth} uom="零件数" value={80} valueRange={[0, 100]} />
             </div>
           </div>
           <div className="bg-card">
-            <h2 className="font-bold p-[10px_10px_0]" >7日工序达成数</h2>
+            <h2 className="text-sm font-bold p-[10px_10px_0]" >7日工序达成数</h2>
             <GroupedBarChart data={dailyProcessAchievementData2} 
               x={d => d.day}
               y={d => d.achievement} 
@@ -255,7 +258,7 @@ export default function Dashboard() {
       </div>
       <div className='space-y-2 md:space-y-4'>
         <div className="bg-card">
-          <h2 className="font-bold p-[10px_10px_0]" >班组合格率</h2>
+          <h2 className="text-sm font-bold p-[10px_10px_0]" >班组合格率</h2>
           <BarChart data={teamPassRateData} 
               x={d => d.label}
               y={d => d.value} 
@@ -273,7 +276,7 @@ export default function Dashboard() {
           </div>
           <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
             <div className={`bg-card`}>
-              <h2 className="font-bold p-[10px_10px_0px]"> 品质占比 </h2>
+              <h2 className="text-sm font-bold p-[10px_10px_0px]"> 品质占比 </h2>
               <PieChart 
                 width={blockWidth} 
                 margin = "10"
@@ -287,9 +290,7 @@ export default function Dashboard() {
             <div className={`bg-card`}>
             </div>
           </div>
-      
       </div>
-
       
     </div> 
     </> 
