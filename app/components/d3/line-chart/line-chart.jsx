@@ -71,8 +71,6 @@ export function LineChart({
     x: 0,
     y: 0,
   });
-  // const [tooltipData, setTooltipData] = useState([]);
-  // const [tooltipTitle, setTooltipTitle] = useState("");
   
   let visHeight = height - marginTop - marginBottom,
       visWidth = width - marginLeft - marginRight; //width is basically max-width
@@ -97,7 +95,6 @@ export function LineChart({
     } else {
       xDomain = extent(X);
     }
-    
   }
   if (yDomain === undefined) yDomain = [0, max(Y, d => typeof d === "string" ? +d : d)];
   if (zDomain === undefined) zDomain = Z;

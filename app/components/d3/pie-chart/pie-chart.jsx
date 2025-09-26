@@ -1,37 +1,50 @@
 // https://observablehq.com/@d3/pie-chart-component
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 // import * as d3 from "d3";
-import { arc, pie, select, interpolateRainbow } from "d3";
+import { 
+  arc, pie, select, interpolateRainbow, map, range, InternSet,
+  quantize, interpolateSpectral, format, scaleOrdinal
+} from "d3";
 export default function PieChart({
-  title,
   data,
+  title,
   name = ([x]) => x,  
   value = ([, y]) => y,  
-  color,
+  valueFormat = ",", // a format specifier for values (in the label)
+  // color,
   width = 400,
+  height = width,
   margin = 10,
-  
+  innerRadius = 0, // inner radius of pie, in pixels (non-zero for donut)
+  outerRadius = Math.max(Math.min(width, height) / 2 - margin, 0), // outer radius of pie, in pixels
+  labelRadius = (innerRadius * 0.4 + outerRadius * 0.6), // center radius of labels
+  names, // array of names (the domain of the color scale)
+  colors, // array of colors for names
+  stroke = innerRadius > 0 ? "none" : "white", // stroke separating widths
+  strokeWidth = 1, // width of stroke separating wedges
+  strokeLinejoin = "round", // line join of stroke separating wedges
+  padAngle = stroke === "none" ? 1 / outerRadius : 0, // angular separation between wedges, in radians
 }) {
   const svgRef = useRef(null);
-  // const tooltipRef = useRef(null);
-  // const [tooltipData, setTooltipData] = useState([]);
-  let outerRadius =  width / 2 - margin;
-  outerRadius = outerRadius < 0 ? 0 : outerRadius;
-  const genPie = pie()
-      .sort(null)
-      .value(value);
+  // Compute values.
+  const N = map(data, name);
+  const V = map(data, value);
+  const I = range(N.length).filter(i => !isNaN(V[i]));
 
-  const genArc = arc()
-    .innerRadius(0)
-    .outerRadius(outerRadius);
+  // Unique the names.
+  if (names === undefined) names = N;
+  names = new InternSet(names);
+  //interpolateRainbow
+  if (colors === undefined) colors = quantize(t => interpolateRainbow(t * 0.8 + 0.1), names.size);
+  // Construct scales.
+  const color = scaleOrdinal(names, colors);
 
-  const arcs = genPie(data);
+  const formatValue = typeof valueFormat === 'function' ? valueFormat : format(valueFormat);
 
-  const labelRadius = genArc.outerRadius()() * 0.6;
-  // A separate arc generator for labels.
-  const labelArc = arc()
-      .innerRadius(labelRadius)
-      .outerRadius(labelRadius);
+   // Construct arcs.
+   const arcs = pie().padAngle(padAngle).sort(null).value(i => V[i])(I);
+   const arcPie = arc().innerRadius(innerRadius).outerRadius(outerRadius);
+   const arcLabel = arc().innerRadius(labelRadius).outerRadius(labelRadius);
  
   function handleMouseEnter(event){
     // setTooltipData([name(d.data), value(d.data)]);
@@ -71,24 +84,46 @@ export default function PieChart({
           maxWidth: "100%",
         }}
       >
+      <g stroke={stroke}
+        strokeWidth={strokeWidth}
+        strokeLinejoin={strokeLinejoin}
+        
+      >
       {
-        arcs.map((d, i) => {
-          return (
-            <g key={name(d.data)} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-              <path d={genArc(d)} fill={color ? color(name(d.data)) : interpolateRainbow(i / data.length)} stroke="#fff" strokeWidth={1}>
-                <title>{`${name(d.data)}: ${value(d.data)}`}</title>
-              </path>
-              <text transform={`translate(${labelArc.centroid(d)})`} textAnchor="middle" alignmentBaseline="middle" fontSize={12} fill="white" stroke="white">
-                <tspan y="-0.4em" fontWeight="bold">{name(d.data)}</tspan>
-                {
-                  (d.endAngle - d.startAngle) > 0.25 && <tspan x="0" y="0.7em" fillOpacity="0.7">{value(d.data)}</tspan>
-                }
-                
-              </text>
-            </g>
-          );
-        })
+        arcs.map((d) => (
+          <path key={d.data} d={arcPie(d)} 
+            // fill={color ? color(name(d.data)) : interpolateRainbow(i / data.length)} 
+            fill={color(N[d.data])}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <title>{`${N[d.data]}\n${formatValue(V[d.data])}`}</title>
+          </path>
+        ))
       }
+      </g>
+
+      <g fontSize="12"
+        textAnchor="middle" 
+        // alignmentBaseline="middle"
+        fill="white" 
+        stroke="white"
+      >
+      {
+        arcs.map((d) => (
+          <text key={d.data} 
+            transform={`translate(${arcLabel.centroid(d)})`}  
+          >
+            <tspan fontWeight="bold">{N[d.data]}</tspan>
+            {
+              (d.endAngle - d.startAngle) > 0.25 && 
+              <tspan x="0" y="1.1em" >{formatValue(V[d.data])}</tspan>
+            }
+            
+          </text>
+        ))
+      }
+      </g>
     </svg>
   </div>
   );
