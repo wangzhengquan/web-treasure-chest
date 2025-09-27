@@ -81,7 +81,7 @@ const dailyProcessAchievementData2 = processes.flatMap(processe => dailyProcessA
 
 
 const teamPassRateData = [
-  { label: 'CNC', value: .30 }, { label: 'EDM', value: .90 }, { label: '线割', value: .41 }, 
+  { label: 'CNC', value: .30 }, { label: 'EDM', value: 1.0 }, { label: '线割', value: .41 }, 
   { label: '磨床', value: .74 }, { label: '铣床', value: .30 }, { label: '外协', value: .55 }
 ];
 
@@ -232,7 +232,7 @@ export default function Dashboard() {
           <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
             <div className='bg-card'>
               <h2 className="text-sm font-bold p-[10px_10px_0px]"> 模具达成率 </h2>
-              <ProgressRingChart width={blockWidth} value='0.62' />
+              <ProgressRingChart width={blockWidth} value='0.68' />
             </div>
             <div className={`bg-card`}>
               <h2 className="text-sm font-bold p-[10px_10px_0px]"> 零件数 </h2>
@@ -262,7 +262,7 @@ export default function Dashboard() {
           <BarChart data={teamPassRateData} 
               x={d => d.label}
               y={d => d.value} 
-              // yDomain={[0, 1]}
+              yDomain={[0, 1.18]}
               yFormat={".0%"}
               marginLeft={40}
               marginRight={10}

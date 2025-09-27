@@ -40,7 +40,7 @@ export function BarChart({
   yFormat = d => d, // a format specifier string for the y-axis
   yLabel, // a label for the y-axis
   colors=["currentColor"], // array of colors
-  // 定义色块和间距的尺寸
+  label = true, // 是否显示数值标签
   legend = false, // 是否显示图例
   className,
   style,
@@ -112,21 +112,19 @@ export function BarChart({
                 height={yScale(0) - yScale(Y[i])}
                 width={xScale.bandwidth()}
                 fill={color(X[i])}  
-                stroke={color(X[i])}
-              >
-                
+                stroke={color(X[i])} >
                 { <title>{tooltipFormat(i)}</title> }
               </rect>
-              <text 
-                x={xScale(X[i])}
-                y={yScale(Y[i])}
-                dy="-0.5em"
-                dx="0.5em"
-                fill="currentColor"
-                // alignmentBaseline="bottom"  
-                textAnchor="start">
-                  {yFormat(Y[i])}
-              </text>
+              {
+                label &&
+                <text x={xScale(X[i])} y={yScale(Y[i])}
+                  dy="-0.5em" dx="0.5em"
+                  fill="currentColor"
+                  // alignmentBaseline="bottom"  
+                  textAnchor="start">
+                    {yFormat(Y[i])}
+                </text>
+              }
             </g>
           ))
         }  
