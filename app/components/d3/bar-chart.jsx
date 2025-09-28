@@ -16,8 +16,8 @@ import {
   schemeTableau10, schemeSpectral
 } from "d3";
 
-import {RectLegend as Legend} from "../legend";
-import {  AxisBottom, AxisLeft } from "../axis";
+import {RectLegend as Legend} from "./legend";
+import {  AxisBottom, AxisLeft } from "./axis";
 import { cn } from "@app/lib/utils";
  
 

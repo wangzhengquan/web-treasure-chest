@@ -52,7 +52,7 @@ export default function PieChart({
  
   function handleMouseEnter(event){
     // setTooltipData([name(d.data), value(d.data)]);
-    console.log('event.target', event.target);
+    // console.log('event.target', event.target);
     select(event.target)
       .transition()
       .duration(200)

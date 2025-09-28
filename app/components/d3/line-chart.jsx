@@ -9,8 +9,8 @@ import {
   sort,
   group, pointer, least, interpolateRound, easeBounce
 } from "d3";
-import {RectLegend as Legend} from '../legend';
-import {  AxisBottom, AxisLeft } from "../axis";
+import {RectLegend as Legend} from './legend';
+import {  AxisBottom, AxisLeft } from "./axis";
 import { cn } from "@app/lib/utils";
 
 // 1. Create a mapping from string identifiers to D3 curve functions

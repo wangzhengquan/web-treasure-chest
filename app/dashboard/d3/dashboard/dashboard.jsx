@@ -1,16 +1,19 @@
 'use client';
 import { useRef, useLayoutEffect, useEffect, useState } from 'react';
-import {LineChart} from '@app/components/d3/line-chart';
-import {PieChart} from '@app/components/d3/pie-chart';
-import {StackedBarChart, BarChart, GroupedBarChart} from '@app/components/d3/bar-chart';
+
 // import * as d3 from 'd3';
 import {scalePoint} from "d3";
 import { useTheme } from 'next-themes';
 import Loading from "@/app/components/loading";
-import { Gauge} from '@app/components/d3/gauge';
-import { GeoMap} from '@app/components/d3/geo-map';
 import MoldStatusTable from './table';
-import {ProgressRingChart} from '@app/components/d3/progress-chart';
+import { GeoMap} from '@app/components/d3/geo-map';
+import {
+  LineChart, 
+  PieChart, 
+  BarChart, StackedBarChart, GroupedBarChart, 
+  ProgressRingChart, 
+  PointerGauge, Gauge
+} from '@app/components/d3';
 // import DonutControls from './donut';
 const DARK_COLORS = {
   red: '#ff4d4d',
@@ -172,7 +175,7 @@ export default function Dashboard() {
           </div>
           <div className={`bg-card`}>
             <h2 className="text-sm font-bold p-[10px_10px_0px]"> 加工中模具数量 </h2>
-            <Gauge width={blockWidth} uom="模具数" value={45} valueRange={[0, 120]} />
+            <PointerGauge width={blockWidth} uom="模具数" value={45} valueRange={[0, 120]} />
           </div>
         </div>
         <div className="bg-card p-[10px]">
@@ -236,7 +239,7 @@ export default function Dashboard() {
             </div>
             <div className={`bg-card`}>
               <h2 className="text-sm font-bold p-[10px_10px_0px]"> 零件数 </h2>
-              <Gauge title="零件数" width={blockWidth} uom="零件数" value={80} valueRange={[0, 100]} />
+              <PointerGauge title="零件数" width={blockWidth} uom="零件数" value={80} valueRange={[0, 100]} />
             </div>
           </div>
           <div className="bg-card">
@@ -287,7 +290,9 @@ export default function Dashboard() {
                 valueFormat=".0%"
                 />
             </div>
-            <div className={`bg-card`}>
+            <div className='bg-card'>
+              <h2 className="text-sm font-bold p-[10px_10px_0px]"> 合格率 </h2>
+              <Gauge width={blockWidth} value='15' valueFormat={d=> d+"%"} uom="合格率" />
             </div>
           </div>
       </div>
