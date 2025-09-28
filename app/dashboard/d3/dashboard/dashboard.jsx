@@ -14,7 +14,6 @@ import {
   ProgressRingChart, 
   PointerGauge, Gauge
 } from '@app/components/d3';
-// import DonutControls from './donut';
 const DARK_COLORS = {
   red: '#ff4d4d',
   yellow: '#ffdd00',
@@ -88,11 +87,11 @@ const teamPassRateData = [
 ];
 
 const qualityPropData = [
-  {name : '合格', value: 300},
-  {name: '不合格', value: 100},
-  {name: '等待', value: 200},
-  {name: '未检', value: 100},
-];
+  { name: '加工不良', value: 0.4 },
+  { name: '设计不良', value: 0.2 },
+  { name: '材料不良', value: 0.25 },
+  { name: '其他', value: 0.15 },
+]
 
 const dailyPassRateData = Array.from({ length: 11 }, (_, i) => i).map(i => ({ day: i + 1, rate: Math.random() }));
 
@@ -168,7 +167,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
           <div className={`bg-card`} ref={blockRef}>
             <h2 className="text-sm font-bold p-[10px_10px_0px]"> 模具状态统计 </h2>
-            <PieChart 
+            <DonutChart 
               width={blockWidth} 
               data={moldStatusData} 
               name={d => d.label}
@@ -284,7 +283,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
           <div className={`bg-card`}>
             <h2 className="text-sm font-bold p-[10px_10px_0px]"> 品质占比 </h2>
-            <DonutChart 
+            <PieChart 
               width={blockWidth} 
               margin = "10"
               data={qualityPropData} 

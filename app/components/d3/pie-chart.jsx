@@ -4,24 +4,26 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { 
   arc, pie, select, range,  
   map, InternSet,
-  sum,
+  sum, sort,
   format, 
   quantize, interpolateRainbow, interpolateSpectral,
   schemeSpectral,
   scaleOrdinal
 } from "d3";
 
+const radians = deg => deg * Math.PI / 180;
+
 export function PieChart({
   data,
   name = ([x]) => x,  
   value = ([, y]) => y,  
-  valueFormat = ",", // a format specifier for values (in the label)
+  valueFormat = ".0%", // a format specifier for values (in the label)
   width = 400,
   height = width,
   margin = 10,
   outerRadius = Math.max(Math.min(width, height) / 2 - margin, 0), // outer radius of pie, in pixels
   innerRadius = 0, // inner radius of pie, in pixels (non-zero for donut)
-  labelRadius = (innerRadius * 0.5 + outerRadius * 0.5), // center radius of labels
+  labelRadius = (innerRadius * 0.4 + outerRadius * 0.6), // center radius of labels
   names, // array of names (the domain of the color scale)
   colors, // array of colors for names
   stroke = innerRadius > 0 ? "none" : "white", // stroke separating widths
@@ -95,17 +97,18 @@ export function PieChart({
           </path>
           <text transform={`translate(${arcLabel.centroid(d)})`} 
             textAnchor="middle" alignmentBaseline="middle" 
-            fontSize={12} fill="currentColor" >
-            <tspan y="-0.4em" fontWeight="bold">{N[d.data]}</tspan>
+            fontSize={12} stroke="currentColor" >
             {
-              (d.endAngle - d.startAngle) > 0.25 && 
-              <tspan x="0" y="0.7em" fillOpacity="0.7">{formatValue(V[d.data])}</tspan>
+              (d.endAngle - d.startAngle) > radians(30) && 
+              <tspan key="1" x="0" y="-0.4em" strokeOpacity="0.7">
+                {formatValue(V[d.data])}
+              </tspan>
             }
+            <tspan key="0" x="0" y="0.7em" >{N[d.data]}</tspan>
           </text>
         </g>
       ))
     }
-       
     </svg>
   );
 }
@@ -199,10 +202,10 @@ export function DonutChart({
           <text transform={`translate(${arcLabel.centroid(d)})`} 
             textAnchor="middle" alignmentBaseline="middle" 
             fontSize={12} stroke="currentColor" >
-            <tspan y="-0.4em" >{N[d.data]}</tspan>
+            <tspan key="0" y="-0.4em" >{N[d.data]}</tspan>
             {
-              (d.endAngle - d.startAngle) > 0.65 && 
-              <tspan x="0" y="0.7em" strokeOpacity="0.7">
+              (d.endAngle - d.startAngle) > radians(30) && 
+              <tspan key="1" x="0" y="0.7em" strokeOpacity="0.7">
                 {`${V[d.data]}(${format(".0%")(P[d.data])})`}
               </tspan>
             }

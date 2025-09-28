@@ -21,7 +21,7 @@ export function ProgressRingChart({
   color="url(#myRadialGradient)",
   strokeLinejoin="round", // round, miter, bevel, 
   fontSize="25px",
-  counterClockwise = true,
+  counterClockwise = false,
 
 }) {
   const svgRef = useRef(null);
