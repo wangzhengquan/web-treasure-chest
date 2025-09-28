@@ -11,12 +11,14 @@
     
     --card-color: hsl(var(--card) / 1);
     --card-body-color: hsl(var(--card-body) / 1);
+    --track-color: hsl(var(--track) / 1);
     --radius: 0.5rem;
   }
 
   .light {
     --background: 246.0 25.0% 92.2%;  
     --foreground: 240.0 10.0% 3.9%;  
+    /* --foreground: hsl(220.0 16.2% 14.5%); */
 
     --nav: 210.0 20.0% 98.0%;  
     --nav-foreground: 240.0 10.0% 3.9%;  
@@ -55,6 +57,7 @@
 
     --ring: 211.0 65.1% 44.9%;  
     --alpha: 0 0% 0%;
+    --track: 202.5 20.0% 92.2%;
 
     --shadow-opacity: 0.1;
   }
@@ -100,6 +103,8 @@
 
     --ring: 211.0 65.1% 44.9%; 
     --alpha: 0 0% 100%; 
+
+    --track: 187.7 67.7% 31.6%;
 
     --shadow-opacity: 0.5;
   }

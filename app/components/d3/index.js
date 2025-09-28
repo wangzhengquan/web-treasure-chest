@@ -13,7 +13,7 @@ export {
 
 export { LineChart} from './line-chart';
 
-export {default as PieChart} from './pie-chart';
+export { PieChart, DonutChart} from './pie-chart';
 export {ProgressRingChart} from './progress-chart';
 
 export {PointerGauge, Gauge} from "./gauge";

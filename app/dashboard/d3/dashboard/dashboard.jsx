@@ -9,7 +9,7 @@ import MoldStatusTable from './table';
 import { GeoMap} from '@app/components/d3/geo-map';
 import {
   LineChart, 
-  PieChart, 
+  PieChart, DonutChart,
   BarChart, StackedBarChart, GroupedBarChart, 
   ProgressRingChart, 
   PointerGauge, Gauge
@@ -82,19 +82,21 @@ const processes = ['模仁', '电极', '铜件'];
 const dailyProcessAchievementData = processes.flatMap(processe => dailyProcessAchievementData_.map(d => ({day: d.day, processe, achievement: d[processe]})));
 const dailyProcessAchievementData2 = processes.flatMap(processe => dailyProcessAchievementData2_.map(d => ({day: d.day, processe, achievement: d[processe]})));
 
-
 const teamPassRateData = [
   { label: 'CNC', value: .30 }, { label: 'EDM', value: 1.0 }, { label: '线割', value: .41 }, 
   { label: '磨床', value: .74 }, { label: '铣床', value: .30 }, { label: '外协', value: .55 }
 ];
 
 const qualityPropData = [
-  {name : '尺寸', value: 0.3},
-  {name: '硬度', value: 0.2},
-  {name: '外观', value: 0.3},
-  {name: '性能', value: 0.1},
-]
+  {name : '合格', value: 300},
+  {name: '不合格', value: 100},
+  {name: '等待', value: 200},
+  {name: '未检', value: 100},
+];
 
+const dailyPassRateData = Array.from({ length: 11 }, (_, i) => i).map(i => ({ day: i + 1, rate: Math.random() }));
+
+// console.log("dailyPassRateData==", dailyPassRateData);
 
 export default function Dashboard() {
   const columnRef = useRef(null), blockRef = useRef(null);
@@ -138,6 +140,7 @@ export default function Dashboard() {
     <>
     {visibility == false && <Loading style={{position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}/>}
     <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 text-[12px]" style={{visibility: visibility ? 'visible': 'hidden'}}>
+      {/* column 1 */}
       <div ref={columnRef} className="space-y-2 md:space-y-4">
         <div className="bg-card">
           <h2 className="text-sm font-bold p-[10px_10px_0]" >每月模具产量趋势图</h2>
@@ -210,7 +213,7 @@ export default function Dashboard() {
         </div>
         
       </div>
-     
+      {/* column 2 */}
       <div className='space-y-2 md:space-y-4'>
         <div className="bg-card">
           <h2 className="text-sm font-bold p-[10px_10px_0]" >模具客户分布图</h2>
@@ -259,44 +262,66 @@ export default function Dashboard() {
               />
             </div>
       </div>
+      {/* column-3 */}
       <div className='space-y-2 md:space-y-4'>
         <div className="bg-card">
           <h2 className="text-sm font-bold p-[10px_10px_0]" >班组合格率</h2>
           <BarChart data={teamPassRateData} 
-              x={d => d.label}
-              y={d => d.value} 
-              yDomain={[0, 1.18]}
-              yFormat={".0%"}
-              marginLeft={40}
-              marginRight={10}
-              marginTop={10}
-              marginBottom={30}
-              xPadding = {0.3}
-              colors = {colorsArray}
-              width={columnWidth}
-              height={columnWidth * 1 / 2}
+            x={d => d.label}
+            y={d => d.value} 
+            yDomain={[0, 1.18]}
+            yFormat={".0%"}
+            marginLeft={40}
+            marginRight={10}
+            marginTop={10}
+            marginBottom={30}
+            xPadding = {0.3}
+            colors = {colorsArray}
+            width={columnWidth}
+            height={columnWidth * 1 / 2}
+          />
+        </div>
+        <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
+          <div className={`bg-card`}>
+            <h2 className="text-sm font-bold p-[10px_10px_0px]"> 品质占比 </h2>
+            <DonutChart 
+              width={blockWidth} 
+              margin = "10"
+              data={qualityPropData} 
+              name={d => d.name}
+              value={d => d.value}
+              colors={["rgb(55 116 251)", "rgb(251 138 38)", "rgb(42 192 252)", "rgb(253 198 49)", ]}
+              // valueFormat=".0%"
               />
           </div>
-          <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
-            <div className={`bg-card`}>
-              <h2 className="text-sm font-bold p-[10px_10px_0px]"> 品质占比 </h2>
-              <PieChart 
-                width={blockWidth} 
-                margin = "10"
-                innerRadius={(blockWidth/2 - 10) * 0.6}
-                data={qualityPropData} 
-                name={d => d.name}
-                value={d => d.value}
-                valueFormat=".0%"
-                />
-            </div>
-            <div className='bg-card'>
-              <h2 className="text-sm font-bold p-[10px_10px_0px]"> 合格率 </h2>
-              <Gauge width={blockWidth} value='15' valueFormat={d=> d+"%"} uom="合格率" />
-            </div>
+          <div className='bg-card'>
+            <h2 className="text-sm font-bold p-[10px_10px_0px]"> 合格率 </h2>
+            <Gauge width={blockWidth} value='15' valueFormat={d=> d+"%"} uom="合格率" />
           </div>
+        </div>
+        <div className="bg-card">
+          <h2 className="text-sm font-bold p-[10px_10px_0]" >每日合格率统计</h2>
+          <LineChart data={dailyPassRateData} 
+            x={d => d.day}
+            y={d => d.rate} 
+            marginLeft={40}
+            marginRight={10}
+            marginTop={10}
+            marginBottom={30}
+            xType={scalePoint}
+            xFormat={d => d + "日"}
+            yFormat={".0%"}
+            zFormat={d => "合格率"}
+            yDomain= {[0.0, 1.0]}
+            // yLabel= "↑ Unemployment (%)"
+            width={columnWidth}
+            height={columnWidth * 1 / 2}
+            strokeWidth = {2}
+            colors= {["rgb(27,175,178)"]}
+          
+          />
+        </div>
       </div>
-      
     </div> 
     </> 
   );

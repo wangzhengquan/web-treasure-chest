@@ -15,8 +15,9 @@ export function ProgressRingChart({
   height = width,
   margin = 10,
   ringWidth = 20,
-  trackColor = "rgb(231 236 239)",
-  // color = "rgb(109 209 88)",
+  // trackColor = "rgb(231 236 239)",
+  trackColor="currentColor",
+  trackOpacity = 0.1,
   color="url(#myRadialGradient)",
   strokeLinejoin="round", // round, miter, bevel, 
   fontSize="25px",
@@ -69,8 +70,10 @@ export function ProgressRingChart({
         <path
           d={arcTrack({endAngle: tau})}
           fill={trackColor}
+          // fill="currentColor"
+          fillOpacity={trackOpacity}
           stroke="none"
-          // fillOpacity={0.6}
+          
         /> 
         <path className=""
           d={arcProgress({endAngle: tau * value})}

@@ -6,8 +6,9 @@ import {
   scaleUtc, scaleLinear, scalePoint, scaleQuantize, scaleOrdinal,
   map, InternSet, InternMap, range,
   extent, max, line,  
-  sort,
-  group, pointer, least, interpolateRound, easeBounce
+  group, sort, rollup,
+  pointer, least, interpolateRound, easeBounce,
+  format
 } from "d3";
 import {RectLegend as Legend} from './legend';
 import {  AxisBottom, AxisLeft } from "./axis";
@@ -47,6 +48,7 @@ export function LineChart({
   yFormat = d => d, // a format function for the y-axis
   yLabel, // a label for the y-axis
   zDomain, // array of z-values
+  zFormat = d => d,
   colors , // stroke color of line, as a constant or a function of *z*
   strokeLinecap, // stroke line cap of line
   strokeLinejoin, // stroke line join of line
@@ -90,12 +92,13 @@ export function LineChart({
   if (xDomain === undefined) {
     if (xType === scalePoint){
       xDomain = X.filter((d, i, a) => a.indexOf(d) === i);
-      xDomain.sort();
+      xDomain = sort(xDomain, d => d);
       // console.log("xDomain", xDomain)
     } else {
       xDomain = extent(X);
     }
   }
+  // console.log("xDomain", xDomain)
   if (yDomain === undefined) yDomain = [0, max(Y, d => typeof d === "string" ? +d : d)];
   if (zDomain === undefined) zDomain = Z;
   zDomain = new InternSet(zDomain);
@@ -112,8 +115,9 @@ export function LineChart({
     // const invert = scaleLinear().domain([0, visWidth]).range([0, xDomain.length-1]).interpolate(interpolateRound).clamp(true);
     // xScale.invert = xm => xDomain[invert(xm)]; 
   }
-
+  
   if (!colors) colors = schemeSpectral[zDomain.size];
+  if (typeof colors === "string") colors = [colors];
   const color = scaleOrdinal(zDomain, colors);
 
   // Compute names.
@@ -124,8 +128,10 @@ export function LineChart({
       .curve(curveMap[curve])
       .x(i => xScale(X[i]))
       .y(i => yScale(Y[i]));
-
-  const goupI= Array.from(group(I, i => Z[i]));
+      
+  const goupI = rollup(I, group => sort(group, i => X[i]), i => Z[i])
+  xFormat = typeof xFormat === 'string' ? format(xFormat) : xFormat;
+  yFormat = typeof yFormat === 'string' ? format(yFormat) : yFormat;
   
   function moveTooltip(event) {
     const dashline = dashlineRef.current;
@@ -136,8 +142,8 @@ export function LineChart({
     const xValue = xScale.invert(xm);
     const containrRect = container.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
-    
-    const xI = sort(I.filter((i) => X[i] === xValue), i => Z[i]);
+    const xI = I.filter((i) => X[i] === xValue);
+    // const xI = sort(I.filter((i) => X[i] === xValue), i => Z[i]);
     // dashline
     // .transition()           
     // .duration(200) 
@@ -158,9 +164,9 @@ export function LineChart({
       open: true,
       title: xFormat(xValue),
       data: xI.map(i => ({
-        name: T[i],
-        value: Y[i],
-        color: typeof color === "function" ? color(Z[i]) : color,
+        name: zFormat(Z[i]),
+        value: yFormat(Y[i]),
+        color: color(Z[i]),
       })),
       x: tooltipX,
       y: tooltipY,
@@ -251,14 +257,14 @@ export function LineChart({
           strokeOpacity={strokeOpacity}
           {
             // paths
-            goupI.map(([z, d]) => 
+            Array.from(goupI).map(([z, d]) => 
               <path key={z} 
                 data-z={z}
                 data-d={d}
                 className="path"
                 stroke={typeof color === "function" ? color(z) : color}
                 style={{mixBlendMode: mixBlendMode}}
-                d={genLine(sort(d, i => X[i]))}
+                d={genLine(d)}
                 />
             )
           }
