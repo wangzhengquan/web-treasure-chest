@@ -93,7 +93,7 @@ const qualityPropData = [
   { name: '其他', value: 0.15 },
 ]
 
-const dailyPassRateData = Array.from({ length: 11 }, (_, i) => i).map(i => ({ day: i + 1, rate: Math.random() }));
+const dailyPassRateData = Array.from({ length: 10 }, (_, i) => i).map(i => ({ day: i + 1, rate: Math.random() }));
 
 // console.log("dailyPassRateData==", dailyPassRateData);
 

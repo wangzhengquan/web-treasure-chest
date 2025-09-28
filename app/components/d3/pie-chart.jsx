@@ -12,6 +12,7 @@ import {
 } from "d3";
 
 const radians = deg => deg * Math.PI / 180;
+const degrees = rad => rad * 180 / Math.PI;
 
 export function PieChart({
   data,
@@ -83,7 +84,9 @@ export function PieChart({
       }}
     >
     {
-      arcs.map((d) => (
+      arcs.map((d) => {
+        const deg = degrees(d.endAngle/2 + d.startAngle/2); 
+        return (
         <g key={N[d.data]}>
           <path d={arcPie(d)} 
             fill={color(N[d.data])} 
@@ -95,19 +98,20 @@ export function PieChart({
           >
             <title>{`${N[d.data]}\n${formatValue(V[d.data])}`}</title>
           </path>
-          <text transform={`translate(${arcLabel.centroid(d)})`} 
-            textAnchor="middle" alignmentBaseline="middle" 
-            fontSize={12} stroke="currentColor" >
-            {
-              (d.endAngle - d.startAngle) > radians(30) && 
-              <tspan key="1" x="0" y="-0.4em" strokeOpacity="0.7">
+          {
+            (d.endAngle - d.startAngle) > radians(30) &&
+            <text transform={`translate(${arcLabel.centroid(d)})`} 
+              textAnchor="middle" alignmentBaseline="middle" 
+              fontSize={12} stroke="currentColor" >
+              <tspan key="0" x="0" y={deg > 90 && deg < 270 ? "0.8em" : "-0.4em" } >{N[d.data]}</tspan>
+              <tspan key="1" x="0" y={deg > 90 && deg < 270  ? "-0.4em" : "0.8em" } strokeOpacity="0.7">
                 {formatValue(V[d.data])}
               </tspan>
-            }
-            <tspan key="0" x="0" y="0.7em" >{N[d.data]}</tspan>
-          </text>
+            </text>  
+          }
+          
         </g>
-      ))
+      )})
     }
     </svg>
   );
@@ -205,7 +209,7 @@ export function DonutChart({
             <tspan key="0" y="-0.4em" >{N[d.data]}</tspan>
             {
               (d.endAngle - d.startAngle) > radians(30) && 
-              <tspan key="1" x="0" y="0.7em" strokeOpacity="0.7">
+              <tspan key="1" x="0" y="0.8em" strokeOpacity="0.7">
                 {`${V[d.data]}(${format(".0%")(P[d.data])})`}
               </tspan>
             }
