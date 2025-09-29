@@ -6,12 +6,13 @@ import {
   scaleUtc, scaleLinear, scalePoint, scaleQuantize, scaleOrdinal,
   map, InternSet, InternMap, range,
   extent, max, line,  
-  group, sort, rollup,
+  group, sort, ascending, rollup, rollups,
   pointer, least, interpolateRound, easeBounce,
   format
 } from "d3";
 import {RectLegend as Legend} from './legend';
 import {  AxisBottom, AxisLeft } from "./axis";
+import Tooltip from './tooltip';
 import { cn } from "@app/lib/utils";
 
 // 1. Create a mapping from string identifiers to D3 curve functions
@@ -64,8 +65,8 @@ export function LineChart({
 }) {
   const containerRef = useRef(null);
   const svgRef = useRef(null);
-  const tooltipRef = useRef(null);
   const dashlineRef = useRef(null);
+  const tooltipRef = useRef(null);
   const [tooltipProps, setTooltipProps] = useState({
     title: "",
     data: [],
@@ -92,7 +93,8 @@ export function LineChart({
   if (xDomain === undefined) {
     if (xType === scalePoint){
       xDomain = X.filter((d, i, a) => a.indexOf(d) === i);
-      xDomain = sort(xDomain, d => d);
+      xDomain.sort((a, b) => ascending(a, b));
+      // xDomain = sort(xDomain, d => d);
       // console.log("xDomain", xDomain)
     } else {
       xDomain = extent(X);
@@ -129,7 +131,8 @@ export function LineChart({
       .x(i => xScale(X[i]))
       .y(i => yScale(Y[i]));
       
-  const goupI = rollup(I, group => sort(group, i => X[i]), i => Z[i])
+  // const goupI = rollup(I, group => sort(group, i => X[i]), i => Z[i]);
+  const goupI = rollups(I, group => group.sort((a, b) => ascending(X[a], X[b])), i => Z[i])
   xFormat = typeof xFormat === 'string' ? format(xFormat) : xFormat;
   yFormat = typeof yFormat === 'string' ? format(yFormat) : yFormat;
   
@@ -236,7 +239,6 @@ export function LineChart({
         WebkitTapHighlightColor: "transparent",
       }}
     >
-       
       <g transform={`translate(${marginLeft}, ${marginTop})`}
         onPointerEnter={pointerentered}
         onPointerLeave={pointerleft}
@@ -249,23 +251,21 @@ export function LineChart({
           <text fill="currentColor" textAnchor="start">{yLabel}</text>
         </AxisLeft>
         {/* pathGroup */}
-        <g fill="none" 
-          stroke={typeof color === "string" ? color : null}>
+        <g fill="none">
           strokeLinecap={strokeLinecap} 
           strokeLinejoin={strokeLinejoin} 
           strokeWidth={strokeWidth}
           strokeOpacity={strokeOpacity}
           {
             // paths
-            Array.from(goupI).map(([z, d]) => 
+            goupI.map(([z, d]) => 
               <path key={z} 
                 data-z={z}
                 data-d={d}
                 className="path"
-                stroke={typeof color === "function" ? color(z) : color}
+                stroke={color(z)}
                 style={{mixBlendMode: mixBlendMode}}
-                d={genLine(d)}
-                />
+                d={genLine(d)} />
             )
           }
           {
@@ -277,7 +277,7 @@ export function LineChart({
                 cy={yScale(Y[i])}
                 r={3}
                 fill="white"
-                stroke={typeof color === "function" ? color(Z[i]) : color}
+                stroke={color(Z[i])}
               />
             )
           }
@@ -304,38 +304,4 @@ export function LineChart({
 }
 
 
-export const Tooltip= forwardRef(function ({ 
-  title,
-  data,
-  open,
-  x, y,
-}, ref) {
-  return (
-    <div ref={ref} className="p-[10px] bg-card-body border border-border rounded shadow shadow-shadow"
-      style={{
-        position: 'absolute',
-        pointerEvents: 'none',
-        zIndex: 999,
-        left: 0,
-        top: 0,
-        transform:  `translate(${x}px, ${y}px)`,
-        transition: "opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1), transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
-        opacity: open ? 1 : 0,
-        display: open ? "block" : "none",
-      }}>
-       
-      <h3 className="font-semibold">{title}</h3>
-      {
-        data.map( (d, i) => (
-          <div key={d.name} className="mt-[10px] block" style={{lineHeight: 1}}>
-            <span className="w-[10px] h-[10px] rounded-full inline-block" style={{backgroundColor: d.color, lineHeight: 1}}/>
-            <span className="inline-block ml-[6px]" style={{lineHeight: 1}}>{d.name}</span>
-            <span className="font-semibold  text-right inline-block ml-[20px] float-right" style={{lineHeight: 1}}>{d.value}</span>
-          </div>
-        ) )
-      }
-       {/* //flex items-center justify-between gap-4 */}
-    </div>
-  );  
-});
 

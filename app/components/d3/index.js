@@ -10,7 +10,7 @@ export {
   StackedBarChart, 
   GroupedBarChart
 } from './bar-chart';
-
+export { StackedAreaChart } from './area-chart';
 export { LineChart} from './line-chart';
 
 export { PieChart, DonutChart} from './pie-chart';

@@ -2,7 +2,7 @@
 import { useRef, useLayoutEffect, useEffect, useState } from 'react';
 
 // import * as d3 from 'd3';
-import {scalePoint} from "d3";
+import {scalePoint, rollups, rollup, flatRollup, mean} from "d3";
 import { useTheme } from 'next-themes';
 import Loading from "@/app/components/loading";
 import MoldStatusTable from './table';
@@ -12,7 +12,8 @@ import {
   PieChart, DonutChart,
   BarChart, StackedBarChart, GroupedBarChart, 
   ProgressRingChart, 
-  PointerGauge, Gauge
+  PointerGauge, Gauge,
+  StackedAreaChart
 } from '@app/components/d3';
 const DARK_COLORS = {
   red: '#ff4d4d',
@@ -56,14 +57,14 @@ const partTrendData = [ // Just duplicating for example
 
 const dailyProcessAchievementData_ = [
   {day: 1, 模仁: 10, 电极: 30, 铜件: 20},
-  {day: 2, 模仁: 10, 电极: 5, 铜件: 3},
+  {day: 2, 模仁: 10, 电极: 50, 铜件: 12},
   {day: 3, 模仁: 30, 电极: 40, 铜件: 20},
   {day: 4, 模仁: 20, 电极: 30, 铜件: 10},
-  {day: 5, 模仁: 40, 电极: 20, 铜件: 10},
+  {day: 5, 模仁: 8, 电极: 20, 铜件: 40},
   {day: 6, 模仁: 33, 电极: 10, 铜件: 10},
-  {day: 7, 模仁: 30, 电极: 5, 铜件: 5},
-  {day: 8, 模仁: 20, 电极: 10, 铜件: 20},
-  {day: 9, 模仁: 20, 电极: 10, 铜件: 20},
+  {day: 7, 模仁: 7, 电极: 5, 铜件: 30},
+  {day: 8, 模仁: 10, 电极: 40, 铜件: 20},
+  {day: 9, 模仁: 6, 电极: 10, 铜件: 7},
   {day: 10, 模仁: 20, 电极: 20, 铜件: 20},
   {day: 11, 模仁: 30, 电极: 15, 铜件: 20},
   {day: 12, 模仁: 20, 电极: 40, 铜件: 20},
@@ -76,10 +77,9 @@ const dailyProcessAchievementData_ = [
   {day: 19, 模仁: 40, 电极: 10, 铜件: 20},
   {day: 20, 模仁: 30, 电极: 5, 铜件: 15},
 ];
-const dailyProcessAchievementData2_ = dailyProcessAchievementData_.slice(0, 7);
 const processes = ['模仁', '电极', '铜件'];
-const dailyProcessAchievementData = processes.flatMap(processe => dailyProcessAchievementData_.map(d => ({day: d.day, processe, achievement: d[processe]})));
-const dailyProcessAchievementData2 = processes.flatMap(processe => dailyProcessAchievementData2_.map(d => ({day: d.day, processe, achievement: d[processe]})));
+const dailyProcessAchievementData = processes.flatMap(processe => dailyProcessAchievementData_.slice(0, 10).map(d => ({day: d.day, processe, achievement: d[processe]})));
+const dailyProcessAchievementData2 = processes.flatMap(processe => dailyProcessAchievementData_.slice(0, 7).map(d => ({day: d.day, processe, achievement: d[processe]})));
 
 const teamPassRateData = [
   { label: 'CNC', value: .30 }, { label: 'EDM', value: 1.0 }, { label: '线割', value: .41 }, 
@@ -87,15 +87,13 @@ const teamPassRateData = [
 ];
 
 const qualityPropData = [
-  { name: '加工不良', value: 0.4 },
-  { name: '设计不良', value: 0.2 },
-  { name: '材料不良', value: 0.25 },
-  { name: '其他', value: 0.15 },
+  { name: '加工不良', value: 0.4 }, { name: '设计不良', value: 0.2 },
+  { name: '材料不良', value: 0.25 }, { name: '其他', value: 0.15 },
 ]
 
-const dailyPassRateData = Array.from({ length: 10 }, (_, i) => i).map(i => ({ day: i + 1, rate: Math.random() }));
-
-// console.log("dailyPassRateData==", dailyPassRateData);
+const dailyPassRateData = ["电极", "铜件", "模仁"].flatMap(name => Array.from({ length: 7 }, (_, i) => i).map(i => ({ day: i + 1, name, rate: 0.1 + 0.9 * Math.random() })));
+const dailyMeanPassRateData = rollups(dailyPassRateData, g =>mean(g, v => v.rate), d => d.day).map(([day, rate]) => ({day, rate}));
+console.log("dailyPassRateData==", dailyMeanPassRateData);
 
 export default function Dashboard() {
   const columnRef = useRef(null), blockRef = useRef(null);
@@ -210,56 +208,63 @@ export default function Dashboard() {
               voronoi={false} // if true, show Voronoi overlay
           />
         </div>
-        
       </div>
+
       {/* column 2 */}
       <div className='space-y-2 md:space-y-4'>
         <div className="bg-card">
           <h2 className="text-sm font-bold p-[10px_10px_0]" >模具客户分布图</h2>
           <GeoMap width={columnWidth} height={columnWidth * 2 / 3} margin={10}/>
         </div>
+
         <div className="bg-card">
-          <h2 className="text-sm font-bold p-[10px_10px_0]" >每日工序达成数</h2>
+          <h2 className="text-sm font-bold p-[10px_10px_0]" >每日工序达成数（{dailyProcessAchievementData.length/3}日）</h2>
           <StackedBarChart data={dailyProcessAchievementData} 
-              x={d => d.day}
-              y={d => d.achievement} 
-              z={d => d.processe}
-              marginLeft={40}
-              marginRight={10}
-              marginTop={10}
-              marginBottom={30}
-              xPadding = {0.3}
-              colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
-              width={columnWidth}
-              height={columnWidth * 1 / 2}
-              />
+            x={d => d.day}
+            y={d => d.achievement} 
+            z={d => d.processe}
+            // xType={scalePoint}
+            xFormat={d => d + "日"}
+            marginLeft={40}
+            marginRight={10}
+            marginTop={10}
+            marginBottom={30}
+            xPadding = {0.3}
+            colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
+            width={columnWidth}
+            height={columnWidth * 1 / 2} />
+        </div>
+
+        <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
+          <div className='bg-card'>
+            <h2 className="text-sm font-bold p-[10px_10px_0px]"> 模具达成率 </h2>
+            <ProgressRingChart width={blockWidth} value='0.68' />
           </div>
-          <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
-            <div className='bg-card'>
-              <h2 className="text-sm font-bold p-[10px_10px_0px]"> 模具达成率 </h2>
-              <ProgressRingChart width={blockWidth} value='0.68' />
-            </div>
-            <div className={`bg-card`}>
-              <h2 className="text-sm font-bold p-[10px_10px_0px]"> 零件数 </h2>
-              <PointerGauge title="零件数" width={blockWidth} uom="零件数" value={80} valueRange={[0, 100]} />
-            </div>
+          <div className={`bg-card`}>
+            <h2 className="text-sm font-bold p-[10px_10px_0px]"> 零件数 </h2>
+            <PointerGauge title="零件数" width={blockWidth} uom="零件数" value={80} valueRange={[0, 100]} />
           </div>
-          <div className="bg-card">
-            <h2 className="text-sm font-bold p-[10px_10px_0]" >7日工序达成数</h2>
-            <GroupedBarChart data={dailyProcessAchievementData2} 
-              x={d => d.day}
-              y={d => d.achievement} 
-              z={d => d.processe}
-              marginLeft={40}
-              marginRight={10}
-              marginTop={10}
-              marginBottom={30}
-              xPadding = {0.3}
-              colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
-              width={columnWidth}
-              height={columnWidth * 1 / 2}
-              />
-            </div>
+        </div>
+        
+        
+        <div className="bg-card">
+          <h2 className="text-sm font-bold p-[10px_10px_0]" >工序达成数（{dailyProcessAchievementData2.length/3}日）</h2>
+          <StackedAreaChart data={dailyProcessAchievementData2} 
+            x={d => d.day}
+            y={d => d.achievement} 
+            z={d => d.processe}
+            xType={scalePoint}
+            xFormat={d => d + "日"}
+            marginLeft={40}
+            marginRight={10}
+            marginTop={10}
+            marginBottom={30}
+            xPadding = {0.3}
+            colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
+            width={columnWidth}
+            height={columnWidth * 1 / 2}
+            />
+          </div>
       </div>
       {/* column-3 */}
       <div className='space-y-2 md:space-y-4'>
@@ -299,8 +304,31 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="bg-card">
-          <h2 className="text-sm font-bold p-[10px_10px_0]" >每日合格率统计</h2>
-          <LineChart data={dailyPassRateData} 
+          <h2 className="text-sm font-bold p-[10px_10px_0]" >送检一次合格率（{dailyMeanPassRateData.length}日）</h2>
+          <GroupedBarChart data={dailyPassRateData} 
+            x={d => d.day}
+            y={d => d.rate} 
+            z={d => d.name}
+            marginLeft={40}
+            marginRight={10}
+            marginTop={10}
+            marginBottom={30}
+            // xType={scalePoint}
+            xFormat={d => d + "日"}
+            yFormat={".0%"}
+            yDomain= {[0.0, 1.1]}
+            // yLabel= "↑ Unemployment (%)"
+            width={columnWidth}
+            height={columnWidth * 1 / 2}
+            colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
+            // strokeWidth = {2}
+            // colors= {["rgb(27,175,178)"]}
+          
+          />
+        </div>
+        <div className="bg-card">
+          <h2 className="text-sm font-bold p-[10px_10px_0]" >每日合格率统计（{dailyMeanPassRateData.length}日）</h2>
+          <StackedAreaChart data={dailyMeanPassRateData} 
             x={d => d.day}
             y={d => d.rate} 
             marginLeft={40}
@@ -311,13 +339,12 @@ export default function Dashboard() {
             xFormat={d => d + "日"}
             yFormat={".0%"}
             zFormat={d => "合格率"}
-            yDomain= {[0.0, 1.0]}
+            yDomain= {[0.0, 1.1]}
             // yLabel= "↑ Unemployment (%)"
             width={columnWidth}
             height={columnWidth * 1 / 2}
             strokeWidth = {2}
             colors= {["rgb(27,175,178)"]}
-          
           />
         </div>
       </div>

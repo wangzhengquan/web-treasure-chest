@@ -4,14 +4,12 @@
 
 import { useEffect, useLayoutEffect, useRef, useState, forwardRef} from "react";
 import {
-  curveLinear, curveNatural, curveMonotoneX, curveStep, 
-  select,
+  format,
   scaleUtc, scaleLinear, scalePoint, scaleQuantize, scaleBand, scaleOrdinal,
   map, InternSet, InternMap, range,
   extent, max, line,  
   sort,
   group, rollup,
-  pointer, least, interpolateRound, easeBounce,
   stack, stackOffsetDiverging, stackOrderNone,
   schemeTableau10, schemeSpectral
 } from "d3";
@@ -34,9 +32,9 @@ export function BarChart({
   height = 400, // outer height, in pixels
   xDomain, // array of x-values
   xPadding = 0.3, // amount of x-range to reserve to separate bars
+  xFormat = d => d, // a format specifier string for the x-axis
   yType = scaleLinear, // type of y-scale
   yDomain, // [ymin, ymax]
-  xFormat = d => d, // a format specifier string for the x-axis
   yFormat = d => d, // a format specifier string for the y-axis
   yLabel, // a label for the y-axis
   colors=["currentColor"], // array of colors
@@ -71,10 +69,11 @@ export function BarChart({
   if (!colors) colors = schemeSpectral[xDomain.size];
   const color = scaleOrdinal(xDomain, colors);
 
-  yFormat = typeof yFormat === 'string' ? yScale.tickFormat(100, yFormat) : yFormat;
+  xFormat = typeof xFormat === 'string' ? format(xFormat) : xFormat;
+  yFormat = typeof yFormat === 'string' ? format(yFormat) : yFormat;
   // Compute tooltipFormat.
   if (tooltipFormat === undefined) {
-    tooltipFormat = i => `${X[i]}: ${yFormat(Y[i])}`;
+    tooltipFormat = i => `${xFormat(X[i])}: ${yFormat(Y[i])}`;
   } else {
     const O = map(data, d => d);
     const T = title;
@@ -99,8 +98,8 @@ export function BarChart({
       <g transform={`translate(${marginLeft}, ${marginTop})`} >
         <rect width={visWidth} height={visHeight} stroke="none" fill="var(--card-body-color)"/>
         
-        <AxisBottom scale={xScale} tickFormat={typeof xFormat === 'function' ? xFormat : null}  transform={`translate(0, ${visHeight})`} />
-        <AxisLeft scale={yScale} ticks={[visHeight / 30, typeof yFormat === 'string' ? yFormat : null]} tickFormat={typeof yFormat === 'function' ? yFormat : null} backgroundLine={visWidth} >
+        <AxisBottom scale={xScale} tickFormat={xFormat}  transform={`translate(0, ${visHeight})`} />
+        <AxisLeft domainLine={false} scale={yScale} ticks={visHeight / 30} tickFormat={yFormat} backgroundLine={visWidth} >
           <text x={-marginLeft} y={10} fill="currentColor" textAnchor="start">{yLabel}</text>
         </AxisLeft>
         {
@@ -116,7 +115,7 @@ export function BarChart({
                 { <title>{tooltipFormat(i)}</title> }
               </rect>
               {
-                label &&
+                label && xScale.bandwidth() > 30 &&
                 <text x={xScale(X[i])} y={yScale(Y[i])}
                   dy="-0.5em" dx="0.5em"
                   fill="currentColor"
@@ -153,13 +152,14 @@ export function StackedBarChart({
   height = 400, // outer height, in pixels
   xDomain, // array of x-values
   xPadding = 0.3, // amount of x-range to reserve to separate bars
+  xFormat = d => d, // a format specifier string for the x-axis
   yType = scaleLinear, // type of y-scale
   yDomain, // [ymin, ymax]
+  yFormat = d => d, // a format specifier string for the y-axis
   zDomain, // array of z-values
+  zFormat = d => d,
   offset = stackOffsetDiverging, // stack offset method
   order = stackOrderNone, // stack order method
-  xFormat = d => d, // a format specifier string for the x-axis
-  yFormat = d => d, // a format specifier string for the y-axis
   yLabel, // a label for the y-axis
   colors, // array of colors
   // 定义色块和间距的尺寸
@@ -201,6 +201,7 @@ export function StackedBarChart({
       return s2
     });
   // Compute the default y-domain. Note: diverging stacks can be negative.
+  // console.log('series', series, series.flat(2));
   if (yDomain === undefined) yDomain = extent(series.flat(2));
 
   // Construct scales, axes, and formats.
@@ -209,10 +210,12 @@ export function StackedBarChart({
   if (!colors) colors = schemeSpectral[zDomain.size];
   const color = scaleOrdinal(zDomain, colors);
 
+  xFormat = typeof xFormat === 'string' ? format(xFormat) : xFormat;
+  yFormat = typeof yFormat === 'string' ? format(yFormat) : yFormat;
+  zFormat = typeof zFormat === 'string' ? format(zFormat) : zFormat;
   // Compute tooltipFormat.
   if (tooltipFormat === undefined) {
-    const format = typeof yFormat === 'string' ? yScale.tickFormat(100, yFormat) : yFormat;
-    tooltipFormat = i => `${X[i]}\n${Z[i]}: ${format(Y[i])}`;
+    tooltipFormat = i => `${xFormat(X[i])}\n${zFormat(Z[i])}: ${yFormat(Y[i])}`;
   } else {
     const O = map(data, d => d);
     const T = tooltipFormat;
@@ -238,8 +241,8 @@ export function StackedBarChart({
       <g transform={`translate(${marginLeft}, ${marginTop})`} >
         <rect width={visWidth} height={visHeight} stroke="none" fill="var(--card-body-color)"/>
         
-        <AxisBottom scale={xScale} tickFormat={typeof xFormat === 'function' ? xFormat : null}  transform={`translate(0, ${visHeight})`} />
-        <AxisLeft scale={yScale} ticks={[visHeight / 30, typeof yFormat === 'string' ? yFormat : null]} tickFormat={typeof yFormat === 'function' ? yFormat : null} backgroundLine={visWidth} >
+        <AxisBottom scale={xScale} tickFormat={xFormat}  transform={`translate(0, ${visHeight})`} />
+        <AxisLeft domainLine={false} scale={yScale} ticks={visHeight / 30} tickFormat={yFormat} backgroundLine={visWidth} >
           <text x={-marginLeft} y={10} fill="currentColor" textAnchor="start">{yLabel}</text>
         </AxisLeft>
         {
@@ -296,6 +299,7 @@ export function GroupedBarChart({
   yLabel, // a label for the y-axis
   zDomain, // array of z-values
   zPadding = 0.05, // amount of x-range to reserve to separate bars
+  zFormat = d => d,
   colors, // array of colors
   tooltipFormat, // given d in data, returns the tooltipFormat text
   // 定义色块和间距的尺寸
@@ -335,10 +339,13 @@ export function GroupedBarChart({
   if (!colors) colors = schemeSpectral[zDomain.size];
   const color = scaleOrdinal(zDomain, colors);
 
+
+  xFormat = typeof xFormat === 'string' ? format(xFormat) : xFormat;
+  yFormat = typeof yFormat === 'string' ? format(yFormat) : yFormat;
+  zFormat = typeof zFormat === 'string' ? format(zFormat) : zFormat;
   // Compute tooltipFormat.
   if (tooltipFormat === undefined) {
-    const format = typeof yFormat === 'string' ? yScale.tickFormat(100, yFormat) : yFormat;
-    tooltipFormat = i => `${X[i]}\n${Z[i]}: ${format(Y[i])}`;
+    tooltipFormat = i => `${xFormat(X[i])}\n${zFormat(Z[i])}: ${yFormat(Y[i])}`;
   } else {
     const O = map(data, d => d);
     const T = tooltipFormat;
@@ -363,8 +370,8 @@ export function GroupedBarChart({
       <g transform={`translate(${marginLeft}, ${marginTop})`} >
         <rect width={visWidth} height={visHeight} stroke="none" fill="var(--card-body-color)"/>
         
-        <AxisBottom scale={xScale} tickFormat={typeof xFormat === 'function' ? xFormat : null}  transform={`translate(0, ${visHeight})`} />
-        <AxisLeft scale={yScale} ticks={[visHeight / 30, typeof yFormat === 'string' ? yFormat : null]} tickFormat={typeof yFormat === 'function' ? yFormat : null} backgroundLine={visWidth} >
+        <AxisBottom scale={xScale} tickFormat={xFormat}  transform={`translate(0, ${visHeight})`} />
+        <AxisLeft domainLine={false} scale={yScale} ticks={visHeight / 30} tickFormat={yFormat} backgroundLine={visWidth} >
           <text x={-marginLeft} y={10} fill="currentColor" textAnchor="start">{yLabel}</text>
         </AxisLeft>
         {

@@ -16,7 +16,7 @@ export function useScrollRestoration(elementRef: React.RefObject<HTMLElement>, .
     // 恢复位置
     const position = sessionStorage.getItem(scrollKey);
     if (position) {
-      console.log('Restoring scroll position:', position);
+      // console.log('Restoring scroll position:', position);
       element.scrollTop = parseInt(position, 10);
       sessionStorage.removeItem(scrollKey);
     }
