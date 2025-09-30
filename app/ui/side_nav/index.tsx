@@ -45,7 +45,7 @@ function NavLink({ item }: { item: NavLeaf }) {
       onClick={handleLinkClick}
       className={clsx(
         'nav-link flex w-full items-center justify-start rounded-[4px] font-medium ',
-        'h-[36px]',
+        'h-[36px] px-[10px]',
         'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-ring',
         'hover:text-accent-foreground',
         {
@@ -53,10 +53,8 @@ function NavLink({ item }: { item: NavLeaf }) {
         },
       )}
     >
-      <div className="flex min-w-[40px] items-center justify-center">
-        <item.icon className="h-[24px] w-[24px] shrink-0" />
-      </div>
-      <span className="shrink truncate group-[.collapsed]:hidden">
+      <item.icon className="h-[18px] w-[18px] shrink-0" />
+      <span className="ml-[6px] shrink truncate group-[.collapsed]:hidden">
         {item.label}
       </span>
     </Link>

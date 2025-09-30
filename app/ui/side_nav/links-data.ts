@@ -9,6 +9,7 @@ import {
   ArrowTrendingUpIcon,
   EyeIcon,
   PowerIcon,
+  Squares2X2Icon
 } from '@heroicons/react/24/outline';
 
 import { WorkFlowIcon, SwiperIcon, MagicCurtainIcon } from './nav-icons';
@@ -16,7 +17,7 @@ import { CannonIcon } from '@/app/admin/animations/cannon/ui/cannon-icons';
 import {D3Icon} from '@/app/icons';
 
 const adminLinks = [
-  { label: 'Dashboard', href: '/admin', icon: HomeIcon },
+  { label: 'Dashboard', href: '/admin', icon: Squares2X2Icon },
   { label: 'Home', href: '/admin/home', icon: HomeIcon },
   {
     label: 'Invoices',
