@@ -148,6 +148,9 @@ export function StackedAreaChart({
   zFormat = typeof zFormat === 'string' ? format(zFormat) : zFormat;
   // Compute tooltipFormat.
   function moveTooltip(event) {
+    if(event.touches){
+      Object.assign(event, {clientX: event.touches[0].clientX, clientY: event.touches[0].clientY});
+    }
     const verticalDashline = verticalDashlineRef.current;
     const horizontalDashline = horizontalDashlineRef.current;
     const tooltip = tooltipRef.current;
@@ -227,8 +230,10 @@ export function StackedAreaChart({
        
       <g transform={`translate(${marginLeft}, ${marginTop})`} 
         onPointerEnter={pointerentered}
-        onPointerLeave={pointerleft}
-        onPointerMove={pointermoved}
+        onMouseLeave={pointerleft}
+        onMouseMove={pointermoved}
+        onTouchMove={pointermoved}
+        onTouchEnd={pointerleft}
       >
         <rect width={visWidth} height={visHeight} stroke="none" fill="var(--card-body-color)"/>
         

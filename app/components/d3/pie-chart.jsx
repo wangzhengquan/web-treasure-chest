@@ -219,9 +219,9 @@ export function DonutChart({
     }
 
     <text textAnchor="middle" 
-      fontSize={12} stroke="currentColor" >
-      <tspan x="0"  fontWeight="bold" fontSize={20}>{total}</tspan>
-      <tspan x="0" y="1.5em"  strokeOpacity="0.1">
+      stroke="currentColor" >
+      <tspan x="0"  fontWeight="bold" fontSize={26}>{total}</tspan>
+      <tspan x="0" y="1.5em"  strokeOpacity="0.1" fontSize={12}>
         {uom}
       </tspan>
     </text>

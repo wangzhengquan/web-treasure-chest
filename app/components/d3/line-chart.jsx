@@ -137,6 +137,9 @@ export function LineChart({
   yFormat = typeof yFormat === 'string' ? format(yFormat) : yFormat;
   
   function moveTooltip(event) {
+    if(event.touches){
+      Object.assign(event, {clientX: event.touches[0].clientX, clientY: event.touches[0].clientY});
+    }
     const dashline = dashlineRef.current;
     const tooltip = tooltipRef.current;
     const container = containerRef.current;
@@ -146,7 +149,7 @@ export function LineChart({
     const containrRect = container.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
     const xI = I.filter((i) => X[i] === xValue);
-    // const xI = sort(I.filter((i) => X[i] === xValue), i => Z[i]);
+  
     // dashline
     // .transition()           
     // .duration(200) 
@@ -178,6 +181,7 @@ export function LineChart({
   }
 
   function pointermoved(event) {
+    
     if (showTooltip) {
       moveTooltip(event); 
     }
@@ -241,8 +245,10 @@ export function LineChart({
     >
       <g transform={`translate(${marginLeft}, ${marginTop})`}
         onPointerEnter={pointerentered}
-        onPointerLeave={pointerleft}
-        onPointerMove={pointermoved}
+        onMouseLeave={pointerleft}
+        onMouseMove={pointermoved}
+        onTouchMove={pointermoved}
+        onTouchEnd={pointerleft}
       >
         <rect width={visWidth} height={visHeight} stroke="none" fill="var(--card-body-color)"/>
         
