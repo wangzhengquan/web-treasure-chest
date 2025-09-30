@@ -342,11 +342,10 @@ export default function Dashboard() {
             yFormat={".0%"}
             zFormat={d => "合格率"}
             yDomain= {[0.0, 1.1]}
-            // yLabel= "↑ Unemployment (%)"
             width={columnWidth}
             height={columnWidth * 1 / 2}
-            strokeWidth = {2}
-            colors= {["rgb(27,175,178)"]}
+            areaOpacity={0.3}
+            colors= "#00eaff"
           />
         </div>
       </div>

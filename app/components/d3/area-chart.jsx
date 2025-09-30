@@ -40,6 +40,7 @@ export function StackedAreaChart({
   order = stackOrderNone, // stack order method
   yLabel, // a label for the y-axis
   colors, // array of colors
+  areaOpacity = 0.5, // fill opacity of area
   showVertices = true, // whether to show vertices
   showTooltip = true, // whether to show a tooltip
   // 定义色块和间距的尺寸
@@ -130,12 +131,17 @@ export function StackedAreaChart({
   }
   // if (!colors) colors = schemeSpectral[zDomain.size];
   if (!colors) colors = range(zDomain.size).map(i => interpolateRainbow(i / (zDomain.size)));
+  if (!Array.isArray(colors)) colors = [colors];
   const color = scaleOrdinal(zDomain, colors);
 
   const genArea = area()
       .x(({i}) => xScale(X[i]))
       .y0(([y0]) => yScale(y0))
       .y1(([, y1]) => yScale(y1));
+
+  const genLine = line()
+    .x(({i}) => xScale(X[i]))
+    .y(([, y]) => yScale(y));
 
   xFormat = typeof xFormat === 'string' ? format(xFormat) : xFormat;
   yFormat = typeof yFormat === 'string' ? format(yFormat) : yFormat;
@@ -236,10 +242,22 @@ export function StackedAreaChart({
             <path key={s[0].i} 
               // stroke={color(Z[s[0].i])} 
               stroke="none"
-              fill={color(Z[s[0].i])} fillOpacity="0.5" 
+              fill={color(Z[s[0].i])} 
+              fillOpacity={areaOpacity} 
               d={genArea(s)}>
               <title>{zFormat(Z[s[0].i])}</title>
             </path>
+          ))
+        }
+        {
+          series.map((s) => (
+            // s[0].i === s.key
+            <path key={s[0].i + "-line"} 
+              stroke={color(Z[s[0].i])} 
+              strokeWidth="1"
+              fill="none" 
+              d={genLine(s)}/>
+             
           ))
         }
         {

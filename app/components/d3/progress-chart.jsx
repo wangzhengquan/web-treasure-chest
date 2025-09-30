@@ -14,7 +14,7 @@ export function ProgressRingChart({
   width = 500,
   height = width,
   margin = 10,
-  ringWidth = 20,
+  ringWidth = 10,
   // trackColor = "rgb(231 236 239)",
   trackColor="currentColor",
   trackOpacity = 0.1,
