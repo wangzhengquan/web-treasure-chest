@@ -162,7 +162,7 @@ export default function Dashboard() {
            
           />
         </div>
-        <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
+        <div className="grid grid-cols-2  gap-2 md:gap-4">
           <div className={`bg-card`} ref={blockRef}>
             <h2 className="text-sm font-bold p-[10px_10px_0px]"> 模具状态统计 </h2>
             <DonutChart 
@@ -236,7 +236,7 @@ export default function Dashboard() {
             height={columnWidth * 1 / 2} />
         </div>
 
-        <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
+        <div className="grid grid-cols-2 gap-2 md:gap-4">
           <div className='bg-card'>
             <h2 className="text-sm font-bold p-[10px_10px_0px]"> 模具达成率 </h2>
             <ProgressRingChart width={blockWidth} value='0.68' />
@@ -287,7 +287,7 @@ export default function Dashboard() {
             height={columnWidth * 1 / 2}
           />
         </div>
-        <div className="grid grid-cols-1  md:grid-cols-2 gap-2 md:gap-4">
+        <div className="grid grid-cols-2 gap-2 md:gap-4">
           <div className={`bg-card`}>
             <h2 className="text-sm font-bold p-[10px_10px_0px]"> 品质占比 </h2>
             <PieChart 
