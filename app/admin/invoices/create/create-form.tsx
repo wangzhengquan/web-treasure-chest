@@ -122,7 +122,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
 
         <CardFooter className="flex flex-col items-center gap-4 pt-4 md:flex-row md:justify-end md:pt-8">
           <Link
-            href="/dashboard/invoices"
+            href="/admin/invoices"
             className="flex h-10 w-full items-center rounded-lg bg-gray-100 px-4 font-medium text-gray-600 transition-colors hover:bg-gray-200 md:w-fit"
           >
             Cancel
