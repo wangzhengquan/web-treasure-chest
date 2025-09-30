@@ -98,8 +98,8 @@ export function BarChart({
       <g transform={`translate(${marginLeft}, ${marginTop})`} >
         <rect width={visWidth} height={visHeight} stroke="none" fill="var(--card-body-color)"/>
         
-        <AxisBottom scale={xScale} tickFormat={xFormat}  transform={`translate(0, ${visHeight})`} />
-        <AxisLeft domainLine={false} scale={yScale} ticks={visHeight / 30} tickFormat={yFormat} backgroundLine={visWidth} >
+        <AxisBottom showTicks={false} showDomainLine={false} scale={xScale} tickFormat={xFormat}  transform={`translate(0, ${visHeight})`} />
+        <AxisLeft showDomainLine={false} scale={yScale} ticks={visHeight / 30} tickFormat={yFormat} backgroundLine={visWidth} >
           <text x={-marginLeft} y={10} fill="currentColor" textAnchor="start">{yLabel}</text>
         </AxisLeft>
         {
@@ -241,8 +241,8 @@ export function StackedBarChart({
       <g transform={`translate(${marginLeft}, ${marginTop})`} >
         <rect width={visWidth} height={visHeight} stroke="none" fill="var(--card-body-color)"/>
         
-        <AxisBottom scale={xScale} tickFormat={xFormat}  transform={`translate(0, ${visHeight})`} />
-        <AxisLeft domainLine={false} scale={yScale} ticks={visHeight / 30} tickFormat={yFormat} backgroundLine={visWidth} >
+        <AxisBottom showTicks={false} showDomainLine={false} scale={xScale} tickFormat={xFormat}  transform={`translate(0, ${visHeight})`} />
+        <AxisLeft showDomainLine={false} scale={yScale} ticks={visHeight / 30} tickFormat={yFormat} backgroundLine={visWidth} >
           <text x={-marginLeft} y={10} fill="currentColor" textAnchor="start">{yLabel}</text>
         </AxisLeft>
         {
@@ -370,8 +370,8 @@ export function GroupedBarChart({
       <g transform={`translate(${marginLeft}, ${marginTop})`} >
         <rect width={visWidth} height={visHeight} stroke="none" fill="var(--card-body-color)"/>
         
-        <AxisBottom scale={xScale} tickFormat={xFormat}  transform={`translate(0, ${visHeight})`} />
-        <AxisLeft domainLine={false} scale={yScale} ticks={visHeight / 30} tickFormat={yFormat} backgroundLine={visWidth} >
+        <AxisBottom showTicks={false} showDomainLine={false} scale={xScale} tickFormat={xFormat}  transform={`translate(0, ${visHeight})`} />
+        <AxisLeft showDomainLine={false} scale={yScale} ticks={visHeight / 30} tickFormat={yFormat} backgroundLine={visWidth} >
           <text x={-marginLeft} y={10} fill="currentColor" textAnchor="start">{yLabel}</text>
         </AxisLeft>
         {

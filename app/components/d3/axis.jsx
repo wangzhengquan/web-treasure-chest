@@ -37,7 +37,8 @@ function Axis({
   tickSizeOuter = 0,
   tickPadding = 3,
   offset = typeof window !== "undefined" && window.devicePixelRatio > 1 ? 0 : 0.5,
-  domainLine=true,
+  showDomainLine = true,
+  showTicks = true,
   backgroundLine = 0,
   children,
   ...attrs
@@ -64,7 +65,7 @@ function Axis({
       
     }, attrs)}>
       {
-        domainLine &&
+        showDomainLine &&
         <path className="domain" 
           d={orient === left || orient === right
               ? (tickSizeOuter ? "M" + k * tickSizeOuter + "," + range0 + "H" + offset + "V" + range1 + "H" + k * tickSizeOuter : "M" + offset + "," + range0 + "V" + range1)
@@ -76,7 +77,7 @@ function Axis({
         <g key={i} className="tick" 
           opacity="1"
           transform={transform(position(d) + offset)} >
-          <line {...{[x + "2"]: k * tickSizeInner}} />
+          { showTicks && <line {...{[x + "2"]: k * tickSizeInner}} />}
           {
             backgroundLine && <line strokeOpacity="0.1" {...{[x + "2"]: +backgroundLine}} />
           }

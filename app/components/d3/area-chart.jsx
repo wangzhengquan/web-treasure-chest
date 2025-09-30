@@ -232,8 +232,8 @@ export function StackedAreaChart({
       >
         <rect width={visWidth} height={visHeight} stroke="none" fill="var(--card-body-color)"/>
         
-        <AxisBottom scale={xScale} tickFormat={xFormat}  transform={`translate(0, ${visHeight})`} />
-        <AxisLeft scale={yScale} ticks={visHeight / 30} tickFormat={yFormat} backgroundLine={visWidth} >
+        <AxisBottom showDomainLine={false} scale={xScale} tickFormat={xFormat}  transform={`translate(0, ${visHeight})`} />
+        <AxisLeft showDomainLine={false} scale={yScale} ticks={visHeight / 30} tickFormat={yFormat} backgroundLine={visWidth} >
           <text x={-marginLeft} y={10} fill="currentColor" textAnchor="start">{yLabel}</text>
         </AxisLeft>
         {

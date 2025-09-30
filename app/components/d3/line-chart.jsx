@@ -246,8 +246,8 @@ export function LineChart({
       >
         <rect width={visWidth} height={visHeight} stroke="none" fill="var(--card-body-color)"/>
         
-        <AxisBottom scale={xScale} ticks={[visWidth / 80]} tickFormat={xFormat} tickSizeOuter={0} transform={`translate(0, ${visHeight})`} backgroundLine={-visHeight}/>
-        <AxisLeft scale={yScale} ticks={[visHeight / 30]} tickFormat={yFormat} tickSizeOuter={0} backgroundLine={visWidth}>
+        <AxisBottom showDomainLine={false} scale={xScale} ticks={[visWidth / 80]} tickFormat={xFormat} tickSizeOuter={0} transform={`translate(0, ${visHeight})`} backgroundLine={-visHeight}/>
+        <AxisLeft showDomainLine={false} scale={yScale} ticks={[visHeight / 30]} tickFormat={yFormat} tickSizeOuter={0} backgroundLine={visWidth}>
           <text fill="currentColor" textAnchor="start">{yLabel}</text>
         </AxisLeft>
         {/* pathGroup */}
