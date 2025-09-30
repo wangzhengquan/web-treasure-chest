@@ -90,6 +90,8 @@ const Donut =  forwardRef(function({data, width = 600, height = 600}, ref) {
   );
 });
 
+Donut.displayName = "Donut";
+
 export default function DonutControls() {
   const chartRef = useRef(null);
   return (

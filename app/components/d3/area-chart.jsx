@@ -255,6 +255,7 @@ export function StackedAreaChart({
                   r={3}
                   fill="white"
                   stroke={color(Z[i])}
+                  strokeWidth="2"
                 />
               )
             }

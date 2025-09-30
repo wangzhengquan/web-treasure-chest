@@ -24,9 +24,7 @@ export default function Page() {
           <Button variant="secondary">secondary</Button>
           <Button variant="ghost">ghost</Button>
           <Button variant="link">link</Button>
-          <Button variant="blue" size="lg">
-            blue
-          </Button>
+           
           <Input />
         </div>
         <NotificationItem />

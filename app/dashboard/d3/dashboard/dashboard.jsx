@@ -93,7 +93,7 @@ const qualityPropData = [
 
 const dailyPassRateData = ["电极", "铜件", "模仁"].flatMap(name => Array.from({ length: 7 }, (_, i) => i).map(i => ({ day: i + 1, name, rate: 0.1 + 0.9 * Math.random() })));
 const dailyMeanPassRateData = rollups(dailyPassRateData, g =>mean(g, v => v.rate), d => d.day).map(([day, rate]) => ({day, rate}));
-console.log("dailyPassRateData==", dailyMeanPassRateData);
+// console.log("dailyPassRateData==", dailyMeanPassRateData);
 
 export default function Dashboard() {
   const columnRef = useRef(null), blockRef = useRef(null);
@@ -219,11 +219,12 @@ export default function Dashboard() {
 
         <div className="bg-card">
           <h2 className="text-sm font-bold p-[10px_10px_0]" >每日工序达成数（{dailyProcessAchievementData.length/3}日）</h2>
-          <StackedBarChart data={dailyProcessAchievementData} 
+          <StackedAreaChart data={dailyProcessAchievementData} 
             x={d => d.day}
             y={d => d.achievement} 
             z={d => d.processe}
             // xType={scalePoint}
+            showVertices = {false}
             xFormat={d => d + "日"}
             marginLeft={40}
             marginRight={10}
@@ -249,7 +250,7 @@ export default function Dashboard() {
         
         <div className="bg-card">
           <h2 className="text-sm font-bold p-[10px_10px_0]" >工序达成数（{dailyProcessAchievementData2.length/3}日）</h2>
-          <StackedAreaChart data={dailyProcessAchievementData2} 
+          <StackedBarChart data={dailyProcessAchievementData2} 
             x={d => d.day}
             y={d => d.achievement} 
             z={d => d.processe}
@@ -263,6 +264,7 @@ export default function Dashboard() {
             colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
             width={columnWidth}
             height={columnWidth * 1 / 2}
+           
             />
           </div>
       </div>
@@ -319,7 +321,7 @@ export default function Dashboard() {
             yDomain= {[0.0, 1.1]}
             // yLabel= "↑ Unemployment (%)"
             width={columnWidth}
-            height={columnWidth * 1 / 2}
+            height={columnWidth * 2 / 3}
             colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
             // strokeWidth = {2}
             // colors= {["rgb(27,175,178)"]}

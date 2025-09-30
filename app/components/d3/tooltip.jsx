@@ -33,5 +33,5 @@ const Tooltip= forwardRef(function ({
     </div>
   );  
 });
-
+Tooltip.displayName = "Tooltip";
 export default Tooltip;
