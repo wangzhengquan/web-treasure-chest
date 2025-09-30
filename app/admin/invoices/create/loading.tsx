@@ -1,15 +1,18 @@
-'use client'
-import Loading  from '@/app/dashboard/loading';
+'use client';
+import Loading  from '@/app/admin/loading';
 import useBreadcrumbs  from '@/app/hooks/useBreadcrumbs';
 
-export default function Page() {
+const Page = () => {
    
   useBreadcrumbs([
     { label: 'Invoices', href: '/dashboard/invoices' },
     {
-      label: 'Edit Invoice',
+      label: 'Create Invoice',
+      href: '/dashboard/invoices/create',
       active: true,
     },
-  ])
+  ]);
   return <Loading/>
 };
+
+export default Page;

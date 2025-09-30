@@ -8,10 +8,10 @@ export const authConfig = {
     authorized({ auth, request: { nextUrl } }) {
       // console.log('nextUrl', nextUrl);
       // console.log('nextUrl.searchParams', nextUrl.searchParams.toString());
-      let callbackUrl = nextUrl.searchParams.get('callbackUrl') || '/dashboard';
+      let callbackUrl = nextUrl.searchParams.get('callbackUrl') || '/admin';
       // console.log('callbackUrl', callbackUrl);
       if (callbackUrl === nextUrl.origin + '/') {
-        callbackUrl = '/dashboard';
+        callbackUrl = '/admin';
       }
       // console.log('callbackUrl', callbackUrl);
       const isLoggedIn = !!auth?.user;
