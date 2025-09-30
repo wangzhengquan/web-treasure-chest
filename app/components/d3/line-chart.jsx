@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef, useState, forwardRef} from "react";
+import { useEffect, useLayoutEffect, useRef, useState, forwardRef, use} from "react";
 import {
   curveLinear, curveNatural, curveMonotoneX, curveStep, 
   scaleUtc, scaleLinear, scalePoint, scaleQuantize, scaleOrdinal,
@@ -67,10 +67,10 @@ export function LineChart({
   const svgRef = useRef(null);
   const dashlineRef = useRef(null);
   const tooltipRef = useRef(null);
+  const [tooltipOpened, setTooltipOpened] = useState(false);
   const [tooltipProps, setTooltipProps] = useState({
     title: "",
     data: [],
-    open: false,
     x: 0,
     y: 0,
   });
@@ -167,7 +167,6 @@ export function LineChart({
       tooltipY = offsetY - tooltipRect.height - offset;
     }
     setTooltipProps({
-      open: true,
       title: xFormat(xValue),
       data: xI.map(i => ({
         name: zFormat(Z[i]),
@@ -190,13 +189,15 @@ export function LineChart({
   function pointerentered(event) {
     if (showTooltip) {
       moveTooltip(event);
+      setTooltipOpened(true);
       dashlineRef.current.setAttribute("display", null);
     }
   }
 
   function pointerleft() {
     dashlineRef.current.setAttribute("display", "none");
-    setTooltipProps({open: false, title: "", data: [], x: 0, y: 0});
+    setTooltipOpened(false);
+    setTooltipProps({title: "", data: [], x: 0, y: 0});
   }
 
   function pointerEnterLegend(event, z) {
@@ -304,7 +305,7 @@ export function LineChart({
       />
     }
 
-    <Tooltip ref={tooltipRef} {...tooltipProps}/>
+    <Tooltip ref={tooltipRef} open={tooltipOpened} {...tooltipProps}/>
   </figure>
   );
 }

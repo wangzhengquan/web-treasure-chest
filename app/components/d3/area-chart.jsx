@@ -53,10 +53,10 @@ export function StackedAreaChart({
   const verticalDashlineRef = useRef(null);
   const horizontalDashlineRef = useRef(null);
   const tooltipRef = useRef(null);
+  const [tooltipOpened, setTooltipOpened] = useState(false);
   const [tooltipProps, setTooltipProps] = useState({
     title: "",
     data: [],
-    open: false,
     x: 0,
     y: 0,
   });
@@ -179,7 +179,6 @@ export function StackedAreaChart({
       tooltipY = offsetY - tooltipRect.height - offset;
     }
     setTooltipProps({
-      open: true,
       title: xFormat(xValue),
       data: xI.map(i => ({
         name: zFormat(Z[i]),
@@ -200,16 +199,19 @@ export function StackedAreaChart({
 
   function pointerentered(event) {
     if (showTooltip) {
+      setTooltipOpened(true);
       moveTooltip(event);
+      
       verticalDashlineRef.current.setAttribute("display", null);
       horizontalDashlineRef.current.setAttribute("display", null);
     }
   }
 
   function pointerleft() {
+    setTooltipOpened(false);
     verticalDashlineRef.current.setAttribute("display", "none");
     horizontalDashlineRef.current.setAttribute("display", "none");
-    setTooltipProps({open: false, title: "", data: [], x: 0, y: 0});
+    setTooltipProps({title: "", data: [], x: 0, y: 0});
   }
  
 
@@ -296,7 +298,7 @@ export function StackedAreaChart({
     { (legend && zDomain.size > 1) && 
       <Legend data={Array.from(zDomain)} color={color}/>
     }
-     <Tooltip ref={tooltipRef} {...tooltipProps}/>
+     <Tooltip ref={tooltipRef} open={tooltipOpened} {...tooltipProps}/>
   </figure>
   );
 }
