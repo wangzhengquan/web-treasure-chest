@@ -192,8 +192,8 @@ export async function createInvoice(prevState: State, formData: FormData) {
   }
 
   // Revalidate the cache for the invoices page and redirect the user.
-  revalidatePath('/dashboard/invoices');
-  redirect('/dashboard/invoices');
+  revalidatePath('/admin/invoices');
+  redirect('/admin/invoices');
 }
 
 export async function updateInvoice(
@@ -232,14 +232,14 @@ export async function updateInvoice(
     return { message: 'Database Error: Failed to Update Invoice.' };
   }
 
-  revalidatePath('/dashboard/invoices');
-  redirect('/dashboard/invoices');
+  revalidatePath('/admin/invoices');
+  redirect('/admin/invoices');
 }
 
 export async function deleteInvoice(id: string) {
   try {
     await sql`DELETE FROM invoices WHERE id = ${id}`;
-    revalidatePath('/dashboard/invoices');
+    revalidatePath('/admin/invoices');
   } catch (error) {
     return { message: 'Database Error: Failed to Delete Invoice.' };
   }

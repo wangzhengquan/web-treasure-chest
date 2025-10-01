@@ -14,7 +14,7 @@ import { useSearchParams, usePathname } from 'next/navigation';
 export default function LoginForm() {
   // const searchParams = useSearchParams();
   const pathname = usePathname();
-  // const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+  // const callbackUrl = searchParams.get('callbackUrl') || '/admin';
   // console.log('callbackUrl', callbackUrl);
   const [errorMessage, formAction, isPending] = useActionState(
     authenticate,

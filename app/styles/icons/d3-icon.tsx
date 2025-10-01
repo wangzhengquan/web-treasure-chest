@@ -1,6 +1,4 @@
-import {IconProps} from '@app/types/definitions';
-export default function SvgComponent(props: IconProps) {
- 
+export function D3Icon(props: React.SVGAttributes<SVGElement>) { 
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

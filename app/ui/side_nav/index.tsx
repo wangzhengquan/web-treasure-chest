@@ -47,7 +47,6 @@ function NavLink({ item }: { item: NavLeaf }) {
         'nav-link flex w-full items-center justify-start rounded-[4px] font-medium ',
         'h-[36px] px-[10px]',
         'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-ring',
-        'hover:text-accent-foreground',
         {
           'bg-accent text-accent-foreground': pathname === item.href,
         },
@@ -242,8 +241,8 @@ export function NavButton({ className = '' }: { className?: string }) {
         <Bars3Icon className="h-6 w-6" />
       </Button>
       {/* =========FloatLeftPanel============== */}
-      <FloatLeftPanel className="bg-nav pr-6 md:hidden" opened={open}>
-        <header className="flex w-full items-center justify-between px-4 py-5">
+      <FloatLeftPanel className="bg-nav  px-4 md:hidden" opened={open}>
+        <header className="flex w-full items-center justify-between py-5">
           <a
             id="close-float-left-panel-btn"
             className="h-6 w-6"

@@ -5,10 +5,10 @@ import useBreadcrumbs  from '@/app/hooks/useBreadcrumbs';
 const Page = () => {
    
   useBreadcrumbs([
-    { label: 'Invoices', href: '/dashboard/invoices' },
+    { label: 'Invoices', href: '/admin/invoices' },
     {
       label: 'Create Invoice',
-      href: '/dashboard/invoices/create',
+      href: '/admin/invoices/create',
       active: true,
     },
   ]);

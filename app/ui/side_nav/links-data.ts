@@ -14,7 +14,7 @@ import {
 
 import { WorkFlowIcon, SwiperIcon, MagicCurtainIcon } from './nav-icons';
 import { CannonIcon } from '@/app/admin/animations/cannon/ui/cannon-icons';
-import {D3Icon} from '@/app/icons';
+import {D3Icon} from '@/app/styles/icons';
 
 const adminLinks = [
   { label: 'Dashboard', href: '/admin', icon: Squares2X2Icon },
