@@ -12,7 +12,7 @@ import {
   PopoverTrigger,
 } from '@app/components/popover';
 import { List } from '@app/components/list';
-import { NavButton } from '../side_nav';
+import { MobileNavButton } from '../side-nav';
 
 function NotificationsButton() {
   return (
@@ -35,7 +35,7 @@ function NotificationsButton() {
 function LeftContent() {
   return (
     <div className="flex items-center justify-start gap-1">
-      <NavButton className="md:hidden" />
+      <MobileNavButton className="md:hidden" />
       <Breadcrumbs />
     </div>
   );

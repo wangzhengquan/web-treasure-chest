@@ -1,10 +1,11 @@
-import { SideNav } from '@app/ui/side_nav';
+import { SideNav } from '@app/ui/side-nav';
 import Indicator from '@app/ui/indicator';
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen flex-col overflow-hidden md:flex-row ">
-      <section className="hidden flex-none md:block">
+      <section className="hidden flex-none md:flex md:flex-col bg-nav">
         <SideNav />
+        {/* <div className="text-[10px] p-[10px] pl-[20px] opacity-80">By Zhengquan.Wang</div> */}
       </section>
       <section id='main-scroll-view' className="relative h-full flex-grow overflow-scroll ">
         {/* absolute top-0 left-0 right-0 z-10 */}

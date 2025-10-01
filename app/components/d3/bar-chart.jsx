@@ -256,8 +256,8 @@ export function StackedBarChart({
                   // console.log('y1, y2, i', y1, y2, i, data);
                   const height = Math.abs(yScale(y1) - yScale(y2));
                   return (
-                  <g>
-                    <rect key={i}
+                  <g key={i}>
+                    <rect
                       x={xScale(X[i])}
                       y={Math.min(yScale(y1), yScale(y2))}
                       height={height}
@@ -318,8 +318,8 @@ export function GroupedBarChart({
   colors, // array of colors
   tooltipFormat, // given d in data, returns the tooltipFormat text
   // 定义色块和间距的尺寸
-  legend=true, // 是否显示图例
-  label=false, // 是否显示数值标签
+  legend = true, // 是否显示图例
+  label = true, // 是否显示数值标签
   className,
   style,
 }) {
@@ -403,14 +403,16 @@ export function GroupedBarChart({
                 <title>{tooltipFormat(i)}</title> 
               </rect>
               {
-                label &&
+                label && zScale.bandwidth() > 30 &&
                 <text 
-                  x={xScale(X[i]) + zScale(Z[i])}
+                  x={xScale(X[i]) + zScale(Z[i]) + zScale.bandwidth() * 0.5}
                   y={yScale(Y[i])}
+                  textAnchor="middle"
+                  // alignmentBaseline="bottom"  
                   dy="-0.5em"
                   fill="currentColor"
-                  // alignmentBaseline="bottom"  
-                  textAnchor="start">
+                  
+                >
                     {yFormat(Y[i])}
                 </text>
               }
