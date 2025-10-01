@@ -136,11 +136,11 @@ export default function Dashboard() {
   return (
     <>
     {visibility == false && <Loading style={{position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}/>}
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 text-[12px]" style={{visibility: visibility ? 'visible': 'hidden'}}>
+    <div className="grid grid-cols-1 xl:grid-cols-3 gap-2 xl:gap-4 text-[12px]" style={{visibility: visibility ? 'visible': 'hidden'}}>
       {/* column 1 */}
-      <div ref={columnRef} className="space-y-2 md:space-y-4">
+      <div ref={columnRef} className="space-y-2 xl:space-y-4">
         <div className="bg-card">
-          <h2 className="text-sm font-bold p-[10px_10px_0]" >每月模具产量趋势图</h2>
+          <h2 className="text-sm font-bold p-[10px_10px_0]">每月模具产量趋势图</h2>
           <LineChart data={moldTrendData} 
             x={d => d.month}
             y={d => d.value} 
@@ -162,7 +162,7 @@ export default function Dashboard() {
            
           />
         </div>
-        <div className="grid grid-cols-2  gap-2 md:gap-4">
+        <div className="grid grid-cols-2  gap-2 xl:gap-4">
           <div className={`bg-card`} ref={blockRef}>
             <h2 className="text-sm font-bold p-[10px_10px_0px]"> 模具状态统计 </h2>
             <DonutChart 
@@ -211,7 +211,7 @@ export default function Dashboard() {
       </div>
 
       {/* column 2 */}
-      <div className='space-y-2 md:space-y-4'>
+      <div className='space-y-2 xl:space-y-4'>
         <div className="bg-card">
           <h2 className="text-sm font-bold p-[10px_10px_0]" >模具客户分布图</h2>
           <GeoMap width={columnWidth} height={columnWidth * 2 / 3} margin={10}/>
@@ -236,7 +236,7 @@ export default function Dashboard() {
             height={columnWidth * 1 / 2} />
         </div>
 
-        <div className="grid grid-cols-2 gap-2 md:gap-4">
+        <div className="grid grid-cols-2 gap-2 xl:gap-4">
           <div className='bg-card'>
             <h2 className="text-sm font-bold p-[10px_10px_0px]"> 模具达成率 </h2>
             <ProgressRingChart width={blockWidth} value='0.68' />
@@ -269,7 +269,7 @@ export default function Dashboard() {
           </div>
       </div>
       {/* column-3 */}
-      <div className='space-y-2 md:space-y-4'>
+      <div className='space-y-2 xl:space-y-4'>
         <div className="bg-card">
           <h2 className="text-sm font-bold p-[10px_10px_0]" >班组合格率</h2>
           <BarChart data={teamPassRateData} 
@@ -287,7 +287,7 @@ export default function Dashboard() {
             height={columnWidth * 1 / 2}
           />
         </div>
-        <div className="grid grid-cols-2 gap-2 md:gap-4">
+        <div className="grid grid-cols-2 gap-2 xl:gap-4">
           <div className={`bg-card`}>
             <h2 className="text-sm font-bold p-[10px_10px_0px]"> 品质占比 </h2>
             <PieChart 
