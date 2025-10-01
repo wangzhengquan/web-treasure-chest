@@ -136,12 +136,146 @@ export default function Dashboard() {
   return (
     <>
     {visibility == false && <Loading style={{position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}/>}
-    <div className="grid grid-cols-1 xl:grid-cols-3 gap-2 xl:gap-4 text-[12px]" style={{visibility: visibility ? 'visible': 'hidden'}}>
-      {/* column 1 */}
-      <div ref={columnRef} className="space-y-2 xl:space-y-4">
-        <div className="bg-card">
-          <h2 className="text-sm font-bold p-[10px_10px_0]">每月模具产量趋势图</h2>
-          <LineChart data={moldTrendData} 
+    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-4 text-[12px]" style={{visibility: visibility ? 'visible': 'hidden'}}>
+      <div ref={columnRef} className="bg-card">
+        <h2 className="text-sm font-bold p-[10px_10px_0]">每月模具产量趋势图</h2>
+        <LineChart data={moldTrendData} 
+          x={d => d.month}
+          y={d => d.value} 
+          z={d => d.name}
+          marginLeft={40}
+          marginRight={10}
+          marginTop={10}
+          marginBottom={30}
+          xType={scalePoint}
+          xFormat={d => d + "月"}
+          // xDomain= {[1,2,3,4,5,6]}
+          yDomain= {[0, 100]}
+          // yLabel= "↑ Unemployment (%)"
+          
+          width={columnWidth}
+          height={columnWidth * 1 / 2}
+          strokeWidth = {2}
+          colors= {colorsArray}
+          
+        />
+      </div>
+      <div className="bg-card">
+        <h2 className="text-sm font-bold p-[10px_10px_0]" >模具客户分布图</h2>
+        <GeoMap width={columnWidth} height={columnWidth * 1 / 2} margin={0}/>
+      </div>
+      <div className="bg-card">
+        <h2 className="text-sm font-bold p-[10px_10px_0]" >班组合格率</h2>
+        <BarChart data={teamPassRateData} 
+          x={d => d.label}
+          y={d => d.value} 
+          yDomain={[0, 1.18]}
+          yFormat={".0%"}
+          marginLeft={40}
+          marginRight={10}
+          marginTop={10}
+          marginBottom={30}
+          xPadding = {0.3}
+          colors = {colorsArray}
+          width={columnWidth}
+          height={columnWidth * 1 / 2}
+        />
+      </div>
+
+      <div className="grid grid-cols-2  gap-2 xl:gap-4">
+        <div className={`bg-card`} ref={blockRef}>
+          <h2 className="text-sm font-bold p-[10px_10px_0px]"> 模具状态统计 </h2>
+          <DonutChart 
+            width={blockWidth} 
+            data={moldStatusData} 
+            name={d => d.label}
+            value={d => d.value}
+            margin = "10"
+            />
+        </div>
+        <div className={`bg-card`}>
+          <h2 className="text-sm font-bold p-[10px_10px_0px]"> 加工中模具数量 </h2>
+          <PointerGauge width={blockWidth} uom="模具数" value={45} valueRange={[0, 120]} />
+        </div>
+      </div>
+      <div className="bg-card">
+        <h2 className="text-sm font-bold p-[10px_10px_0]" >每日工序达成数（{dailyProcessAchievementData.length/3}日）</h2>
+        <StackedAreaChart data={dailyProcessAchievementData} 
+          x={d => d.day}
+          y={d => d.achievement} 
+          z={d => d.processe}
+          // xType={scalePoint}
+          showVertices = {false}
+          xFormat={d => d + "日"}
+          marginLeft={40}
+          marginRight={10}
+          marginTop={10}
+          marginBottom={30}
+          xPadding = {0.3}
+          colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
+          width={columnWidth}
+          height={columnWidth * 1 / 2} />
+      </div>
+
+      <div className="grid grid-cols-2 gap-2 xl:gap-4">
+        <div className={`bg-card`}>
+          <h2 className="text-sm font-bold p-[10px_10px_0px]"> 品质占比 </h2>
+          <PieChart 
+            width={blockWidth} 
+            margin = "10"
+            data={qualityPropData} 
+            name={d => d.name}
+            value={d => d.value}
+            colors={["rgb(55 116 251)", "rgb(251 138 38)", "rgb(42 192 252)", "rgb(253 198 49)", ]}
+            // valueFormat=".0%"
+            />
+        </div>
+        <div className='bg-card'>
+          <h2 className="text-sm font-bold p-[10px_10px_0px]"> 合格率 </h2>
+          <Gauge width={blockWidth} value='15' valueFormat={d=> d+"%"} uom="合格率" />
+        </div>
+      </div>
+      <div className="bg-card p-[10px] ">
+        <h3 className='text-sm font-bold pb-[10px]'>模具进度表</h3>
+        <MoldStatusTable style={{height: blockWidth}}/>
+      </div>
+      <div className="grid grid-cols-2 gap-2 xl:gap-4">
+        <div className='bg-card'>
+          <h2 className="text-sm font-bold p-[10px_10px_0px]"> 模具达成率 </h2>
+          <ProgressRingChart width={blockWidth} value='0.68' />
+        </div>
+        <div className={`bg-card`}>
+          <h2 className="text-sm font-bold p-[10px_10px_0px]"> 零件数 </h2>
+          <PointerGauge title="零件数" width={blockWidth} uom="零件数" value={80} valueRange={[0, 100]} />
+        </div>
+      </div>
+
+      <div className="bg-card">
+        <h2 className="text-sm font-bold p-[10px_10px_0]" >送检一次合格率（{dailyMeanPassRateData.length}日）</h2>
+        <GroupedBarChart data={dailyPassRateData} 
+          x={d => d.day}
+          y={d => d.rate} 
+          z={d => d.name}
+          marginLeft={40}
+          marginRight={10}
+          marginTop={10}
+          marginBottom={30}
+          // xType={scalePoint}
+          xFormat={d => d + "日"}
+          yFormat={".0%"}
+          yDomain= {[0.0, 1.1]}
+          // yLabel= "↑ Unemployment (%)"
+          width={columnWidth}
+          height={columnWidth * 1 / 2}
+          colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
+          // strokeWidth = {2}
+          // colors= {["rgb(27,175,178)"]}
+        
+        />
+      </div>
+      <div className="bg-card">
+        <h2 className="text-sm font-bold p-[10px_10px_0]" >每月零件产量趋势图</h2>
+        <LineChart data={partTrendData} 
             x={d => d.month}
             y={d => d.value} 
             z={d => d.name}
@@ -149,206 +283,60 @@ export default function Dashboard() {
             marginRight={10}
             marginTop={10}
             marginBottom={30}
-            xType={scalePoint}
-            xFormat={d => d + "月"}
             // xDomain= {[1,2,3,4,5,6]}
             yDomain= {[0, 100]}
             // yLabel= "↑ Unemployment (%)"
-            
+            xType={scalePoint}
             width={columnWidth}
             height={columnWidth * 1 / 2}
             strokeWidth = {2}
-            colors= {colorsArray}
-           
-          />
-        </div>
-        <div className="grid grid-cols-2  gap-2 xl:gap-4">
-          <div className={`bg-card`} ref={blockRef}>
-            <h2 className="text-sm font-bold p-[10px_10px_0px]"> 模具状态统计 </h2>
-            <DonutChart 
-              width={blockWidth} 
-              data={moldStatusData} 
-              name={d => d.label}
-              value={d => d.value}
-              margin = "10"
-              />
-          </div>
-          <div className={`bg-card`}>
-            <h2 className="text-sm font-bold p-[10px_10px_0px]"> 加工中模具数量 </h2>
-            <PointerGauge width={blockWidth} uom="模具数" value={45} valueRange={[0, 120]} />
-          </div>
-        </div>
-        <div className="bg-card p-[10px]">
-          <h3 className='text-sm font-bold pb-[10px]'>模具进度表</h3>
-          <MoldStatusTable />
-        </div>
-        <div className="bg-card">
-          <h2 className="text-sm font-bold p-[10px_10px_0]" >每月零件产量趋势图</h2>
-          <LineChart data={partTrendData} 
-              x={d => d.month}
-              y={d => d.value} 
-              z={d => d.name}
-              marginLeft={40}
-              marginRight={10}
-              marginTop={10}
-              marginBottom={30}
-              // xDomain= {[1,2,3,4,5,6]}
-              yDomain= {[0, 100]}
-              // yLabel= "↑ Unemployment (%)"
-              xType={scalePoint}
-              width={columnWidth}
-              height={columnWidth * 1 / 2}
-              strokeWidth = {2}
-              colors= { colorsArray}
-              legendRectWidth = {15}
-              legendRectHeight = {15}
-              legendRectCornerRadius = {2} // 圆角半径
-              legendTextSpacing = {3}     // 色块与文字的间距
-              legendItemSpacing = {5}     // 每个项目之间的间距
-              voronoi={false} // if true, show Voronoi overlay
-          />
-        </div>
+            colors= { colorsArray}
+            legendRectWidth = {15}
+            legendRectHeight = {15}
+            legendRectCornerRadius = {2} // 圆角半径
+            legendTextSpacing = {3}     // 色块与文字的间距
+            legendItemSpacing = {5}     // 每个项目之间的间距
+            voronoi={false} // if true, show Voronoi overlay
+        />
       </div>
-
-      {/* column 2 */}
-      <div className='space-y-2 xl:space-y-4'>
-        <div className="bg-card">
-          <h2 className="text-sm font-bold p-[10px_10px_0]" >模具客户分布图</h2>
-          <GeoMap width={columnWidth} height={columnWidth * 2 / 3} margin={10}/>
-        </div>
-
-        <div className="bg-card">
-          <h2 className="text-sm font-bold p-[10px_10px_0]" >每日工序达成数（{dailyProcessAchievementData.length/3}日）</h2>
-          <StackedAreaChart data={dailyProcessAchievementData} 
-            x={d => d.day}
-            y={d => d.achievement} 
-            z={d => d.processe}
-            // xType={scalePoint}
-            showVertices = {false}
-            xFormat={d => d + "日"}
-            marginLeft={40}
-            marginRight={10}
-            marginTop={10}
-            marginBottom={30}
-            xPadding = {0.3}
-            colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
-            width={columnWidth}
-            height={columnWidth * 1 / 2} />
-        </div>
-
-        <div className="grid grid-cols-2 gap-2 xl:gap-4">
-          <div className='bg-card'>
-            <h2 className="text-sm font-bold p-[10px_10px_0px]"> 模具达成率 </h2>
-            <ProgressRingChart width={blockWidth} value='0.68' />
-          </div>
-          <div className={`bg-card`}>
-            <h2 className="text-sm font-bold p-[10px_10px_0px]"> 零件数 </h2>
-            <PointerGauge title="零件数" width={blockWidth} uom="零件数" value={80} valueRange={[0, 100]} />
-          </div>
-        </div>
-        
-        
-        <div className="bg-card">
-          <h2 className="text-sm font-bold p-[10px_10px_0]" >工序达成数（{dailyProcessAchievementData2.length/3}日）</h2>
-          <StackedBarChart data={dailyProcessAchievementData2} 
-            x={d => d.day}
-            y={d => d.achievement} 
-            z={d => d.processe}
-            xType={scalePoint}
-            xFormat={d => d + "日"}
-            marginLeft={40}
-            marginRight={10}
-            marginTop={10}
-            marginBottom={30}
-            xPadding = {0.3}
-            colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
-            width={columnWidth}
-            height={columnWidth * 1 / 2}
-           
-            />
-          </div>
+      <div className="bg-card">
+        <h2 className="text-sm font-bold p-[10px_10px_0]" >工序达成数（{dailyProcessAchievementData2.length/3}日）</h2>
+        <StackedBarChart data={dailyProcessAchievementData2} 
+          x={d => d.day}
+          y={d => d.achievement} 
+          z={d => d.processe}
+          xType={scalePoint}
+          xFormat={d => d + "日"}
+          marginLeft={40}
+          marginRight={10}
+          marginTop={10}
+          marginBottom={30}
+          xPadding = {0.3}
+          colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
+          width={columnWidth}
+          height={columnWidth * 1 / 2} />
       </div>
-      {/* column-3 */}
-      <div className='space-y-2 xl:space-y-4'>
-        <div className="bg-card">
-          <h2 className="text-sm font-bold p-[10px_10px_0]" >班组合格率</h2>
-          <BarChart data={teamPassRateData} 
-            x={d => d.label}
-            y={d => d.value} 
-            yDomain={[0, 1.18]}
-            yFormat={".0%"}
-            marginLeft={40}
-            marginRight={10}
-            marginTop={10}
-            marginBottom={30}
-            xPadding = {0.3}
-            colors = {colorsArray}
-            width={columnWidth}
-            height={columnWidth * 1 / 2}
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-2 xl:gap-4">
-          <div className={`bg-card`}>
-            <h2 className="text-sm font-bold p-[10px_10px_0px]"> 品质占比 </h2>
-            <PieChart 
-              width={blockWidth} 
-              margin = "10"
-              data={qualityPropData} 
-              name={d => d.name}
-              value={d => d.value}
-              colors={["rgb(55 116 251)", "rgb(251 138 38)", "rgb(42 192 252)", "rgb(253 198 49)", ]}
-              // valueFormat=".0%"
-              />
-          </div>
-          <div className='bg-card'>
-            <h2 className="text-sm font-bold p-[10px_10px_0px]"> 合格率 </h2>
-            <Gauge width={blockWidth} value='15' valueFormat={d=> d+"%"} uom="合格率" />
-          </div>
-        </div>
-        <div className="bg-card">
-          <h2 className="text-sm font-bold p-[10px_10px_0]" >送检一次合格率（{dailyMeanPassRateData.length}日）</h2>
-          <GroupedBarChart data={dailyPassRateData} 
-            x={d => d.day}
-            y={d => d.rate} 
-            z={d => d.name}
-            marginLeft={40}
-            marginRight={10}
-            marginTop={10}
-            marginBottom={30}
-            // xType={scalePoint}
-            xFormat={d => d + "日"}
-            yFormat={".0%"}
-            yDomain= {[0.0, 1.1]}
-            // yLabel= "↑ Unemployment (%)"
-            width={columnWidth}
-            height={columnWidth * 2 / 3}
-            colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
-            // strokeWidth = {2}
-            // colors= {["rgb(27,175,178)"]}
-          
-          />
-        </div>
-        <div className="bg-card">
-          <h2 className="text-sm font-bold p-[10px_10px_0]" >每日合格率统计（{dailyMeanPassRateData.length}日）</h2>
-          <StackedAreaChart data={dailyMeanPassRateData} 
-            x={d => d.day}
-            y={d => d.rate} 
-            marginLeft={40}
-            marginRight={10}
-            marginTop={10}
-            marginBottom={30}
-            xType={scalePoint}
-            xFormat={d => d + "日"}
-            yFormat={".0%"}
-            zFormat={d => "合格率"}
-            yDomain= {[0.0, 1.1]}
-            width={columnWidth}
-            height={columnWidth * 1 / 2}
-            areaOpacity={0.3}
-            colors= "#00eaff"
-          />
-        </div>
+      <div className="bg-card">
+        <h2 className="text-sm font-bold p-[10px_10px_0]" >每日合格率统计（{dailyMeanPassRateData.length}日）</h2>
+        <StackedAreaChart data={dailyMeanPassRateData} 
+          x={d => d.day}
+          y={d => d.rate} 
+          marginLeft={40}
+          marginRight={10}
+          marginTop={10}
+          marginBottom={30}
+          xType={scalePoint}
+          xFormat={d => d + "日"}
+          yFormat={".0%"}
+          zFormat={d => "合格率"}
+          yDomain= {[0.0, 1.1]}
+          width={columnWidth}
+          height={columnWidth * 1 / 2}
+          areaOpacity={0.3}
+          colors= "#00eaff"
+        />
       </div>
+      
     </div> 
     </> 
   );

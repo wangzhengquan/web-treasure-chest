@@ -1,9 +1,11 @@
 import { cn } from '@app/lib/utils';
 export default function Table({
   className = "",
+  ...props
 }) {
   return (
-    <table className={cn("component-table", className)}  >
+    <div className={cn('overflow-auto', className)} {...props}>
+    <table className="component-table">
       <thead>
         <tr style={{color: "rgb(30,138,136)"}}>
           <th>序号</th>
@@ -15,7 +17,7 @@ export default function Table({
       </thead>
       <tbody className='bg-card-body'>
         {
-          Array.from({ length: 7 }, (_, i) => i ).map(i => 
+          Array.from({ length: 10 }, (_, i) => i ).map(i => 
             <tr key={i}>
               <td>{i+1}</td>
               <td>FK{i+1}</td>
@@ -41,6 +43,7 @@ export default function Table({
         }
       </tbody>
     </table>
+    </div>
     
   );
 }

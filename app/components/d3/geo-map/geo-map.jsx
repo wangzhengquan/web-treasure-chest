@@ -16,7 +16,6 @@ const path = geoPath().projection(projection);
 export default function GeoMap({
   width = 600,
   height = 400,
-  margin = 10,
 }) {
   
   projection.fitSize([width, height], chinaJson);
@@ -41,7 +40,7 @@ export default function GeoMap({
         return (
           <g key={d.name}>
             <circle className={styles.hotspot} cx={x} cy={y}/>
-            <text  x={x + 5} y={y - 5} fontSize='0.8em' >{d.name}</text>
+            <text x={x + 5} y={y - 5} fontSize='0.8em' >{d.name}</text>
           </g>
         )
       })
