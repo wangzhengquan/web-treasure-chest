@@ -116,11 +116,12 @@ export function BarChart({
               </rect>
               {
                 label && xScale.bandwidth() > 30 &&
-                <text x={xScale(X[i])} y={yScale(Y[i])}
-                  dy="-0.5em" dx="0.5em"
-                  fill="currentColor"
+                <text x={xScale(X[i]) + xScale.bandwidth() * 0.5} 
+                  y={yScale(Y[i])}
+                  textAnchor="middle"
                   // alignmentBaseline="bottom"  
-                  textAnchor="start">
+                  dy="-0.5em"
+                  fill="currentColor">
                     {yFormat(Y[i])}
                 </text>
               }
@@ -252,16 +253,30 @@ export function StackedBarChart({
                 s.map(arr => {
                   const [y1, y2] = arr;
                   const {data, i} = arr;
+                  // console.log('y1, y2, i', y1, y2, i, data);
+                  const height = Math.abs(yScale(y1) - yScale(y2));
                   return (
-                  <rect key={i}
-                    x={xScale(X[i])}
-                    y={Math.min(yScale(y1), yScale(y2))}
-                    height={Math.abs(yScale(y1) - yScale(y2))}
-                    width={xScale.bandwidth()}
-                     
-                  >
-                    { tooltipFormat && <title>{tooltipFormat(i)}</title> }
-                  </rect>
+                  <g>
+                    <rect key={i}
+                      x={xScale(X[i])}
+                      y={Math.min(yScale(y1), yScale(y2))}
+                      height={height}
+                      width={xScale.bandwidth()}
+                    >
+                      { tooltipFormat && <title>{tooltipFormat(i)}</title> }
+                    </rect>
+                    {
+                      xScale.bandwidth() > 30 && height > 14 &&
+                      <text stroke="currentColor" 
+                        textAnchor="middle"  
+                        dy="0.5em" 
+                        x={xScale(X[i]) + xScale.bandwidth() * 0.5} 
+                        y={(yScale(y1)+ yScale(y2))/2}>
+                        {yFormat(Y[i])}
+                      </text>
+                    }
+                    
+                  </g>
                   )
                 })
               }
