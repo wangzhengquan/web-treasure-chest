@@ -25,7 +25,7 @@ export default async function CustomersTable({
                     key={customer.id}
                     className="mb-2 w-full rounded-md bg-card-body p-4"
                   >
-                    <div className="flex items-center justify-between border-b pb-4">
+                    <div className="flex items-center justify-between border-b border-alpha/10 pb-4">
                       <div>
                         <div className="mb-2 flex items-center">
                           <div className="flex items-center gap-3">
@@ -44,7 +44,7 @@ export default async function CustomersTable({
                         </p>
                       </div>
                     </div>
-                    <div className="flex w-full items-center justify-between border-b py-5">
+                    <div className="flex w-full items-center justify-between border-b border-alpha/10 py-5">
                       <div className="flex w-1/2 flex-col">
                         <p className="text-xs">Pending</p>
                         <p className="font-medium">{customer.total_pending}</p>
