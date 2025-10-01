@@ -5,7 +5,7 @@ import ModeToggle from './mode-toggle';
 import Avatar from './avatar';
 import Breadcrumbs from './breadcrumbs';
 import { BellIcon } from '@heroicons/react/24/outline';
-import FullScreenToggle from '@app/components/full-screen-toggle';
+import FullScreenToggle from './full-screen-toggle';
 import {
   Popover,
   PopoverContent,
@@ -14,12 +14,15 @@ import {
 import { List } from '@app/components/list';
 import { NavButton } from '../side_nav';
 
-function Notifications() {
+function NotificationsButton() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" className="relative">
           <BellIcon className="h-[22px] w-[22px]" />
+          <label className="absolute top-0.5 right-0 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-[10px] text-white">
+            2
+          </label>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-screen md:w-[680px]">
@@ -43,7 +46,7 @@ function RightContent() {
     <div className="flex items-center justify-end gap-1">
       <FullScreenToggle />
       <ModeToggle />
-      <Notifications />
+      <NotificationsButton />
       <Avatar />
     </div>
   );
