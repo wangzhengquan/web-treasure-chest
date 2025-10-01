@@ -137,7 +137,7 @@ export default function Dashboard() {
     <>
     {visibility == false && <Loading style={{position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}/>}
     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-4 text-[12px]" style={{visibility: visibility ? 'visible': 'hidden'}}>
-      <div ref={columnRef} className="bg-card">
+      <div ref={columnRef} className="bg-card pb-[10px]">
         <h2 className="text-sm font-bold p-[10px_10px_0]">每月模具产量趋势图</h2>
         <LineChart data={moldTrendData} 
           x={d => d.month}
@@ -154,7 +154,7 @@ export default function Dashboard() {
           // yLabel= "↑ Unemployment (%)"
           
           width={columnWidth}
-          height={columnWidth * 1 / 2}
+          height={columnWidth * 1 / 2 - 18}
           strokeWidth = {2}
           colors= {colorsArray}
           
@@ -198,7 +198,7 @@ export default function Dashboard() {
           <PointerGauge width={blockWidth} uom="模具数" value={45} valueRange={[0, 120]} />
         </div>
       </div>
-      <div className="bg-card">
+      <div className="bg-card pb-[10px]">
         <h2 className="text-sm font-bold p-[10px_10px_0]" >每日工序达成数（{dailyProcessAchievementData.length/3}日）</h2>
         <StackedAreaChart data={dailyProcessAchievementData} 
           x={d => d.day}
@@ -214,7 +214,7 @@ export default function Dashboard() {
           xPadding = {0.3}
           colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
           width={columnWidth}
-          height={columnWidth * 1 / 2} />
+          height={columnWidth * 1 / 2 - 28} />
       </div>
 
       <div className="grid grid-cols-2 gap-2 xl:gap-4">
@@ -237,7 +237,7 @@ export default function Dashboard() {
       </div>
       <div className="bg-card p-[10px] ">
         <h3 className='text-sm font-bold pb-[10px]'>模具进度表</h3>
-        <MoldStatusTable style={{height: blockWidth}}/>
+        <MoldStatusTable style={{height: blockWidth - 10}}/>
       </div>
       <div className="grid grid-cols-2 gap-2 xl:gap-4">
         <div className='bg-card'>
@@ -250,7 +250,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="bg-card">
+      <div className="bg-card pb-[10px]">
         <h2 className="text-sm font-bold p-[10px_10px_0]" >送检一次合格率（{dailyMeanPassRateData.length}日）</h2>
         <GroupedBarChart data={dailyPassRateData} 
           x={d => d.day}
@@ -266,14 +266,14 @@ export default function Dashboard() {
           yDomain= {[0.0, 1.1]}
           // yLabel= "↑ Unemployment (%)"
           width={columnWidth}
-          height={columnWidth * 1 / 2}
+          height={columnWidth * 1 / 2 - 28}
           colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
           // strokeWidth = {2}
           // colors= {["rgb(27,175,178)"]}
         
         />
       </div>
-      <div className="bg-card">
+      <div className="bg-card pb-[10px]">
         <h2 className="text-sm font-bold p-[10px_10px_0]" >每月零件产量趋势图</h2>
         <LineChart data={partTrendData} 
             x={d => d.month}
@@ -288,7 +288,7 @@ export default function Dashboard() {
             // yLabel= "↑ Unemployment (%)"
             xType={scalePoint}
             width={columnWidth}
-            height={columnWidth * 1 / 2}
+            height={columnWidth * 1 / 2 - 18}
             strokeWidth = {2}
             colors= { colorsArray}
             legendRectWidth = {15}
@@ -299,7 +299,7 @@ export default function Dashboard() {
             voronoi={false} // if true, show Voronoi overlay
         />
       </div>
-      <div className="bg-card">
+      <div className="bg-card pb-[10px]">
         <h2 className="text-sm font-bold p-[10px_10px_0]" >工序达成数（{dailyProcessAchievementData2.length/3}日）</h2>
         <StackedBarChart data={dailyProcessAchievementData2} 
           x={d => d.day}
@@ -314,7 +314,7 @@ export default function Dashboard() {
           xPadding = {0.3}
           colors = {["rgb(27,175,178)", "rgb(252, 191, 45)", "rgb(43, 159, 219)"]}
           width={columnWidth}
-          height={columnWidth * 1 / 2} />
+          height={columnWidth * 1 / 2 - 18} />
       </div>
       <div className="bg-card">
         <h2 className="text-sm font-bold p-[10px_10px_0]" >每日合格率统计（{dailyMeanPassRateData.length}日）</h2>

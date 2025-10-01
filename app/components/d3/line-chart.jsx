@@ -233,7 +233,7 @@ export function LineChart({
 
   return (
   (width <= 0 ) ? "" :
-  <figure ref={containerRef} className={cn("relative bg-card pb-[10px]", className)} style={style}>
+  <figure ref={containerRef} className={cn("relative bg-card", className)} style={style}>
     <svg ref={svgRef}
       width={width}
       height={height}

@@ -27,9 +27,6 @@ export default function GeoMap({
       height={height}
       stroke="currentColor"
       fill="currentColor"
-      style={{
-        maxWidth: "100%",
-      }}
     >
     {
       chinaJson.features.map((d, i) => <path key={d.properties.id} className={styles.country} d={path(d)}/>)
