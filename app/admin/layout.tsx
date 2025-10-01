@@ -1,4 +1,4 @@
-import { SideNav } from '@app/ui/side-nav';
+import { SideNav } from '@app/ui/side-nav/side-nav';
 import Indicator from '@app/ui/indicator';
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

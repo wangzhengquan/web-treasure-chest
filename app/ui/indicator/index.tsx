@@ -12,7 +12,7 @@ import {
   PopoverTrigger,
 } from '@app/components/popover';
 import { List } from '@app/components/list';
-import { MobileNavButton } from '../side-nav';
+import { MobileNavButton } from '../side-nav/side-nav';
 
 function NotificationsButton() {
   return (
