@@ -13,8 +13,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {/* <div className="h-[calc(100%_-_53px)] w-full">{children}</div> */}
 
         {/* h-[calc(100%_-_56px)] md:h-full overflow-y-auto*/}
-        <Indicator className="flex-[0_0_48px]"/>
-        <div className="flex-grow overflow-auto">{children}</div>
+        <Indicator className="flex-[0_0_48px] h-[48px]" />
+        <div className="flex-grow h-full overflow-auto">{children}</div>
       </section>
     </div>
   );

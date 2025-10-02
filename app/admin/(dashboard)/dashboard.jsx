@@ -113,6 +113,7 @@ export default function Dashboard() {
     setVisibility(true);
     const observer = new ResizeObserver((observedItems) => {
       // const { borderBoxSize } = observedItems[0];
+      if(!columnRef.current) return;
       setColumnWidth(columnRef.current.getBoundingClientRect().width);
       // widthLabel.innerText = `${Math.round(borderBoxSize[0].inlineSize)}px`;
       // heightLabel.innerText = `${Math.round(borderBoxSize[0].blockSize)}px`;
@@ -122,6 +123,7 @@ export default function Dashboard() {
 
     const blockSizeObserver = new ResizeObserver((observedItems) => {
       // const { borderBoxSize } = observedItems[0];
+      if(!blockRef.current) return;
       setBlockWidth(blockRef.current.getBoundingClientRect().width);
     });
     
@@ -130,11 +132,11 @@ export default function Dashboard() {
       observer.disconnect();
       blockSizeObserver.disconnect();
     }
-  }, []);
+  }, [columnRef, blockRef]);
   return (
     <>
     {visibility == false && <Loading style={{position: "absolute", left: "50%", top: "40%", transform: "translate(-50%, -50%)" }}/>}
-    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-4 text-[12px]" style={{visibility: visibility ? 'visible': 'hidden'}}>
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-4 text-[12px]" style={{visibility: visibility ? 'visible': 'hidden'}}>
       <div ref={columnRef} className="bg-card pb-[10px]">
         <h2 className="text-sm font-bold p-[10px_10px_0]">每月模具产量趋势图</h2>
         <LineChart data={moldTrendData} 

@@ -25,7 +25,7 @@ export default async function CustomersTable({
                     key={customer.id}
                     className="mb-2 w-full rounded-md bg-card-body p-4"
                   >
-                    <div className="flex items-center justify-between border-b border-alpha/10 pb-4">
+                    <div className="flex items-center justify-between border-b border-alpha/[0.1] pb-4">
                       <div>
                         <div className="mb-2 flex items-center">
                           <div className="flex items-center gap-3">
