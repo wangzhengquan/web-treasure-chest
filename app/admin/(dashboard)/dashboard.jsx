@@ -108,23 +108,21 @@ export default function Dashboard() {
   useEffect(() => {
     if(!columnRef.current || !blockRef.current) return;
 
-    const column = columnRef.current;
-    const {width} = column.getBoundingClientRect();
-    setColumnWidth(width);
+    setColumnWidth(columnRef.current.getBoundingClientRect().width);
     setBlockWidth(blockRef.current.getBoundingClientRect().width);
     setVisibility(true);
     const observer = new ResizeObserver((observedItems) => {
-      const { borderBoxSize } = observedItems[0];
-      setColumnWidth(borderBoxSize[0].inlineSize);
+      // const { borderBoxSize } = observedItems[0];
+      setColumnWidth(columnRef.current.getBoundingClientRect().width);
       // widthLabel.innerText = `${Math.round(borderBoxSize[0].inlineSize)}px`;
       // heightLabel.innerText = `${Math.round(borderBoxSize[0].blockSize)}px`;
     });
     
-    observer.observe(column);
+    observer.observe(columnRef.current);
 
     const blockSizeObserver = new ResizeObserver((observedItems) => {
-      const { borderBoxSize } = observedItems[0];
-      setBlockWidth(borderBoxSize[0].inlineSize);
+      // const { borderBoxSize } = observedItems[0];
+      setBlockWidth(blockRef.current.getBoundingClientRect().width);
     });
     
     blockSizeObserver.observe(blockRef.current);
@@ -135,7 +133,7 @@ export default function Dashboard() {
   }, []);
   return (
     <>
-    {visibility == false && <Loading style={{position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}/>}
+    {visibility == false && <Loading style={{position: "absolute", left: "50%", top: "40%", transform: "translate(-50%, -50%)" }}/>}
     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-4 text-[12px]" style={{visibility: visibility ? 'visible': 'hidden'}}>
       <div ref={columnRef} className="bg-card pb-[10px]">
         <h2 className="text-sm font-bold p-[10px_10px_0]">每月模具产量趋势图</h2>

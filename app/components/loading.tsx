@@ -1,7 +1,7 @@
 // merge properties of object a to object b
 // const merge = (a, b) => ({ ...a, ...b });
 
-function Ball({ className = '', style }: { className?: string; style?: React.CSSProperties }) {
+function Ball({ className = '', style, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   return (
     <div
       className={`animate-loading ${className}`}
@@ -11,13 +11,14 @@ function Ball({ className = '', style }: { className?: string; style?: React.CSS
         height: '8px',
         borderRadius: '50%',
       }}
+      {...props}
     />
   );
 }
 
-export default function Loading({ className = '', style }: { className?: string; style?: React.CSSProperties}) {
+export default function Loading({ className = '', ...props }: React.ComponentPropsWithoutRef<'div'>) {
   return (
-    <div className={`flex w-fit flex-row gap-2 ${className}`} style={style}>
+    <div className={`flex w-fit flex-row gap-2 ${className}`} {...props}>
       <Ball
         style={{ animationDelay: '0ms', backgroundColor: 'rgb(97, 102, 197)' }}
       />

@@ -4,9 +4,9 @@ export default function Main({
   className = '',
   children,
   ...props
-}: React.AllHTMLAttributes<HTMLDivElement>) {
+}: React.ComponentProps<'main'>) {
   return (
-    <main className={cn('relative min-h-full p-2 md:p-4', className)} {...props}>
+    <main className={cn('min-h-full p-2 md:p-4', className)} {...props}>
       {children}
     </main>
   );

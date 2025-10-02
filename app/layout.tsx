@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 import SvgFilter from '@/app/ui/svg-effects/svg-filter';
 
 export const metadata: Metadata = {
-  title: 'Web Demos',
+  title: 'Web Treasure Chest',
   description: 'wangzheng_service@126.com',
   metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
 };
