@@ -55,7 +55,7 @@ function RightContent() {
 export default function Indicator({ className }: { className?: string }) {
   return (
     <nav
-      className={`indicator flex  h-[48px] flex-auto items-center justify-between border-b border-alpha/[.15] from-nav to-nav/[.85] bg-gradient-to-b px-2 md:px-4 ${className}`}
+      className={`indicator flex  h-[48px] flex-auto items-center justify-between border-b border-alpha/[.15] from-nav to-nav/[.85] bg-gradient-to-b text-nav-foreground px-2 md:px-4 ${className}`}
     >
       <LeftContent />
       <RightContent />
