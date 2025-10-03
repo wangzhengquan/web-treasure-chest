@@ -35,7 +35,7 @@ function NotificationsButton() {
 function LeftContent() {
   return (
     <div className="flex items-center justify-start gap-1">
-      <MobileNavButton className="md:hidden" />
+      <MobileNavButton className="lg:hidden" />
       <Breadcrumbs />
     </div>
   );

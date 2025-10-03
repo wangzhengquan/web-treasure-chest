@@ -3,7 +3,7 @@ import Indicator from '@app/ui/indicator';
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col md:flex-row h-screen overflow-hidden ">
-      <section className="hidden md:block flex-none ">
+      <section className="hidden lg:block flex-none ">
         <SideNav />
         {/* <div className="text-[10px] p-[10px] pl-[20px] opacity-80">By Zhengquan.Wang</div> */}
       </section>

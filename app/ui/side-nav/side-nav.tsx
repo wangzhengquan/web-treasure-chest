@@ -115,7 +115,7 @@ export function MobileNavButton({ className = '', ...props }: React.ButtonHTMLAt
         <Bars3Icon className="h-6 w-6" />
       </Button>
       {/* =========FloatLeftPanel============== */}
-      <FloatLeftPanel className="bg-nav  px-4 md:hidden" opened={open}>
+      <FloatLeftPanel className="bg-nav px-4 lg:hidden" opened={open}>
         <header className="flex w-full items-center justify-between py-5">
           <a
             id="close-float-left-panel-btn"
