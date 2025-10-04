@@ -20,8 +20,10 @@ function NotificationsButton() {
       <PopoverTrigger asChild>
         <Button variant="ghost" size="icon" className="relative">
           <BellIcon className="h-[22px] w-[22px]" />
-          <label className="absolute top-0.5 right-0 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-[10px] text-white">
-            2
+          <label className="absolute top-0 right-0 h-[14px] w-[14px] p-[1px]
+            flex  items-center justify-center box-content 
+            rounded-full bg-red-500 text-[10px] text-white">
+            <span>2</span>
           </label>
         </Button>
       </PopoverTrigger>
