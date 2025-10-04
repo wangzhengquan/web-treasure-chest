@@ -1,8 +1,8 @@
 import clsx from 'clsx';
-export default function capacity({ collapsed }: { collapsed: boolean }) {
+export default function Capacity({ collapsed = false }: { collapsed?: boolean }) {
   return (
     <div
-      className={clsx('bg-CtaBg space-y-2 rounded-lg border p-4', {
+      className={clsx('space-y-2 rounded-lg border p-4', {
         invisible: collapsed,
       })}
     >

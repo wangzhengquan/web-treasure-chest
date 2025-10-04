@@ -1,5 +1,5 @@
 import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
-import { LifeCycleCmp } from '@/app/ui/demo/life-cycle-2';
+import { LifeCycleCmp } from './life-cycle-2';
 import Main from '@/app/ui/main';
 export default function Page() {
   return (

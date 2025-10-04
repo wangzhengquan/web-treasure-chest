@@ -5,11 +5,11 @@ import { Button } from '@app/components/button';
 import Main from '@/app/ui/main';
 import clsx from 'clsx';
 import { List } from '@app/components/list';
-import { RadioGroupForm } from '@/app/widgets/radio-group-form';
-import NotificationItem from '@/app/widgets/notification-item';
-import { CardWithForm } from '@/app/widgets/card-with-form';
+import { RadioGroupForm } from './ui/radio-group-form';
+import NotificationItem from './ui/notification-item';
+import { CardWithForm } from './ui/card-with-form';
 import { UpdateBreadcrumbs } from '@/app/ui/indicator/breadcrumbs';
-
+import Capacity from "@app/components/capacity";
 export default function Page() {
   return (
     <>
@@ -26,13 +26,14 @@ export default function Page() {
           <Button variant="link">link</Button>
            
           <Input />
+          
         </div>
         <NotificationItem />
         <RadioGroupForm />
         <div>
           <CardWithForm />
         </div>
-        <List />
+        <Capacity/>
         {/* <div><DashboardSkeleton /></div>
       <div> <InvoicesTableSkeleton /> </div> */}
       </Main>
