@@ -9,7 +9,8 @@ import {
   ArrowTrendingUpIcon,
   EyeIcon,
   PowerIcon,
-  Squares2X2Icon
+  Squares2X2Icon,
+  PhotoIcon
 } from '@heroicons/react/24/outline';
 
 import { WorkFlowIcon, SwiperIcon, MagicCurtainIcon } from './nav-icons';
@@ -72,7 +73,7 @@ const animationsLinks = [
   {
     label: 'Waterfall',
     href: '/admin/waterfall',
-    icon: MagicCurtainIcon,
+    icon: PhotoIcon,
   },
   { label: 'Cannon', href: '/admin/animations/cannon', icon: CannonIcon },
   {
