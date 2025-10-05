@@ -63,7 +63,9 @@ export function SideNav({className = '', ...props}: React.HTMLAttributes<HTMLEle
             'group-[.collapsed]:justify-center',
             'h-[48px] flex-none',
             'px-[10px]',
-            'border-b border-alpha/[.15] from-nav to-nav/[.85] bg-gradient-to-b',
+            'border-b border-alpha/[.15]',
+            'bg-nav',
+            // 'from-nav to-nav/[.85] bg-gradient-to-b'
             {},
           )}
         >

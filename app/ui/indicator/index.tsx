@@ -1,4 +1,3 @@
-import { clsx } from 'clsx';
 
 import { Button } from '@app/components/button';
 import ModeToggle from './mode-toggle';
@@ -13,6 +12,7 @@ import {
 } from '@app/components/popover';
 import { List } from '@app/components/list';
 import { MobileNavButton } from '../side-nav/side-nav';
+import {cn} from '@app/lib/utils';
 
 function NotificationsButton() {
   return (
@@ -23,7 +23,7 @@ function NotificationsButton() {
           <label className="absolute top-0 right-0 h-[14px] w-[14px] p-[1px]
             flex  items-center justify-center box-content 
             rounded-full bg-red-500 text-[10px] text-white">
-            <span>2</span>
+            2
           </label>
         </Button>
       </PopoverTrigger>
@@ -55,9 +55,15 @@ function RightContent() {
 }
 //bg-nav/[.85]
 export default function Indicator({ className }: { className?: string }) {
+  
   return (
     <nav
-      className={`indicator flex  h-[48px] flex-auto items-center justify-between border-b border-alpha/[.15] from-nav to-nav/[.85] bg-gradient-to-b text-nav-foreground px-2 md:px-4 ${className}`}
+      className={cn(
+        "indicator flex  h-[48px] flex-auto items-center justify-between border-b border-alpha/[.15] ",
+        // "from-nav to-nav/[.85] bg-gradient-to-b ",
+        "bg-nav ",
+        "text-nav-foreground px-2 md:px-4",
+        className)}
     >
       <LeftContent />
       <RightContent />
