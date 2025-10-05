@@ -6,7 +6,7 @@ export default function Main({
   ...props
 }: React.ComponentProps<'main'>) {
   return (
-    <main className={cn('min-h-full p-2 md:p-4', className)} {...props}>
+    <main className={cn('p-2 md:p-4', className)} {...props}>
       {children}
     </main>
   );
