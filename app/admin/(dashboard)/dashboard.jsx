@@ -4,7 +4,7 @@ import { useRef, useLayoutEffect, useEffect, useState } from 'react';
 // import * as d3 from 'd3';
 import {scalePoint, rollups, rollup, flatRollup, mean} from "d3";
 import { useTheme } from 'next-themes';
-import Loading from "@/app/components/loading";
+import Loading from "../loading";
 import MoldStatusTable from './table';
 import { GeoMap} from '@app/components/d3/geo-map';
 import {
@@ -135,7 +135,7 @@ export default function Dashboard() {
   }, [columnRef, blockRef]);
   return (
     <>
-    {visibility == false && <Loading style={{position: "absolute", left: "50%", top: "40%", transform: "translate(-50%, -50%)" }}/>}
+    {visibility == false && <Loading />}
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-4 text-[12px]" style={{visibility: visibility ? 'visible': 'hidden'}}>
       <div ref={columnRef} className="bg-card pb-[10px]">
         <h2 className="text-sm font-bold p-[10px_10px_0]">每月模具产量趋势图</h2>
