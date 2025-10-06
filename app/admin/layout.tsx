@@ -14,7 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         {/* h-[calc(100%_-_56px)] md:h-full overflow-y-auto*/}
         <Indicator className="flex-[0_0_48px] h-[48px]" />
-        <div className="flex-auto overflow-auto">{children}</div>
+        <div className="flex-auto overflow-y-auto">{children}</div>
       </section>
     </div>
   );
