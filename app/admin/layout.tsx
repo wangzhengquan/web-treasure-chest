@@ -7,14 +7,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <SideNav />
         {/* <div className="text-[10px] p-[10px] pl-[20px] opacity-80">By Zhengquan.Wang</div> */}
       </section>
-      <section id='main-scroll-view' className="relative flex flex-col h-full max-h-full flex-grow ">
+      <section className="relative flex flex-col h-full max-h-full flex-grow ">
         {/* absolute top-0 left-0 right-0 z-10 */}
         {/* <Indicator className="sticky top-0 z-10" /> */}
         {/* <div className="h-[calc(100%_-_53px)] w-full">{children}</div> */}
 
         {/* h-[calc(100%_-_56px)] md:h-full overflow-y-auto*/}
         <Indicator className="flex-[0_0_48px] h-[48px]" />
-        <div className="flex-auto overflow-y-auto">{children}</div>
+        <div id='main-scroll-view' className="flex-auto overflow-y-auto">{children}</div>
       </section>
     </div>
   );

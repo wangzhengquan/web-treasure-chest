@@ -5,7 +5,7 @@ import { create } from 'zustand';
 import PhotoSwipeLightbox from "photoswipe/lightbox";
 import "photoswipe/style.css";
 import { useMediaQuery } from 'react-responsive';
-
+import Loading from "@app/components/loading";
 
 // const defimages = [
 //   "https://picsum.photos/640/480",
@@ -113,6 +113,7 @@ export default function  WaterfallGridDemo() {
     setLoading(true);
     appendItems(defimages.map((img, i)=>({img: `${img}?random=${items.length + i}`})));
   }, [appendItems]);
+
   const handleLoadComplete = useCallback(() => {
     setLoading(false);
   }, []);
@@ -124,7 +125,7 @@ export default function  WaterfallGridDemo() {
     function scrollHandler(this: HTMLElement, ev: Event) {
      
       if (loading) return;
-      console.log(loading, this.scrollHeight - this.clientHeight*4 - this.scrollTop <= 1 , this.scrollHeight, this.clientHeight, this.scrollTop);
+      // console.log(loading, this.scrollHeight - this.clientHeight*4 - this.scrollTop <= 1 , this.scrollHeight, this.clientHeight, this.scrollTop);
   
       // Check if we are near the bottom of the scrollable content
       if (this.scrollHeight - this.clientHeight*4 - this.scrollTop <= 1) {
@@ -160,7 +161,7 @@ export default function  WaterfallGridDemo() {
         })}
       </WaterfallComps>
       {
-        loading ? <div style={{ textAlign: "center", padding: '16px'}}>Loading...</div>: ''
+        loading ? <div className="flex items-center justify-center p-4 text-center"><Loading/></div>: ''
       }
       {/* <div style={{ textAlign: "center" }}>
         <button
