@@ -27,6 +27,7 @@ function ParentComponent() {
     </div>
   );
 }
+ParentComponent.displayName = "ParentComponent";
 
 // let count = 0;
 
@@ -42,7 +43,7 @@ const ChildComponent = ({title="Child Component ", onIncrement, children }) => {
     </div>
   );
 };
-
+ChildComponent.displayName = "ChildComponent"
 
 
 // const ChildComponent2 = React.memo(ChildComponent);
@@ -61,7 +62,9 @@ const withRenderCount = (Component) => {
 };
 
 const Comp = withRenderCount(ChildComponent);
+Comp.displayName = 'Comp';
 const Comp2 = React.memo(Comp);
+Comp2.displayName = 'Comp2';
 
 
 export default ParentComponent;

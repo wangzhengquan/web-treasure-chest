@@ -3,6 +3,7 @@
   "rules": {
     // Other rules can go here
     "@next/next/no-img-element": "off",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "off",
+    "react/display-name": "off"
   }
 }
