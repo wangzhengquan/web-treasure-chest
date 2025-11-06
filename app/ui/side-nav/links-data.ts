@@ -148,10 +148,7 @@ const D3Links = [
     label: 'OVERVIEW',
     children: adminLinks,
   },
-  {
-    label: 'D3',
-    children: D3Links,
-  },
+  
   {
     label: 'Animations',
     children: animationsLinks,
@@ -172,6 +169,10 @@ const D3Links = [
     label: '3D',
     children: treedLinks,
   },
+  // {
+  //   label: 'D3',
+  //   children: D3Links,
+  // },
   // {
   //   label: 'Widgets',
   //   children: widgetsLinks,

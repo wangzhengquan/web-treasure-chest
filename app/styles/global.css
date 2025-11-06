@@ -46,7 +46,7 @@
     /* --input: 240.0 33.3% 96.5%;   */
     --input-border: 240.0 5.9% 90.0%;  
 
-    --popover: 0.0 0.0% 100.0%;  
+    --popover: 180.0 3.4% 94.3%; 
     --popover-foreground: 240.0 10.0% 3.9%;  
 
     --muted: 240.0 4.8% 95.9%;  
@@ -67,7 +67,7 @@
     --alpha: 0 0% 0%;
     --track: 202.5 20.0% 92.2%;
 
-    --shadow-opacity: 0.1;
+    --shadow-opacity: 1;
   }
    
 
@@ -118,7 +118,7 @@
 
     --track: 187.7 67.7% 31.6%;
 
-    --shadow-opacity: 0.5;
+    --shadow-opacity: 1;
   }
    
    
