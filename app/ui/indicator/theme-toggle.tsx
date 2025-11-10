@@ -9,7 +9,7 @@ import {
   TooltipTrigger,
 } from "@app/components/tooltip";
 
-export default function ModeToggle() {
+export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
   return (

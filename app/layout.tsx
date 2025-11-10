@@ -1,5 +1,5 @@
 import '@app/styles/global.css';
-import { ThemeProvider } from '@app/ui/theme-provider';
+import { ThemeProvider } from 'next-themes';
 import { inter } from '@app/styles/fonts';
 import { Metadata } from 'next';
 import SvgFilter from '@/app/ui/svg-effects/svg-filter';
@@ -18,19 +18,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="h-screen overflow-hidden"
       suppressHydrationWarning
     >
-      {/* <head>
-      <script src="http://localhost:8097"></script>
-      </head> */}
+      <head>
+      </head>
       <body
         className={`${inter.className} h-screen overflow-hidden antialiased`}
       >
         <SvgFilter />
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >

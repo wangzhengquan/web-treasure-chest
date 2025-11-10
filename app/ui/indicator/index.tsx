@@ -1,6 +1,6 @@
 
 import { Button } from '@app/components/button';
-import ModeToggle from './mode-toggle';
+import ThemeToggle from './theme-toggle';
 import Avatar from './avatar';
 import Breadcrumbs from './breadcrumbs';
 import { BellIcon } from '@heroicons/react/24/outline';
@@ -47,7 +47,7 @@ function RightContent() {
   return (
     <div className="flex items-center justify-end gap-1">
       <FullScreenToggle />
-      <ModeToggle />
+      <ThemeToggle />
       <NotificationsButton />
       <Avatar />
     </div>
