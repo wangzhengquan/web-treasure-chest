@@ -7,15 +7,12 @@ services:
     environment:
       POSTGRES_DB: treasure_chest_db
       POSTGRES_USER: wzq
-      POSTGRES_PASSWORD: '123456' # Set password here
+      POSTGRES_PASSWORD: '123456'
     ports:
       - '5432:5432'
     volumes:
-      # Mount a local directory for persistent data
+      # Mount a volume for persistent data
       - postgres-data:/var/lib/postgresql/data
-
-      # Mount your SSL certs
-      - ./postgres/certs:/etc/ssl/certs/postgres
 
 # Define a top-level volume for data if you prefer that over a bind mount
 volumes:

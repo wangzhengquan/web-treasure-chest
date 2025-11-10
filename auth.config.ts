@@ -6,7 +6,7 @@ export const authConfig = {
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      // console.log('nextUrl', nextUrl);
+      console.log('nextUrl', nextUrl);
       // console.log('nextUrl.searchParams', nextUrl.searchParams.toString());
       let callbackUrl = nextUrl.searchParams.get('callbackUrl') || '/admin';
       // console.log('callbackUrl', callbackUrl);
@@ -14,14 +14,17 @@ export const authConfig = {
         callbackUrl = '/admin';
       }
       // console.log('callbackUrl', callbackUrl);
-      const isLoggedIn = !!auth?.user;
+      const isAuthed = !!auth?.user;
       const isOnLoginPage = nextUrl.pathname.startsWith('/login');
-      if (isLoggedIn) {
+      const needNotAuth  = nextUrl.pathname.startsWith('/login') 
+                        || nextUrl.pathname.startsWith('/seed')
+                        || nextUrl.pathname.startsWith('/query');
+      if (isAuthed) {
         if (nextUrl.pathname === '/' || isOnLoginPage) {
           return Response.redirect(new URL(callbackUrl, nextUrl));
         }
         return true;
-      } else if (isOnLoginPage) {
+      } else if (needNotAuth) {
         return true;
       }
       // return Response.redirect(new URL('/login', nextUrl));

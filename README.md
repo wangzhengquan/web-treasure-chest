@@ -9,6 +9,16 @@ npm run seed
 npm run dev
 ```
 
+or
+```bash
+npm run dev
+access: http://localhost:3000/seed
+```
+
+## stop
+```bash
+cd docker && docker compose stop
+```
 
 
 0.25rem = 4px
