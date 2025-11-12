@@ -6,7 +6,18 @@ export const authConfig = {
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      console.log('nextUrl', nextUrl);
+      let callbackUrl = nextUrl.searchParams.get('callbackUrl') || '/admin';
+      if (callbackUrl === nextUrl.origin + '/') {
+        callbackUrl = '/admin';
+      }
+      if (nextUrl.pathname === '/' ) {
+        return Response.redirect(new URL(callbackUrl, nextUrl));
+      }
+      return true;
+    },
+    /*
+    authorized({ auth, request: { nextUrl } }) {
+      // console.log('nextUrl', nextUrl);
       // console.log('nextUrl.searchParams', nextUrl.searchParams.toString());
       let callbackUrl = nextUrl.searchParams.get('callbackUrl') || '/admin';
       // console.log('callbackUrl', callbackUrl);
@@ -30,8 +41,9 @@ export const authConfig = {
       // return Response.redirect(new URL('/login', nextUrl));
       return false; // Redirect unauthenticated users to login page
     },
-     
+    */
   },
+  
   providers: [
     // added later in auth.ts since it requires bcrypt which is only compatible with Node.js
     // while this file is also used in non-Node.js environments
