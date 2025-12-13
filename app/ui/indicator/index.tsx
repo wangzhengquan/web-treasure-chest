@@ -59,7 +59,7 @@ export default function Indicator({ className }: { className?: string }) {
   return (
     <nav
       className={cn(
-        "indicator flex  h-[48px] flex-auto items-center justify-between border-b border-alpha/[.15] ",
+        "indicator flex flex-auto items-center justify-between border-b border-alpha/[.15] ",
         // "from-nav to-nav/[.85] bg-gradient-to-b ",
         "bg-nav ",
         "text-nav-foreground px-2 md:px-4",

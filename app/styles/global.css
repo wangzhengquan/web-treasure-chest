@@ -311,4 +311,7 @@
   .cubic-filter {
     filter: url(#cubic-filter);
   }
+  .h-svh {
+    height: 100svh;
+  }
 }

@@ -23,7 +23,7 @@ export default function RootLayout({
       <head>
       </head>
       <body
-        className={`${inter.className} h-screen overflow-hidden antialiased`}
+        className={`${inter.className} h-svh overflow-hidden antialiased select-none`}
       >
         <SvgFilter />
         <ThemeProvider

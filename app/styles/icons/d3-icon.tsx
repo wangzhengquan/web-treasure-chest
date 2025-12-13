@@ -1,15 +1,15 @@
  
 import * as React from "react"
 
-function D3Icon(props: React.SVGAttributes<SVGElement>)  {
+const D3Icon = React.forwardRef<SVGSVGElement, React.SVGAttributes<SVGSVGElement>>((props, ref) => {
   return (
-    <svg viewBox="-60 -10 216 111" strokeWidth={1} {...props}>
+    <svg viewBox="-60 -10 216 111" strokeWidth={1} {...props} ref={ref}>
       <path
         fill="currentColor"
         d="M0 0h7.75a45.5 45.5 0 110 91H0V71h7.75a25.5 25.5 0 100-51H0zm36.251 0h32a27.75 27.75 0 0121.331 45.5A27.75 27.75 0 0168.251 91h-32a53.69 53.69 0 0018.746-20H68.25a7.75 7.75 0 100-15.5H60.5a53.69 53.69 0 000-20h7.75a7.75 7.75 0 100-15.5H54.997A53.69 53.69 0 0036.251 0z"
       />
     </svg>
   )
-}
+})
 
 export {D3Icon} 
