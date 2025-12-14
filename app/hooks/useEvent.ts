@@ -1,4 +1,4 @@
-import * as React from 'react';
+// import * as React from 'react';
 
 // function useEvent<T extends ((...args: any[]) => any) | undefined>(
 //   callback: T,
