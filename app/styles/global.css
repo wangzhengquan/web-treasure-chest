@@ -312,6 +312,12 @@
     filter: url(#cubic-filter);
   }
   .h-svh {
+    /* 1. Fallback for older browsers (100vh) */
+    /* This is applied by ALL browsers. On mobile, this may cause content to be cut off initially. */
+    height: 100vh;
+
+    /* 2. Preferred value for modern, supporting browsers (100svh) */
+    /* If the browser understands 'svh', it will overwrite 'vh' with this value. */
     height: 100svh;
   }
 }
